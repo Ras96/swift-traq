@@ -16,9 +16,9 @@ public struct ChannelList: Codable, JSONEncodable, Hashable {
     /** パブリックチャンネルの配列 */
     public var _public: [Channel]
     /** ダイレクトメッセージチャンネルの配列 */
-    public var dm: [DMChannel]
+    public var dm: [DMChannel]?
 
-    public init(_public: [Channel], dm: [DMChannel]) {
+    public init(_public: [Channel], dm: [DMChannel]? = nil) {
         self._public = _public
         self.dm = dm
     }
@@ -33,7 +33,7 @@ public struct ChannelList: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(_public, forKey: ._public)
-        try container.encode(dm, forKey: .dm)
+        try container.encodeIfPresent(dm, forKey: .dm)
     }
 }
 
