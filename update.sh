@@ -9,7 +9,7 @@ openapi-generator-cli generate \
   --additional-properties 'swiftUseApiNamespace=true'
 
 # NOTE: enumの`-createdAt`と`createdAt`が共に`createdat`に変換されて衝突するため置換する
-MESSAGEAPI_FILE=./OpenAPIClient/Classes/OpenAPIs/APIs/MessageAPI.swift
+MESSAGEAPI_FILE=./Traq/Classes/OpenAPIs/APIs/MessageAPI.swift
 sed -i.bak -e 's/createdat = "-createdAt"/createdatAsc = "-createdAt"/' $MESSAGEAPI_FILE
 sed -i.bak -e 's/updatedat = "-updatedAt"/updatedatAsc = "-updatedAt"/' $MESSAGEAPI_FILE
 rm ${MESSAGEAPI_FILE}.bak
