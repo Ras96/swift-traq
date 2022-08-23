@@ -33,7 +33,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 let stampId = 987 // UUID | スタンプUUID
@@ -87,7 +87,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -137,7 +137,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -187,7 +187,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 let postMessageRequest = PostMessageRequest(content: "content_example", embed: false) // PostMessageRequest |  (optional)
@@ -239,7 +239,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let userId = 987 // UUID | ユーザーUUID
 let limit = 987 // Int | 取得する件数 (optional)
@@ -301,7 +301,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -351,7 +351,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -401,7 +401,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -451,7 +451,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let limit = 987 // Int | 取得する件数 (optional)
@@ -513,7 +513,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -563,7 +563,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let userId = 987 // UUID | ユーザーUUID
 let postMessageRequest = PostMessageRequest(content: "content_example", embed: false) // PostMessageRequest |  (optional)
@@ -615,7 +615,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let postMessageRequest = PostMessageRequest(content: "content_example", embed: false) // PostMessageRequest |  (optional)
@@ -667,7 +667,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 let stampId = 987 // UUID | スタンプUUID
@@ -719,7 +719,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -769,7 +769,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let word = "word_example" // String | 検索ワード Simple-Query-String-Syntaxをパースして検索します  (optional)
 let after = Date() // Date | 投稿日時が指定日時より後 (optional)

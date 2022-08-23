@@ -1,4 +1,4 @@
-# Swift5 API client for OpenAPIClient
+# Swift5 API client for Traq
 
 traQ v3 API
 

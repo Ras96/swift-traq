@@ -31,7 +31,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 let postUserGroupAdminRequest = PostUserGroupAdminRequest(id: 123) // PostUserGroupAdminRequest |  (optional)
@@ -83,7 +83,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 let userGroupMember = UserGroupMember(id: 123, role: "role_example") // UserGroupMember |  (optional)
@@ -135,7 +135,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 let file = URL(string: "https://example.com")! // URL | アイコン画像(1MBまでのpng, jpeg, gif)
@@ -187,7 +187,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postUserGroupRequest = PostUserGroupRequest(name: "name_example", description: "description_example", type: "type_example") // PostUserGroupRequest |  (optional)
 
@@ -237,7 +237,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 
@@ -287,7 +287,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 let patchUserGroupRequest = PatchUserGroupRequest(name: "name_example", description: "description_example", type: "type_example") // PatchUserGroupRequest |  (optional)
@@ -339,7 +339,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 let userId = 987 // UUID | ユーザーUUID
@@ -393,7 +393,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 
@@ -443,7 +443,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 
@@ -493,7 +493,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 
@@ -543,7 +543,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // ユーザーグループのリストを取得
@@ -589,7 +589,7 @@ This endpoint does not need any parameter.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 let userId = 987 // UUID | ユーザーUUID
@@ -641,7 +641,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
 let userId = 987 // UUID | ユーザーUUID

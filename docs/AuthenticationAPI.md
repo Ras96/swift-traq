@@ -25,7 +25,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // 外部ログインアカウント一覧を取得
@@ -71,7 +71,7 @@ This endpoint does not need any parameter.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // 自分のログインセッションリストを取得
@@ -117,7 +117,7 @@ This endpoint does not need any parameter.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postLinkExternalAccount = PostLinkExternalAccount(providerName: "providerName_example") // PostLinkExternalAccount |  (optional)
 
@@ -167,7 +167,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let redirect = "redirect_example" // String | リダイレクト先 (optional)
 let postLoginRequest = PostLoginRequest(name: "name_example", password: "password_example") // PostLoginRequest |  (optional)
@@ -219,7 +219,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let redirect = "redirect_example" // String | リダイレクト先 (optional)
 let all = true // Bool | 全てのセッションでログアウトするかどうか (optional) (default to false)
@@ -271,7 +271,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let sessionId = 987 // UUID | セッションUUID
 
@@ -321,7 +321,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postUnlinkExternalAccount = PostUnlinkExternalAccount(providerName: "providerName_example") // PostUnlinkExternalAccount |  (optional)
 

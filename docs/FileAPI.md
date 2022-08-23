@@ -24,7 +24,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let fileId = 987 // UUID | ファイルUUID
 
@@ -74,7 +74,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let fileId = 987 // UUID | ファイルUUID
 let dl = 987 // Int | 1を指定するとレスポンスにContent-Dispositionヘッダーが付与されます (optional)
@@ -126,7 +126,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let fileId = 987 // UUID | ファイルUUID
 
@@ -176,7 +176,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | アップロード先チャンネルUUID (optional)
 let limit = 987 // Int | 取得する件数 (optional)
@@ -240,7 +240,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let fileId = 987 // UUID | ファイルUUID
 let type = ThumbnailType() // ThumbnailType | 取得するサムネイルのタイプ (optional)
@@ -292,7 +292,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let file = URL(string: "https://example.com")! // URL | ファイル本体
 let channelId = 987 // UUID | アップロード先チャンネルUUID

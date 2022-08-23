@@ -35,7 +35,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postChannelRequest = PostChannelRequest(name: "name_example", parent: 123) // PostChannelRequest |  (optional)
 
@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let patchChannelRequest = PatchChannelRequest(name: "name_example", archived: false, force: false, parent: 123) // PatchChannelRequest |  (optional)
@@ -137,7 +137,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let patchChannelSubscribersRequest = PatchChannelSubscribersRequest(on: [123], off: [123]) // PatchChannelSubscribersRequest |  (optional)
@@ -189,7 +189,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let putChannelTopicRequest = PutChannelTopicRequest(topic: "topic_example") // PutChannelTopicRequest |  (optional)
@@ -241,7 +241,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -291,7 +291,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -341,7 +341,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let limit = 987 // Int | 取得する件数 (optional)
@@ -403,7 +403,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -453,7 +453,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -503,7 +503,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -553,7 +553,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -603,7 +603,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -653,7 +653,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let includeDm = true // Bool | ダイレクトメッセージチャンネルをレスポンスに含めるかどうか (optional) (default to false)
 
@@ -703,7 +703,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let limit = 987 // Int | 取得する件数 (optional)
@@ -765,7 +765,7 @@ DMチャンネル情報を取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let userId = "userId_example" // String | 
 
@@ -815,7 +815,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let postMessageRequest = PostMessageRequest(content: "content_example", embed: false) // PostMessageRequest |  (optional)
@@ -867,7 +867,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let putChannelSubscribersRequest = PutChannelSubscribersRequest(on: [123]) // PutChannelSubscribersRequest |  (optional)

@@ -33,7 +33,7 @@ BOTをアクティベート
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 
@@ -83,7 +83,7 @@ BOTのアイコン画像を変更
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 let file = URL(string: "https://example.com")! // URL | アイコン画像(1MBまでのpng, jpeg, gif)
@@ -135,7 +135,7 @@ WebSocket Mode BOT用通知ストリームに接続します
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // WebSocket Mode BOT用通知ストリームに接続します
@@ -181,7 +181,7 @@ BOTを作成します。 作成後に購読イベントの設定を行う必要�
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postBotRequest = PostBotRequest(name: "name_example", displayName: "displayName_example", description: "description_example", mode: BotMode(), endpoint: "endpoint_example") // PostBotRequest |  (optional)
 
@@ -231,7 +231,7 @@ BOTを削除
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 
@@ -281,7 +281,7 @@ BOT情報を変更
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 let patchBotRequest = PatchBotRequest(displayName: "displayName_example", description: "description_example", privileged: false, mode: BotMode(), endpoint: "endpoint_example", developerId: 123, subscribeEvents: ["subscribeEvents_example"]) // PatchBotRequest |  (optional)
@@ -333,7 +333,7 @@ BOT情報を取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 let detail = true // Bool | 詳細情報を含めるかどうか (optional) (default to false)
@@ -385,7 +385,7 @@ BOTのアイコン画像を取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 
@@ -435,7 +435,7 @@ BOTのイベントログを取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 let limit = 987 // Int | 取得する件数 (optional)
@@ -489,7 +489,7 @@ BOT情報のリストを取得します。 allを指定しない場合、自分�
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let all = true // Bool | 全てのBOTを取得するかどうか (optional) (default to false)
 
@@ -539,7 +539,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -589,7 +589,7 @@ BOTをインアクティベート
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 
@@ -639,7 +639,7 @@ BOTをチャンネルに参加させる
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 let postBotActionJoinRequest = PostBotActionJoinRequest(channelId: 123) // PostBotActionJoinRequest |  (optional)
@@ -691,7 +691,7 @@ BOTをチャンネルから退出させる
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 let postBotActionLeaveRequest = PostBotActionLeaveRequest(channelId: 123) // PostBotActionLeaveRequest |  (optional)
@@ -743,7 +743,7 @@ BOTのトークンを再発行
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let botId = 987 // UUID | BOTUUID
 

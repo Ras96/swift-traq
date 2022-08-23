@@ -30,7 +30,7 @@ OAuth2クライアントを作成します。
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postClientRequest = PostClientRequest(name: "name_example", callbackUrl: "callbackUrl_example", scopes: [OAuth2Scope()], description: "description_example") // PostClientRequest |  (optional)
 
@@ -80,7 +80,7 @@ OAuth2クライアントを削除
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let clientId = "clientId_example" // String | OAuth2クライアントUUID
 
@@ -130,7 +130,7 @@ OAuth2クライアント情報を変更
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let clientId = "clientId_example" // String | OAuth2クライアントUUID
 let patchClientRequest = PatchClientRequest(name: "name_example", description: "description_example", callbackUrl: "callbackUrl_example", developerId: 123) // PatchClientRequest |  (optional)
@@ -182,7 +182,7 @@ OAuth2クライアント情報を取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let clientId = "clientId_example" // String | OAuth2クライアントUUID
 let detail = true // Bool | 詳細情報を含めるかどうか (optional) (default to false)
@@ -234,7 +234,7 @@ OAuth2クライアントのリストを取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let all = true // Bool | 全てのクライアントを取得するかどうか (optional) (default to false)
 
@@ -284,7 +284,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // 有効トークンのリストを取得
@@ -330,7 +330,7 @@ OAuth2 認可エンドポイント
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let clientId = "clientId_example" // String | 
 let responseType = OAuth2ResponseType() // OAuth2ResponseType |  (optional)
@@ -396,7 +396,7 @@ OAuth2 認可エンドポイント
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let clientId = "clientId_example" // String | 
 let responseType = OAuth2ResponseType() // OAuth2ResponseType |  (optional)
@@ -462,7 +462,7 @@ OAuth2 認可承諾
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let submit = "submit_example" // String | 承諾する場合は\\\"approve\\\"
 
@@ -512,7 +512,7 @@ OAuth2 トークンエンドポイント
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let grantType = "grantType_example" // String | 
 let code = "code_example" // String |  (optional)
@@ -580,7 +580,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let tokenId = 987 // UUID | OAuth2トークンUUID
 
@@ -630,7 +630,7 @@ OAuth2 トークン無効化エンドポイント
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let token = "token_example" // String | 無効化するOAuth2トークンまたはOAuth2リフレッシュトークン
 

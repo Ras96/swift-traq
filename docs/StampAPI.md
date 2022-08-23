@@ -35,7 +35,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 let stampId = 987 // UUID | スタンプUUID
@@ -89,7 +89,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let stampId = 987 // UUID | スタンプUUID
 let file = URL(string: "https://example.com")! // URL | スタンプ画像(1MBまでのpng, jpeg, gif)
@@ -141,7 +141,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let name = "name_example" // String | スタンプ名
 let file = URL(string: "https://example.com")! // URL | スタンプ画像(1MBまでのpng, jpeg, gif)
@@ -193,7 +193,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postStampPaletteRequest = PostStampPaletteRequest(stamps: [123], name: "name_example", description: "description_example") // PostStampPaletteRequest |  (optional)
 
@@ -243,7 +243,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let stampId = 987 // UUID | スタンプUUID
 
@@ -293,7 +293,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let paletteId = 987 // UUID | スタンプパレットUUID
 
@@ -343,7 +343,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let stampId = 987 // UUID | スタンプUUID
 let patchStampRequest = PatchStampRequest(name: "name_example", creatorId: 123) // PatchStampRequest |  (optional)
@@ -395,7 +395,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let paletteId = 987 // UUID | スタンプパレットUUID
 let patchStampPaletteRequest = PatchStampPaletteRequest(name: "name_example", description: "description_example", stamps: [123]) // PatchStampPaletteRequest |  (optional)
@@ -447,7 +447,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -497,7 +497,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let limit = 987 // Int | 件数 (optional) (default to 100)
 
@@ -547,7 +547,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let stampId = 987 // UUID | スタンプUUID
 
@@ -597,7 +597,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let stampId = 987 // UUID | スタンプUUID
 
@@ -647,7 +647,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let paletteId = 987 // UUID | スタンプパレットUUID
 
@@ -697,7 +697,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // スタンプパレットのリストを取得
@@ -743,7 +743,7 @@ This endpoint does not need any parameter.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let stampId = 987 // UUID | スタンプUUID
 
@@ -793,7 +793,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let includeUnicode = true // Bool | Unicode絵文字を含ませるかどうか Deprecated: typeクエリを指定しなければ全てのスタンプを取得できるため、そちらを利用してください  (optional) (default to true)
 let type = "type_example" // String | 取得するスタンプの種類 (optional)
@@ -845,7 +845,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 let stampId = 987 // UUID | スタンプUUID

@@ -27,7 +27,7 @@ Webhookのアイコンを変更
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let webhookId = 987 // UUID | WebhookUUID
 let file = URL(string: "https://example.com")! // URL | アイコン画像(1MBまでのpng, jpeg, gif)
@@ -79,7 +79,7 @@ Webhookを新規作成します。 `secret`が空文字の場合、insecureウ�
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postWebhookRequest = PostWebhookRequest(name: "name_example", description: "description_example", channelId: 123, secret: "secret_example") // PostWebhookRequest |  (optional)
 
@@ -129,7 +129,7 @@ Webhookを削除
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let webhookId = 987 // UUID | WebhookUUID
 
@@ -179,7 +179,7 @@ Webhook情報を変更
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let webhookId = 987 // UUID | WebhookUUID
 let patchWebhookRequest = PatchWebhookRequest(name: "name_example", description: "description_example", channelId: 123, secret: "secret_example", ownerId: 123) // PatchWebhookRequest |  (optional)
@@ -231,7 +231,7 @@ Webhook情報を取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let webhookId = 987 // UUID | WebhookUUID
 
@@ -281,7 +281,7 @@ Webhookのアイコンを取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let webhookId = 987 // UUID | WebhookUUID
 
@@ -331,7 +331,7 @@ Webhookの投稿メッセージのリストを取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let webhookId = 987 // UUID | WebhookUUID
 let limit = 987 // Int | 取得する件数 (optional)
@@ -393,7 +393,7 @@ Webhookのリストを取得します。 allがtrueで無い場合は、自分�
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let all = true // Bool | 全てのWebhookを取得します。権限が必要です。 (optional) (default to false)
 
@@ -443,7 +443,7 @@ Webhookにメッセージを投稿します。 secureなウェブフックに対
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let webhookId = 987 // UUID | WebhookUUID
 let xTRAQSignature = "xTRAQSignature_example" // String | リクエストボディシグネチャ(Secretが設定されている場合は必須) (optional)

@@ -1,10 +1,10 @@
-name: OpenAPIClient
+name: Traq
 targets:
-  OpenAPIClient:
+  Traq:
     type: framework
     platform: iOS
     deploymentTarget: "9.0"
-    sources: [OpenAPIClient]
+    sources: [Traq]
     info:
       path: ./Info.plist
       version: 3.0

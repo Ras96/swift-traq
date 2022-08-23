@@ -28,7 +28,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let patchChannelSubscribersRequest = PatchChannelSubscribersRequest(on: [123], off: [123]) // PatchChannelSubscribersRequest |  (optional)
@@ -80,7 +80,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -130,7 +130,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // 自分のチャンネル購読状態を取得
@@ -176,7 +176,7 @@ This endpoint does not need any parameter.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // 未読チャンネルを取得
@@ -222,7 +222,7 @@ This endpoint does not need any parameter.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // 自身のチャンネル閲覧状態一覧を取得
@@ -268,7 +268,7 @@ This endpoint does not need any parameter.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 
@@ -318,7 +318,7 @@ FCMデバイスを登録
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postMyFCMDeviceRequest = PostMyFCMDeviceRequest(token: "token_example") // PostMyFCMDeviceRequest |  (optional)
 
@@ -368,7 +368,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let putChannelSubscribeLevelRequest = PutChannelSubscribeLevelRequest(level: ChannelSubscribeLevel()) // PutChannelSubscribeLevelRequest |  (optional)
@@ -420,7 +420,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let channelId = 987 // UUID | チャンネルUUID
 let putChannelSubscribersRequest = PutChannelSubscribersRequest(on: [123]) // PutChannelSubscribersRequest |  (optional)
@@ -472,7 +472,7 @@ WebSocket通知ストリームに接続します
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // WebSocket通知ストリームに接続します

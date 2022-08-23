@@ -20,7 +20,7 @@ WebRTC状態を取得
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // WebRTC状態を取得
@@ -66,7 +66,7 @@ Skyway WebRTC用の認証API
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postWebRTCAuthenticateRequest = PostWebRTCAuthenticateRequest(peerId: "peerId_example") // PostWebRTCAuthenticateRequest |  (optional)
 

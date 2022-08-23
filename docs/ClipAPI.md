@@ -27,7 +27,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let folderId = 987 // UUID | クリップフォルダUUID
 let postClipFolderMessageRequest = PostClipFolderMessageRequest(messageId: 123) // PostClipFolderMessageRequest |  (optional)
@@ -79,7 +79,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let postClipFolderRequest = PostClipFolderRequest(name: "name_example", description: "description_example") // PostClipFolderRequest |  (optional)
 
@@ -129,7 +129,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let folderId = 987 // UUID | クリップフォルダUUID
 
@@ -179,7 +179,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let folderId = 987 // UUID | クリップフォルダUUID
 let patchClipFolderRequest = PatchClipFolderRequest(name: "name_example", description: "description_example") // PatchClipFolderRequest |  (optional)
@@ -231,7 +231,7 @@ Void (empty response body)
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let folderId = 987 // UUID | クリップフォルダUUID
 
@@ -281,7 +281,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // クリップフォルダのリストを取得
@@ -327,7 +327,7 @@ This endpoint does not need any parameter.
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let folderId = 987 // UUID | クリップフォルダUUID
 let limit = 987 // Int | 取得する件数 (optional)
@@ -383,7 +383,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let messageId = 987 // UUID | メッセージUUID
 
@@ -433,7 +433,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let folderId = 987 // UUID | クリップフォルダUUID
 let messageId = 987 // UUID | メッセージUUID

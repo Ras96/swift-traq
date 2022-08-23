@@ -20,7 +20,7 @@ Method | HTTP request | Description
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 let limit = 987 // Int | 取得する件数 (optional) (default to 50)
 let all = true // Bool | 全てのチャンネルのタイムラインを取得する (optional) (default to false)
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
+import Traq
 
 
 // オンラインユーザーリストを取得
