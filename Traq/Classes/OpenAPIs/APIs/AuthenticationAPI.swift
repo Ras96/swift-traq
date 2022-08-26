@@ -15,18 +15,30 @@ extension TraqAPI {
         /**
          外部ログインアカウント一覧を取得
 
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [ExternalProviderUser]
          */
-        @discardableResult
-        open class func getMyExternalAccounts(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [ExternalProviderUser]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getMyExternalAccountsWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getMyExternalAccounts() async throws -> [ExternalProviderUser] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getMyExternalAccountsWithRequestBuilder().execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -61,18 +73,30 @@ extension TraqAPI {
         /**
          自分のログインセッションリストを取得
 
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [LoginSession]
          */
-        @discardableResult
-        open class func getMySessions(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [LoginSession]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getMySessionsWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getMySessions() async throws -> [LoginSession] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getMySessionsWithRequestBuilder().execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -108,18 +132,30 @@ extension TraqAPI {
          外部ログインアカウントを紐付ける
 
          - parameter postLinkExternalAccount: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -157,18 +193,30 @@ extension TraqAPI {
 
          - parameter redirect: (query) リダイレクト先 (optional)
          - parameter postLoginRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func login(redirect: String? = nil, postLoginRequest: PostLoginRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return loginWithRequestBuilder(redirect: redirect, postLoginRequest: postLoginRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func login(redirect: String? = nil, postLoginRequest: PostLoginRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = loginWithRequestBuilder(redirect: redirect, postLoginRequest: postLoginRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -210,18 +258,30 @@ extension TraqAPI {
 
          - parameter redirect: (query) リダイレクト先 (optional)
          - parameter all: (query) 全てのセッションでログアウトするかどうか (optional, default to false)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func logout(redirect: String? = nil, all: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return logoutWithRequestBuilder(redirect: redirect, all: all).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func logout(redirect: String? = nil, all: Bool? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = logoutWithRequestBuilder(redirect: redirect, all: all).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -263,18 +323,30 @@ extension TraqAPI {
          セッションを無効化
 
          - parameter sessionId: (path) セッションUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func revokeMySession(sessionId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return revokeMySessionWithRequestBuilder(sessionId: sessionId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func revokeMySession(sessionId: UUID) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = revokeMySessionWithRequestBuilder(sessionId: sessionId).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -314,18 +386,30 @@ extension TraqAPI {
          外部ログインアカウントの紐付けを解除
 
          - parameter postUnlinkExternalAccount: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 

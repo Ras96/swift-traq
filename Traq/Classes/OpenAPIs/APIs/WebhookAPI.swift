@@ -17,18 +17,30 @@ extension TraqAPI {
 
          - parameter webhookId: (path) WebhookUUID
          - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func changeWebhookIcon(webhookId: UUID, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return changeWebhookIconWithRequestBuilder(webhookId: webhookId, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func changeWebhookIcon(webhookId: UUID, file: URL) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = changeWebhookIconWithRequestBuilder(webhookId: webhookId, file: file).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -76,18 +88,30 @@ extension TraqAPI {
          Webhookを新規作成
 
          - parameter postWebhookRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Webhook
          */
-        @discardableResult
-        open class func createWebhook(postWebhookRequest: PostWebhookRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> RequestTask {
-            return createWebhookWithRequestBuilder(postWebhookRequest: postWebhookRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func createWebhook(postWebhookRequest: PostWebhookRequest? = nil) async throws -> Webhook {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = createWebhookWithRequestBuilder(postWebhookRequest: postWebhookRequest).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -124,18 +148,30 @@ extension TraqAPI {
          Webhookを削除
 
          - parameter webhookId: (path) WebhookUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func deleteWebhook(webhookId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteWebhookWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func deleteWebhook(webhookId: UUID) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = deleteWebhookWithRequestBuilder(webhookId: webhookId).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -176,18 +212,30 @@ extension TraqAPI {
 
          - parameter webhookId: (path) WebhookUUID
          - parameter patchWebhookRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func editWebhook(webhookId: UUID, patchWebhookRequest: PatchWebhookRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return editWebhookWithRequestBuilder(webhookId: webhookId, patchWebhookRequest: patchWebhookRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func editWebhook(webhookId: UUID, patchWebhookRequest: PatchWebhookRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = editWebhookWithRequestBuilder(webhookId: webhookId, patchWebhookRequest: patchWebhookRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -228,18 +276,30 @@ extension TraqAPI {
          Webhook情報を取得
 
          - parameter webhookId: (path) WebhookUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Webhook
          */
-        @discardableResult
-        open class func getWebhook(webhookId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Webhook?, _ error: Error?) -> Void)) -> RequestTask {
-            return getWebhookWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getWebhook(webhookId: UUID) async throws -> Webhook {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getWebhookWithRequestBuilder(webhookId: webhookId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -279,18 +339,30 @@ extension TraqAPI {
          Webhookのアイコンを取得
 
          - parameter webhookId: (path) WebhookUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: URL
          */
-        @discardableResult
-        open class func getWebhookIcon(webhookId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: URL?, _ error: Error?) -> Void)) -> RequestTask {
-            return getWebhookIconWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getWebhookIcon(webhookId: UUID) async throws -> URL {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getWebhookIconWithRequestBuilder(webhookId: webhookId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -344,18 +416,30 @@ extension TraqAPI {
          - parameter until: (query) 取得する時間範囲の終了日時 (optional)
          - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
          - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [Message]
          */
-        @discardableResult
-        open class func getWebhookMessages(webhookId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getWebhookMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [Message]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getWebhookMessagesWithRequestBuilder(webhookId: webhookId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getWebhookMessages(webhookId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getWebhookMessages? = nil) async throws -> [Message] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getWebhookMessagesWithRequestBuilder(webhookId: webhookId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -410,18 +494,30 @@ extension TraqAPI {
          Webhook情報のリストを取得します
 
          - parameter all: (query) 全てのWebhookを取得します。権限が必要です。 (optional, default to false)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [Webhook]
          */
-        @discardableResult
-        open class func getWebhooks(all: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [Webhook]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getWebhooksWithRequestBuilder(all: all).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getWebhooks(all: Bool? = nil) async throws -> [Webhook] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getWebhooksWithRequestBuilder(all: all).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -465,18 +561,30 @@ extension TraqAPI {
          - parameter xTRAQChannelId: (header) 投稿先のチャンネルID(変更する場合) (optional)
          - parameter embed: (query) メンション・チャンネルリンクを自動埋め込みする場合に1を指定する (optional, default to 0)
          - parameter body: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func postWebhook(webhookId: UUID, xTRAQSignature: String? = nil, xTRAQChannelId: String? = nil, embed: Int? = nil, body: String? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return postWebhookWithRequestBuilder(webhookId: webhookId, xTRAQSignature: xTRAQSignature, xTRAQChannelId: xTRAQChannelId, embed: embed, body: body).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func postWebhook(webhookId: UUID, xTRAQSignature: String? = nil, xTRAQChannelId: String? = nil, embed: Int? = nil, body: String? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = postWebhookWithRequestBuilder(webhookId: webhookId, xTRAQSignature: xTRAQSignature, xTRAQChannelId: xTRAQChannelId, embed: embed, body: body).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 

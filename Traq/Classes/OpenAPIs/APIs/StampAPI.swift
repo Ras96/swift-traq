@@ -18,18 +18,30 @@ extension TraqAPI {
          - parameter messageId: (path) メッセージUUID
          - parameter stampId: (path) スタンプUUID
          - parameter postMessageStampRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func addMessageStamp(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return addMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId, postMessageStampRequest: postMessageStampRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func addMessageStamp(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = addMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId, postMessageStampRequest: postMessageStampRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -75,18 +87,30 @@ extension TraqAPI {
 
          - parameter stampId: (path) スタンプUUID
          - parameter file: (form) スタンプ画像(1MBまでのpng, jpeg, gif)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func changeStampImage(stampId: UUID, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return changeStampImageWithRequestBuilder(stampId: stampId, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func changeStampImage(stampId: UUID, file: URL) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = changeStampImageWithRequestBuilder(stampId: stampId, file: file).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -135,18 +159,30 @@ extension TraqAPI {
 
          - parameter name: (form) スタンプ名
          - parameter file: (form) スタンプ画像(1MBまでのpng, jpeg, gif)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Stamp
          */
-        @discardableResult
-        open class func createStamp(name: String, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Stamp?, _ error: Error?) -> Void)) -> RequestTask {
-            return createStampWithRequestBuilder(name: name, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func createStamp(name: String, file: URL) async throws -> Stamp {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = createStampWithRequestBuilder(name: name, file: file).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -192,18 +228,30 @@ extension TraqAPI {
          スタンプパレットを作成
 
          - parameter postStampPaletteRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: StampPalette
          */
-        @discardableResult
-        open class func createStampPalette(postStampPaletteRequest: PostStampPaletteRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: StampPalette?, _ error: Error?) -> Void)) -> RequestTask {
-            return createStampPaletteWithRequestBuilder(postStampPaletteRequest: postStampPaletteRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func createStampPalette(postStampPaletteRequest: PostStampPaletteRequest? = nil) async throws -> StampPalette {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = createStampPaletteWithRequestBuilder(postStampPaletteRequest: postStampPaletteRequest).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -240,18 +288,30 @@ extension TraqAPI {
          スタンプを削除
 
          - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func deleteStamp(stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteStampWithRequestBuilder(stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func deleteStamp(stampId: UUID) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = deleteStampWithRequestBuilder(stampId: stampId).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -291,18 +351,30 @@ extension TraqAPI {
          スタンプパレットを削除
 
          - parameter paletteId: (path) スタンプパレットUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func deleteStampPalette(paletteId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return deleteStampPaletteWithRequestBuilder(paletteId: paletteId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func deleteStampPalette(paletteId: UUID) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = deleteStampPaletteWithRequestBuilder(paletteId: paletteId).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -343,18 +415,30 @@ extension TraqAPI {
 
          - parameter stampId: (path) スタンプUUID
          - parameter patchStampRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func editStamp(stampId: UUID, patchStampRequest: PatchStampRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return editStampWithRequestBuilder(stampId: stampId, patchStampRequest: patchStampRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func editStamp(stampId: UUID, patchStampRequest: PatchStampRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = editStampWithRequestBuilder(stampId: stampId, patchStampRequest: patchStampRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -396,18 +480,30 @@ extension TraqAPI {
 
          - parameter paletteId: (path) スタンプパレットUUID
          - parameter patchStampPaletteRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func editStampPalette(paletteId: UUID, patchStampPaletteRequest: PatchStampPaletteRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return editStampPaletteWithRequestBuilder(paletteId: paletteId, patchStampPaletteRequest: patchStampPaletteRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func editStampPalette(paletteId: UUID, patchStampPaletteRequest: PatchStampPaletteRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = editStampPaletteWithRequestBuilder(paletteId: paletteId, patchStampPaletteRequest: patchStampPaletteRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -448,18 +544,30 @@ extension TraqAPI {
          メッセージのスタンプリストを取得
 
          - parameter messageId: (path) メッセージUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [MessageStamp]
          */
-        @discardableResult
-        open class func getMessageStamps(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [MessageStamp]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getMessageStampsWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getMessageStamps(messageId: UUID) async throws -> [MessageStamp] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getMessageStampsWithRequestBuilder(messageId: messageId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -499,18 +607,30 @@ extension TraqAPI {
          スタンプ履歴を取得
 
          - parameter limit: (query) 件数 (optional, default to 100)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [StampHistoryEntry]
          */
-        @discardableResult
-        open class func getMyStampHistory(limit: Int? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [StampHistoryEntry]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getMyStampHistoryWithRequestBuilder(limit: limit).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getMyStampHistory(limit: Int? = nil) async throws -> [StampHistoryEntry] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getMyStampHistoryWithRequestBuilder(limit: limit).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -550,18 +670,30 @@ extension TraqAPI {
          スタンプ情報を取得
 
          - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Stamp
          */
-        @discardableResult
-        open class func getStamp(stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Stamp?, _ error: Error?) -> Void)) -> RequestTask {
-            return getStampWithRequestBuilder(stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getStamp(stampId: UUID) async throws -> Stamp {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getStampWithRequestBuilder(stampId: stampId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -601,18 +733,30 @@ extension TraqAPI {
          スタンプ画像を取得
 
          - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: URL
          */
-        @discardableResult
-        open class func getStampImage(stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: URL?, _ error: Error?) -> Void)) -> RequestTask {
-            return getStampImageWithRequestBuilder(stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getStampImage(stampId: UUID) async throws -> URL {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getStampImageWithRequestBuilder(stampId: stampId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -652,18 +796,30 @@ extension TraqAPI {
          スタンプパレットを取得
 
          - parameter paletteId: (path) スタンプパレットUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: StampPalette
          */
-        @discardableResult
-        open class func getStampPalette(paletteId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: StampPalette?, _ error: Error?) -> Void)) -> RequestTask {
-            return getStampPaletteWithRequestBuilder(paletteId: paletteId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getStampPalette(paletteId: UUID) async throws -> StampPalette {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getStampPaletteWithRequestBuilder(paletteId: paletteId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -702,18 +858,30 @@ extension TraqAPI {
         /**
          スタンプパレットのリストを取得
 
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [StampPalette]
          */
-        @discardableResult
-        open class func getStampPalettes(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [StampPalette]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getStampPalettesWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getStampPalettes() async throws -> [StampPalette] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getStampPalettesWithRequestBuilder().execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -749,18 +917,30 @@ extension TraqAPI {
          スタンプ統計情報を取得
 
          - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: StampStats
          */
-        @discardableResult
-        open class func getStampStats(stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: StampStats?, _ error: Error?) -> Void)) -> RequestTask {
-            return getStampStatsWithRequestBuilder(stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getStampStats(stampId: UUID) async throws -> StampStats {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getStampStatsWithRequestBuilder(stampId: stampId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -809,18 +989,30 @@ extension TraqAPI {
 
          - parameter includeUnicode: (query) Unicode絵文字を含ませるかどうか Deprecated: typeクエリを指定しなければ全てのスタンプを取得できるため、そちらを利用してください  (optional, default to true)
          - parameter type: (query) 取得するスタンプの種類 (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [Stamp]
          */
-        @discardableResult
-        open class func getStamps(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [Stamp]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getStampsWithRequestBuilder(includeUnicode: includeUnicode, type: type).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getStamps(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil) async throws -> [Stamp] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getStampsWithRequestBuilder(includeUnicode: includeUnicode, type: type).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -863,18 +1055,30 @@ extension TraqAPI {
 
          - parameter messageId: (path) メッセージUUID
          - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func removeMessageStamp(messageId: UUID, stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return removeMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func removeMessageStamp(messageId: UUID, stampId: UUID) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = removeMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 

@@ -16,18 +16,30 @@ extension TraqAPI {
          チャンネルを作成
 
          - parameter postChannelRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Channel
          */
-        @discardableResult
-        open class func createChannel(postChannelRequest: PostChannelRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Channel?, _ error: Error?) -> Void)) -> RequestTask {
-            return createChannelWithRequestBuilder(postChannelRequest: postChannelRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func createChannel(postChannelRequest: PostChannelRequest? = nil) async throws -> Channel {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = createChannelWithRequestBuilder(postChannelRequest: postChannelRequest).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -65,18 +77,30 @@ extension TraqAPI {
 
          - parameter channelId: (path) チャンネルUUID
          - parameter patchChannelRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func editChannel(channelId: UUID, patchChannelRequest: PatchChannelRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return editChannelWithRequestBuilder(channelId: channelId, patchChannelRequest: patchChannelRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func editChannel(channelId: UUID, patchChannelRequest: PatchChannelRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = editChannelWithRequestBuilder(channelId: channelId, patchChannelRequest: patchChannelRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -118,18 +142,30 @@ extension TraqAPI {
 
          - parameter channelId: (path) チャンネルUUID
          - parameter patchChannelSubscribersRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func editChannelSubscribers(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return editChannelSubscribersWithRequestBuilder(channelId: channelId, patchChannelSubscribersRequest: patchChannelSubscribersRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func editChannelSubscribers(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = editChannelSubscribersWithRequestBuilder(channelId: channelId, patchChannelSubscribersRequest: patchChannelSubscribersRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -171,18 +207,30 @@ extension TraqAPI {
 
          - parameter channelId: (path) チャンネルUUID
          - parameter putChannelTopicRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func editChannelTopic(channelId: UUID, putChannelTopicRequest: PutChannelTopicRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return editChannelTopicWithRequestBuilder(channelId: channelId, putChannelTopicRequest: putChannelTopicRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func editChannelTopic(channelId: UUID, putChannelTopicRequest: PutChannelTopicRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = editChannelTopicWithRequestBuilder(channelId: channelId, putChannelTopicRequest: putChannelTopicRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -223,18 +271,30 @@ extension TraqAPI {
          チャンネル情報を取得
 
          - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Channel
          */
-        @discardableResult
-        open class func getChannel(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Channel?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannel(channelId: UUID) async throws -> Channel {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelWithRequestBuilder(channelId: channelId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -274,18 +334,30 @@ extension TraqAPI {
          チャンネル参加中のBOTのリストを取得
 
          - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [BotUser]
          */
-        @discardableResult
-        open class func getChannelBots(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [BotUser]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelBotsWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannelBots(channelId: UUID) async throws -> [BotUser] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelBotsWithRequestBuilder(channelId: channelId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -339,18 +411,30 @@ extension TraqAPI {
          - parameter until: (query) 取得する時間範囲の終了日時 (optional)
          - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
          - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [ChannelEvent]
          */
-        @discardableResult
-        open class func getChannelEvents(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getChannelEvents? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [ChannelEvent]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelEventsWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannelEvents(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getChannelEvents? = nil) async throws -> [ChannelEvent] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelEventsWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -405,18 +489,30 @@ extension TraqAPI {
          チャンネルピンのリストを取得
 
          - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [Pin]
          */
-        @discardableResult
-        open class func getChannelPins(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [Pin]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelPinsWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannelPins(channelId: UUID) async throws -> [Pin] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelPinsWithRequestBuilder(channelId: channelId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -456,18 +552,30 @@ extension TraqAPI {
          チャンネル統計情報を取得
 
          - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: ChannelStats
          */
-        @discardableResult
-        open class func getChannelStats(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: ChannelStats?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelStatsWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannelStats(channelId: UUID) async throws -> ChannelStats {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelStatsWithRequestBuilder(channelId: channelId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -507,18 +615,30 @@ extension TraqAPI {
          チャンネルの通知購読者のリストを取得
 
          - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [UUID]
          */
-        @discardableResult
-        open class func getChannelSubscribers(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UUID]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelSubscribersWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannelSubscribers(channelId: UUID) async throws -> [UUID] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelSubscribersWithRequestBuilder(channelId: channelId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -558,18 +678,30 @@ extension TraqAPI {
          チャンネルトピックを取得
 
          - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: ChannelTopic
          */
-        @discardableResult
-        open class func getChannelTopic(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: ChannelTopic?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelTopicWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannelTopic(channelId: UUID) async throws -> ChannelTopic {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelTopicWithRequestBuilder(channelId: channelId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -609,18 +741,30 @@ extension TraqAPI {
          チャンネル閲覧者リストを取得
 
          - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [ChannelViewer]
          */
-        @discardableResult
-        open class func getChannelViewers(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [ChannelViewer]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelViewersWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannelViewers(channelId: UUID) async throws -> [ChannelViewer] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelViewersWithRequestBuilder(channelId: channelId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -660,18 +804,30 @@ extension TraqAPI {
          チャンネルリストを取得
 
          - parameter includeDm: (query) ダイレクトメッセージチャンネルをレスポンスに含めるかどうか (optional, default to false)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: ChannelList
          */
-        @discardableResult
-        open class func getChannels(includeDm: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: ChannelList?, _ error: Error?) -> Void)) -> RequestTask {
-            return getChannelsWithRequestBuilder(includeDm: includeDm).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannels(includeDm: Bool? = nil) async throws -> ChannelList {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getChannelsWithRequestBuilder(includeDm: includeDm).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -725,18 +881,30 @@ extension TraqAPI {
          - parameter until: (query) 取得する時間範囲の終了日時 (optional)
          - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
          - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [Message]
          */
-        @discardableResult
-        open class func getMessages(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [Message]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getMessagesWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getMessages(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages? = nil) async throws -> [Message] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getMessagesWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -791,18 +959,30 @@ extension TraqAPI {
          DMチャンネル情報を取得
 
          - parameter userId: (path)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: DMChannel
          */
-        @discardableResult
-        open class func getUserDMChannel(userId: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: DMChannel?, _ error: Error?) -> Void)) -> RequestTask {
-            return getUserDMChannelWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getUserDMChannel(userId: String) async throws -> DMChannel {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getUserDMChannelWithRequestBuilder(userId: userId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -843,18 +1023,30 @@ extension TraqAPI {
 
          - parameter channelId: (path) チャンネルUUID
          - parameter postMessageRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Message
          */
-        @discardableResult
-        open class func postMessage(channelId: UUID, postMessageRequest: PostMessageRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Message?, _ error: Error?) -> Void)) -> RequestTask {
-            return postMessageWithRequestBuilder(channelId: channelId, postMessageRequest: postMessageRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func postMessage(channelId: UUID, postMessageRequest: PostMessageRequest? = nil) async throws -> Message {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = postMessageWithRequestBuilder(channelId: channelId, postMessageRequest: postMessageRequest).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -896,18 +1088,30 @@ extension TraqAPI {
 
          - parameter channelId: (path) チャンネルUUID
          - parameter putChannelSubscribersRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func setChannelSubscribers(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return setChannelSubscribersWithRequestBuilder(channelId: channelId, putChannelSubscribersRequest: putChannelSubscribersRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func setChannelSubscribers(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = setChannelSubscribersWithRequestBuilder(channelId: channelId, putChannelSubscribersRequest: putChannelSubscribersRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 

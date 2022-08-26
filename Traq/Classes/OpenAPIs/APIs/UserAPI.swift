@@ -17,18 +17,30 @@ extension TraqAPI {
 
          - parameter userId: (path) ユーザーUUID
          - parameter postUserTagRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: UserTag
          */
-        @discardableResult
-        open class func addUserTag(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: UserTag?, _ error: Error?) -> Void)) -> RequestTask {
-            return addUserTagWithRequestBuilder(userId: userId, postUserTagRequest: postUserTagRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func addUserTag(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil) async throws -> UserTag {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = addUserTagWithRequestBuilder(userId: userId, postUserTagRequest: postUserTagRequest).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -70,18 +82,30 @@ extension TraqAPI {
 
          - parameter userId: (path) ユーザーUUID
          - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func changeUserIcon(userId: UUID, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return changeUserIconWithRequestBuilder(userId: userId, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func changeUserIcon(userId: UUID, file: URL) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = changeUserIconWithRequestBuilder(userId: userId, file: file).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -130,18 +154,30 @@ extension TraqAPI {
 
          - parameter userId: (path) ユーザーUUID
          - parameter putUserPasswordRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func changeUserPassword(userId: UUID, putUserPasswordRequest: PutUserPasswordRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return changeUserPasswordWithRequestBuilder(userId: userId, putUserPasswordRequest: putUserPasswordRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func changeUserPassword(userId: UUID, putUserPasswordRequest: PutUserPasswordRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = changeUserPasswordWithRequestBuilder(userId: userId, putUserPasswordRequest: putUserPasswordRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -182,18 +218,30 @@ extension TraqAPI {
          ユーザーを登録
 
          - parameter postUserRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: UserDetail
          */
-        @discardableResult
-        open class func createUser(postUserRequest: PostUserRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: UserDetail?, _ error: Error?) -> Void)) -> RequestTask {
-            return createUserWithRequestBuilder(postUserRequest: postUserRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func createUser(postUserRequest: PostUserRequest? = nil) async throws -> UserDetail {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = createUserWithRequestBuilder(postUserRequest: postUserRequest).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -231,18 +279,30 @@ extension TraqAPI {
 
          - parameter userId: (path) ユーザーUUID
          - parameter patchUserRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func editUser(userId: UUID, patchUserRequest: PatchUserRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return editUserWithRequestBuilder(userId: userId, patchUserRequest: patchUserRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func editUser(userId: UUID, patchUserRequest: PatchUserRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = editUserWithRequestBuilder(userId: userId, patchUserRequest: patchUserRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -285,18 +345,30 @@ extension TraqAPI {
          - parameter userId: (path) ユーザーUUID
          - parameter tagId: (path) タグUUID
          - parameter patchUserTagRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func editUserTag(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return editUserTagWithRequestBuilder(userId: userId, tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func editUserTag(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = editUserTagWithRequestBuilder(userId: userId, tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -355,18 +427,30 @@ extension TraqAPI {
          - parameter until: (query) 取得する時間範囲の終了日時 (optional)
          - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
          - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [Message]
          */
-        @discardableResult
-        open class func getDirectMessages(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [Message]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getDirectMessagesWithRequestBuilder(userId: userId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getDirectMessages(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages? = nil) async throws -> [Message] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getDirectMessagesWithRequestBuilder(userId: userId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -421,18 +505,30 @@ extension TraqAPI {
          ユーザー詳細情報を取得
 
          - parameter userId: (path) ユーザーUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: UserDetail
          */
-        @discardableResult
-        open class func getUser(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: UserDetail?, _ error: Error?) -> Void)) -> RequestTask {
-            return getUserWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getUser(userId: UUID) async throws -> UserDetail {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getUserWithRequestBuilder(userId: userId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -472,18 +568,30 @@ extension TraqAPI {
          DMチャンネル情報を取得
 
          - parameter userId: (path)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: DMChannel
          */
-        @discardableResult
-        open class func getUserDMChannel(userId: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: DMChannel?, _ error: Error?) -> Void)) -> RequestTask {
-            return getUserDMChannelWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getUserDMChannel(userId: String) async throws -> DMChannel {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getUserDMChannelWithRequestBuilder(userId: userId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -523,18 +631,30 @@ extension TraqAPI {
          ユーザーのアイコン画像を取得
 
          - parameter userId: (path) ユーザーUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: URL
          */
-        @discardableResult
-        open class func getUserIcon(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: URL?, _ error: Error?) -> Void)) -> RequestTask {
-            return getUserIconWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getUserIcon(userId: UUID) async throws -> URL {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getUserIconWithRequestBuilder(userId: userId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -574,18 +694,30 @@ extension TraqAPI {
          ユーザー統計情報を取得
 
          - parameter userId: (path) ユーザーUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: UserStats
          */
-        @discardableResult
-        open class func getUserStats(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: UserStats?, _ error: Error?) -> Void)) -> RequestTask {
-            return getUserStatsWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getUserStats(userId: UUID) async throws -> UserStats {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getUserStatsWithRequestBuilder(userId: userId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -625,18 +757,30 @@ extension TraqAPI {
          ユーザーのタグリストを取得
 
          - parameter userId: (path) ユーザーUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [UserTag]
          */
-        @discardableResult
-        open class func getUserTags(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UserTag]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getUserTagsWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getUserTags(userId: UUID) async throws -> [UserTag] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getUserTagsWithRequestBuilder(userId: userId).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -677,18 +821,30 @@ extension TraqAPI {
 
          - parameter includeSuspended: (query) アカウントがアクティブでないユーザーを含め、全てのユーザーを取得するかどうか (optional, default to false)
          - parameter name: (query) 名前が一致するアカウントのみを取得する (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [User]
          */
-        @discardableResult
-        open class func getUsers(includeSuspended: Bool? = nil, name: String? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [User]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getUsersWithRequestBuilder(includeSuspended: includeSuspended, name: name).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getUsers(includeSuspended: Bool? = nil, name: String? = nil) async throws -> [User] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getUsersWithRequestBuilder(includeSuspended: includeSuspended, name: name).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -731,18 +887,30 @@ extension TraqAPI {
 
          - parameter userId: (path) ユーザーUUID
          - parameter postMessageRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Message
          */
-        @discardableResult
-        open class func postDirectMessage(userId: UUID, postMessageRequest: PostMessageRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Message?, _ error: Error?) -> Void)) -> RequestTask {
-            return postDirectMessageWithRequestBuilder(userId: userId, postMessageRequest: postMessageRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func postDirectMessage(userId: UUID, postMessageRequest: PostMessageRequest? = nil) async throws -> Message {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = postDirectMessageWithRequestBuilder(userId: userId, postMessageRequest: postMessageRequest).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -784,18 +952,30 @@ extension TraqAPI {
 
          - parameter userId: (path) ユーザーUUID
          - parameter tagId: (path) タグUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: Void
          */
-        @discardableResult
-        open class func removeUserTag(userId: UUID, tagId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-            return removeUserTagWithRequestBuilder(userId: userId, tagId: tagId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion((), nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func removeUserTag(userId: UUID, tagId: UUID) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = removeUserTagWithRequestBuilder(userId: userId, tagId: tagId).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 

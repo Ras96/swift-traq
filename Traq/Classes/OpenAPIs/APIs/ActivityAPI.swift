@@ -18,18 +18,30 @@ extension TraqAPI {
          - parameter limit: (query) 取得する件数 (optional, default to 50)
          - parameter all: (query) 全てのチャンネルのタイムラインを取得する (optional, default to false)
          - parameter perChannel: (query) 同じチャンネルのメッセージは最新のもののみ取得するか (optional, default to false)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [ActivityTimelineMessage]
          */
-        @discardableResult
-        open class func getActivityTimeline(limit: Int? = nil, all: Bool? = nil, perChannel: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [ActivityTimelineMessage]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getActivityTimelineWithRequestBuilder(limit: limit, all: all, perChannel: perChannel).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getActivityTimeline(limit: Int? = nil, all: Bool? = nil, perChannel: Bool? = nil) async throws -> [ActivityTimelineMessage] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getActivityTimelineWithRequestBuilder(limit: limit, all: all, perChannel: perChannel).execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
@@ -72,18 +84,30 @@ extension TraqAPI {
         /**
          オンラインユーザーリストを取得
 
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the data and the error objects
+         - returns: [String]
          */
-        @discardableResult
-        open class func getOnlineUsers(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [String]?, _ error: Error?) -> Void)) -> RequestTask {
-            return getOnlineUsersWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(response.body, nil)
-                case let .failure(error):
-                    completion(nil, error)
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getOnlineUsers() async throws -> [String] {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = getOnlineUsersWithRequestBuilder().execute { result in
+                        switch result {
+                        case let .success(response):
+                            continuation.resume(returning: response.body)
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
             }
         }
 
