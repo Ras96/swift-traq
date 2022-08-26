@@ -1,0 +1,5 @@
+# Ref: https://openapi-generator.tech/docs/generators/swift5/
+
+projectName: Traq
+swiftUseApiNamespace: true
+removeMigrationProjectNameClass: true
