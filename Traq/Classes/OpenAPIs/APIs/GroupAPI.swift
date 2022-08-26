@@ -46,6 +46,26 @@ extension TraqAPI {
 
         /**
          グループ管理者を追加
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter postUserGroupAdminRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func addUserGroupAdmin(groupId: UUID, postUserGroupAdminRequest: PostUserGroupAdminRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return addUserGroupAdminWithRequestBuilder(groupId: groupId, postUserGroupAdminRequest: postUserGroupAdminRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         グループ管理者を追加
          - POST /groups/{groupId}/admins
          - 指定したグループに管理者を追加します。 対象のユーザーグループの管理者権限が必要です。
          - OAuth:
@@ -111,6 +131,26 @@ extension TraqAPI {
 
         /**
          グループメンバーを追加
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter userGroupMember: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func addUserGroupMember(groupId: UUID, userGroupMember: UserGroupMember? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return addUserGroupMemberWithRequestBuilder(groupId: groupId, userGroupMember: userGroupMember).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         グループメンバーを追加
          - POST /groups/{groupId}/members
          - 指定したグループにメンバーを追加します。 対象のユーザーグループの管理者権限が必要です。
          - OAuth:
@@ -171,6 +211,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         ユーザーグループのアイコンを変更
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func changeUserGroupIcon(groupId: UUID, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return changeUserGroupIconWithRequestBuilder(groupId: groupId, file: file).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -247,6 +307,25 @@ extension TraqAPI {
 
         /**
          ユーザーグループを作成
+
+         - parameter postUserGroupRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func createUserGroup(postUserGroupRequest: PostUserGroupRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserGroup, ErrorResponse>) -> Void)) -> RequestTask {
+            return createUserGroupWithRequestBuilder(postUserGroupRequest: postUserGroupRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         ユーザーグループを作成
          - POST /groups
          - ユーザーグループを作成します。 作成者は自動的にグループ管理者になります。
          - OAuth:
@@ -302,6 +381,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         ユーザーグループを削除
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func deleteUserGroup(groupId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return deleteUserGroupWithRequestBuilder(groupId: groupId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -371,6 +469,26 @@ extension TraqAPI {
 
         /**
          ユーザーグループを編集
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter patchUserGroupRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editUserGroup(groupId: UUID, patchUserGroupRequest: PatchUserGroupRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editUserGroupWithRequestBuilder(groupId: groupId, patchUserGroupRequest: patchUserGroupRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         ユーザーグループを編集
          - PATCH /groups/{groupId}
          - 指定したユーザーグループの情報を編集します。 対象のユーザーグループの管理者権限が必要です。
          - OAuth:
@@ -432,6 +550,27 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         グループメンバーを編集
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter userId: (path) ユーザーUUID
+         - parameter patchGroupMemberRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editUserGroupMember(groupId: UUID, userId: UUID, patchGroupMemberRequest: PatchGroupMemberRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editUserGroupMemberWithRequestBuilder(groupId: groupId, userId: userId, patchGroupMemberRequest: patchGroupMemberRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -505,6 +644,25 @@ extension TraqAPI {
 
         /**
          ユーザーグループを取得
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getUserGroup(groupId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserGroup, ErrorResponse>) -> Void)) -> RequestTask {
+            return getUserGroupWithRequestBuilder(groupId: groupId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         ユーザーグループを取得
          - GET /groups/{groupId}
          - 指定したユーザーグループの情報を取得します。
          - OAuth:
@@ -563,6 +721,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         グループ管理者を取得
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getUserGroupAdmins(groupId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UUID], ErrorResponse>) -> Void)) -> RequestTask {
+            return getUserGroupAdminsWithRequestBuilder(groupId: groupId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -631,6 +808,25 @@ extension TraqAPI {
 
         /**
          グループメンバーを取得
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getUserGroupMembers(groupId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UserGroupMember], ErrorResponse>) -> Void)) -> RequestTask {
+            return getUserGroupMembersWithRequestBuilder(groupId: groupId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         グループメンバーを取得
          - GET /groups/{groupId}/members
          - 指定したグループのメンバーのリストを取得します。
          - OAuth:
@@ -693,6 +889,24 @@ extension TraqAPI {
 
         /**
          ユーザーグループのリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getUserGroups(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UserGroup], ErrorResponse>) -> Void)) -> RequestTask {
+            return getUserGroupsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         ユーザーグループのリストを取得
          - GET /groups
          - ユーザーグループのリストを取得します。
          - OAuth:
@@ -748,6 +962,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         グループ管理者を削除
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter userId: (path) ユーザーUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func removeUserGroupAdmin(groupId: UUID, userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return removeUserGroupAdminWithRequestBuilder(groupId: groupId, userId: userId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -816,6 +1050,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         グループメンバーを削除
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - parameter userId: (path) ユーザーUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func removeUserGroupMember(groupId: UUID, userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return removeUserGroupMemberWithRequestBuilder(groupId: groupId, userId: userId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 

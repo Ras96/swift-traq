@@ -45,6 +45,25 @@ extension TraqAPI {
 
         /**
          OGP情報を取得
+
+         - parameter url: (query) OGPを取得したいURL
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getOgp(url: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Ogp, ErrorResponse>) -> Void)) -> RequestTask {
+            return getOgpWithRequestBuilder(url: url).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         OGP情報を取得
          - GET /ogp
          - OGP情報を取得します。
          - OAuth:

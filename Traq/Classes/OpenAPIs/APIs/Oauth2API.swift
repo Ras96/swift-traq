@@ -45,6 +45,25 @@ extension TraqAPI {
 
         /**
          OAuth2クライアントを作成
+
+         - parameter postClientRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func createClient(postClientRequest: PostClientRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<OAuth2ClientDetail, ErrorResponse>) -> Void)) -> RequestTask {
+            return createClientWithRequestBuilder(postClientRequest: postClientRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         OAuth2クライアントを作成
          - POST /clients
          - OAuth2クライアントを作成します。
          - OAuth:
@@ -100,6 +119,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         OAuth2クライアントを削除
+
+         - parameter clientId: (path) OAuth2クライアントUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func deleteClient(clientId: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return deleteClientWithRequestBuilder(clientId: clientId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -169,6 +207,26 @@ extension TraqAPI {
 
         /**
          OAuth2クライアント情報を変更
+
+         - parameter clientId: (path) OAuth2クライアントUUID
+         - parameter patchClientRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editClient(clientId: String, patchClientRequest: PatchClientRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editClientWithRequestBuilder(clientId: clientId, patchClientRequest: patchClientRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         OAuth2クライアント情報を変更
          - PATCH /clients/{clientId}
          - 指定したOAuth2クライアントの情報を変更します。 対象のクライアントの管理権限が必要です。 クライアント開発者UUIDを変更した場合は、変更先ユーザーにクライアント管理権限が移譲され、自分自身は権限を失います。
          - OAuth:
@@ -229,6 +287,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         OAuth2クライアント情報を取得
+
+         - parameter clientId: (path) OAuth2クライアントUUID
+         - parameter detail: (query) 詳細情報を含めるかどうか (optional, default to false)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getClient(clientId: String, detail: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<GetClient200Response, ErrorResponse>) -> Void)) -> RequestTask {
+            return getClientWithRequestBuilder(clientId: clientId, detail: detail).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -301,6 +379,25 @@ extension TraqAPI {
 
         /**
          OAuth2クライアントのリストを取得
+
+         - parameter all: (query) 全てのクライアントを取得するかどうか (optional, default to false)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getClients(all: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[OAuth2Client], ErrorResponse>) -> Void)) -> RequestTask {
+            return getClientsWithRequestBuilder(all: all).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         OAuth2クライアントのリストを取得
          - GET /clients
          - 自身が開発者のOAuth2クライアントのリストを取得します。 `all`が`true`の場合、全開発者の全クライアントのリストを返します。
          - OAuth:
@@ -358,6 +455,24 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         有効トークンのリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyTokens(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ActiveOAuth2Token], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyTokensWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -425,6 +540,33 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         OAuth2 認可エンドポイント
+
+         - parameter clientId: (query)
+         - parameter responseType: (query)  (optional)
+         - parameter redirectUri: (query)  (optional)
+         - parameter scope: (query)  (optional)
+         - parameter state: (query)  (optional)
+         - parameter codeChallenge: (query)  (optional)
+         - parameter codeChallengeMethod: (query)  (optional)
+         - parameter nonce: (query)  (optional)
+         - parameter prompt: (query)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getOAuth2Authorize(clientId: String, responseType: OAuth2ResponseType? = nil, redirectUri: String? = nil, scope: String? = nil, state: String? = nil, codeChallenge: String? = nil, codeChallengeMethod: String? = nil, nonce: String? = nil, prompt: OAuth2Prompt? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return getOAuth2AuthorizeWithRequestBuilder(clientId: clientId, responseType: responseType, redirectUri: redirectUri, scope: scope, state: state, codeChallenge: codeChallenge, codeChallengeMethod: codeChallengeMethod, nonce: nonce, prompt: prompt).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -517,6 +659,33 @@ extension TraqAPI {
 
         /**
          OAuth2 認可エンドポイント
+
+         - parameter clientId: (form)
+         - parameter responseType: (form)  (optional)
+         - parameter redirectUri: (form)  (optional)
+         - parameter scope: (form)  (optional)
+         - parameter state: (form)  (optional)
+         - parameter codeChallenge: (form)  (optional)
+         - parameter codeChallengeMethod: (form)  (optional)
+         - parameter nonce: (form)  (optional)
+         - parameter prompt: (form)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func postOAuth2Authorize(clientId: String, responseType: OAuth2ResponseType? = nil, redirectUri: String? = nil, scope: String? = nil, state: String? = nil, codeChallenge: String? = nil, codeChallengeMethod: String? = nil, nonce: String? = nil, prompt: OAuth2Prompt? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return postOAuth2AuthorizeWithRequestBuilder(clientId: clientId, responseType: responseType, redirectUri: redirectUri, scope: scope, state: state, codeChallenge: codeChallenge, codeChallengeMethod: codeChallengeMethod, nonce: nonce, prompt: prompt).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         OAuth2 認可エンドポイント
          - POST /oauth2/authorize
          - OAuth2 認可エンドポイント
          - OAuth:
@@ -600,6 +769,25 @@ extension TraqAPI {
 
         /**
          OAuth2 認可承諾API
+
+         - parameter submit: (form) 承諾する場合は\\\&quot;approve\\\&quot;
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func postOAuth2AuthorizeDecide(submit: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return postOAuth2AuthorizeDecideWithRequestBuilder(submit: submit).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         OAuth2 認可承諾API
          - POST /oauth2/authorize/decide
          - OAuth2 認可承諾
          - OAuth:
@@ -671,6 +859,34 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         OAuth2 トークンエンドポイント
+
+         - parameter grantType: (form)
+         - parameter code: (form)  (optional)
+         - parameter redirectUri: (form)  (optional)
+         - parameter clientId: (form)  (optional)
+         - parameter codeVerifier: (form)  (optional)
+         - parameter username: (form)  (optional)
+         - parameter password: (form)  (optional)
+         - parameter scope: (form)  (optional)
+         - parameter refreshToken: (form)  (optional)
+         - parameter clientSecret: (form)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func postOAuth2Token(grantType: String, code: String? = nil, redirectUri: String? = nil, clientId: String? = nil, codeVerifier: String? = nil, username: String? = nil, password: String? = nil, scope: String? = nil, refreshToken: String? = nil, clientSecret: String? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<OAuth2Token, ErrorResponse>) -> Void)) -> RequestTask {
+            return postOAuth2TokenWithRequestBuilder(grantType: grantType, code: code, redirectUri: redirectUri, clientId: clientId, codeVerifier: codeVerifier, username: username, password: password, scope: scope, refreshToken: refreshToken, clientSecret: clientSecret).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -761,6 +977,25 @@ extension TraqAPI {
 
         /**
          トークンの認可を取り消す
+
+         - parameter tokenId: (path) OAuth2トークンUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func revokeMyToken(tokenId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return revokeMyTokenWithRequestBuilder(tokenId: tokenId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         トークンの認可を取り消す
          - DELETE /users/me/tokens/{tokenId}
          - 自分の指定したトークンの認可を取り消します。
          - OAuth:
@@ -819,6 +1054,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         OAuth2 トークン無効化エンドポイント
+
+         - parameter token: (form) 無効化するOAuth2トークンまたはOAuth2リフレッシュトークン
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func revokeOAuth2Token(token: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return revokeOAuth2TokenWithRequestBuilder(token: token).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 

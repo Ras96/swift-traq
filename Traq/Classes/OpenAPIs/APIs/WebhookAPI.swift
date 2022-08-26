@@ -46,6 +46,26 @@ extension TraqAPI {
 
         /**
          Webhookのアイコンを変更
+
+         - parameter webhookId: (path) WebhookUUID
+         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func changeWebhookIcon(webhookId: UUID, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return changeWebhookIconWithRequestBuilder(webhookId: webhookId, file: file).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         Webhookのアイコンを変更
          - PUT /webhooks/{webhookId}/icon
          - 指定したWebhookのアイコン画像を変更します。
          - OAuth:
@@ -117,6 +137,25 @@ extension TraqAPI {
 
         /**
          Webhookを新規作成
+
+         - parameter postWebhookRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func createWebhook(postWebhookRequest: PostWebhookRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Webhook, ErrorResponse>) -> Void)) -> RequestTask {
+            return createWebhookWithRequestBuilder(postWebhookRequest: postWebhookRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         Webhookを新規作成
          - POST /webhooks
          - Webhookを新規作成します。 `secret`が空文字の場合、insecureウェブフックが作成されます。
          - OAuth:
@@ -172,6 +211,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         Webhookを削除
+
+         - parameter webhookId: (path) WebhookUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func deleteWebhook(webhookId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return deleteWebhookWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -241,6 +299,26 @@ extension TraqAPI {
 
         /**
          Webhook情報を変更
+
+         - parameter webhookId: (path) WebhookUUID
+         - parameter patchWebhookRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editWebhook(webhookId: UUID, patchWebhookRequest: PatchWebhookRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editWebhookWithRequestBuilder(webhookId: webhookId, patchWebhookRequest: patchWebhookRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         Webhook情報を変更
          - PATCH /webhooks/{webhookId}
          - 指定したWebhookの情報を変更します。
          - OAuth:
@@ -305,6 +383,25 @@ extension TraqAPI {
 
         /**
          Webhook情報を取得
+
+         - parameter webhookId: (path) WebhookUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getWebhook(webhookId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Webhook, ErrorResponse>) -> Void)) -> RequestTask {
+            return getWebhookWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         Webhook情報を取得
          - GET /webhooks/{webhookId}
          - 指定したWebhookの詳細を取得します。
          - OAuth:
@@ -363,6 +460,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         Webhookのアイコンを取得
+
+         - parameter webhookId: (path) WebhookUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getWebhookIcon(webhookId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
+            return getWebhookIconWithRequestBuilder(webhookId: webhookId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -440,6 +556,31 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         Webhookの投稿メッセージのリストを取得
+
+         - parameter webhookId: (path) WebhookUUID
+         - parameter limit: (query) 取得する件数 (optional)
+         - parameter offset: (query) 取得するオフセット (optional, default to 0)
+         - parameter since: (query) 取得する時間範囲の開始日時 (optional, default to Date(timeIntervalSince1970: -62167219200000000.0 / 1_000_000))
+         - parameter until: (query) 取得する時間範囲の終了日時 (optional)
+         - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
+         - parameter order: (query) 昇順か降順か (optional, default to .desc)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getWebhookMessages(webhookId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getWebhookMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Message], ErrorResponse>) -> Void)) -> RequestTask {
+            return getWebhookMessagesWithRequestBuilder(webhookId: webhookId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -523,6 +664,25 @@ extension TraqAPI {
 
         /**
          Webhook情報のリストを取得します
+
+         - parameter all: (query) 全てのWebhookを取得します。権限が必要です。 (optional, default to false)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getWebhooks(all: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Webhook], ErrorResponse>) -> Void)) -> RequestTask {
+            return getWebhooksWithRequestBuilder(all: all).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         Webhook情報のリストを取得します
          - GET /webhooks
          - Webhookのリストを取得します。 allがtrueで無い場合は、自分がオーナーのWebhookのリストを返します。
          - OAuth:
@@ -585,6 +745,29 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         Webhookを送信
+
+         - parameter webhookId: (path) WebhookUUID
+         - parameter xTRAQSignature: (header) リクエストボディシグネチャ(Secretが設定されている場合は必須) (optional)
+         - parameter xTRAQChannelId: (header) 投稿先のチャンネルID(変更する場合) (optional)
+         - parameter embed: (query) メンション・チャンネルリンクを自動埋め込みする場合に1を指定する (optional, default to 0)
+         - parameter body: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func postWebhook(webhookId: UUID, xTRAQSignature: String? = nil, xTRAQChannelId: String? = nil, embed: Int? = nil, body: String? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return postWebhookWithRequestBuilder(webhookId: webhookId, xTRAQSignature: xTRAQSignature, xTRAQChannelId: xTRAQChannelId, embed: embed, body: body).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 

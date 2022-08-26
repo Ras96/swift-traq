@@ -44,6 +44,24 @@ extension TraqAPI {
 
         /**
          WebRTC状態を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getWebRTCState(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[WebRTCUserState], ErrorResponse>) -> Void)) -> RequestTask {
+            return getWebRTCStateWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         WebRTC状態を取得
          - GET /webrtc/state
          - 現在のWebRTC状態を取得します。
          - OAuth:
@@ -98,6 +116,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         Skyway用認証API
+
+         - parameter postWebRTCAuthenticateRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func postWebRTCAuthenticate(postWebRTCAuthenticateRequest: PostWebRTCAuthenticateRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<WebRTCAuthenticateResult, ErrorResponse>) -> Void)) -> RequestTask {
+            return postWebRTCAuthenticateWithRequestBuilder(postWebRTCAuthenticateRequest: postWebRTCAuthenticateRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 

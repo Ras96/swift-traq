@@ -45,6 +45,25 @@ extension TraqAPI {
 
         /**
          チャンネルをスターに追加
+
+         - parameter postStarRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func addMyStar(postStarRequest: PostStarRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return addMyStarWithRequestBuilder(postStarRequest: postStarRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         チャンネルをスターに追加
          - POST /users/me/stars
          - 指定したチャンネルをスターチャンネルに追加します。 スター済みのチャンネルIDを指定した場合、204を返します。 不正なチャンネルIDを指定した場合、400を返します。
          - OAuth:
@@ -105,6 +124,25 @@ extension TraqAPI {
 
         /**
          自分にタグを追加
+
+         - parameter postUserTagRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func addMyUserTag(postUserTagRequest: PostUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserTag, ErrorResponse>) -> Void)) -> RequestTask {
+            return addMyUserTagWithRequestBuilder(postUserTagRequest: postUserTagRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分にタグを追加
          - POST /users/me/tags
          - 自分に新しくタグを追加します。
          - OAuth:
@@ -160,6 +198,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         自分のアイコン画像を変更
+
+         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func changeMyIcon(file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return changeMyIconWithRequestBuilder(file: file).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -232,6 +289,25 @@ extension TraqAPI {
 
         /**
          メッセージ引用通知の設定情報を変更
+
+         - parameter putNotifyCitationRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func changeMyNotifyCitation(putNotifyCitationRequest: PutNotifyCitationRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return changeMyNotifyCitationWithRequestBuilder(putNotifyCitationRequest: putNotifyCitationRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         メッセージ引用通知の設定情報を変更
          - PUT /users/me/settings/notify-citation
          - メッセージ引用通知の設定情報を変更します
          - OAuth:
@@ -287,6 +363,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         自分のパスワードを変更
+
+         - parameter putMyPasswordRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func changeMyPassword(putMyPasswordRequest: PutMyPasswordRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return changeMyPasswordWithRequestBuilder(putMyPasswordRequest: putMyPasswordRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -352,6 +447,25 @@ extension TraqAPI {
 
         /**
          自分のユーザー情報を変更
+
+         - parameter patchMeRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editMe(patchMeRequest: PatchMeRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editMeWithRequestBuilder(patchMeRequest: patchMeRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分のユーザー情報を変更
          - PATCH /users/me
          - 自身のユーザー情報を変更します。
          - OAuth:
@@ -408,6 +522,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         自分のタグを編集
+
+         - parameter tagId: (path) タグUUID
+         - parameter patchUserTagRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editMyUserTag(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editMyUserTagWithRequestBuilder(tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -476,6 +610,24 @@ extension TraqAPI {
 
         /**
          自分のユーザー詳細を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMe(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<MyUserDetail, ErrorResponse>) -> Void)) -> RequestTask {
+            return getMeWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分のユーザー詳細を取得
          - GET /users/me
          - 自身のユーザー詳細情報を取得します。
          - OAuth:
@@ -529,6 +681,24 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         自分のチャンネル購読状態を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyChannelSubscriptions(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UserSubscribeState], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyChannelSubscriptionsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -592,6 +762,24 @@ extension TraqAPI {
 
         /**
          外部ログインアカウント一覧を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyExternalAccounts(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ExternalProviderUser], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyExternalAccountsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         外部ログインアカウント一覧を取得
          - GET /users/me/ex-accounts
          - 自分に紐付けられている外部ログインアカウント一覧を取得します。
          - OAuth:
@@ -645,6 +833,24 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         自分のアイコン画像を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyIcon(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyIconWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -708,6 +914,24 @@ extension TraqAPI {
 
         /**
          メッセージ引用通知の設定情報を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyNotifyCitation(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<GetNotifyCitation, ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyNotifyCitationWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         メッセージ引用通知の設定情報を取得
          - GET /users/me/settings/notify-citation
          - メッセージ引用通知の設定情報を変更します。
          - OAuth:
@@ -762,6 +986,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         QRコードを取得
+
+         - parameter token: (query) 画像でなくトークン文字列で返すかどうか (optional, default to false)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyQRCode(token: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyQRCodeWithRequestBuilder(token: token).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -829,6 +1072,24 @@ extension TraqAPI {
 
         /**
          自分のログインセッションリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMySessions(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[LoginSession], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMySessionsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分のログインセッションリストを取得
          - GET /users/me/sessions
          - 自分のログインセッションのリストを取得します。
          - OAuth:
@@ -883,6 +1144,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         スタンプ履歴を取得
+
+         - parameter limit: (query) 件数 (optional, default to 100)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyStampHistory(limit: Int? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[StampHistoryEntry], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyStampHistoryWithRequestBuilder(limit: limit).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -950,6 +1230,24 @@ extension TraqAPI {
 
         /**
          スターチャンネルリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyStars(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UUID], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyStarsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         スターチャンネルリストを取得
          - GET /users/me/stars
          - 自分がスターしているチャンネルのUUIDの配列を取得します。
          - OAuth:
@@ -1003,6 +1301,24 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         有効トークンのリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyTokens(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ActiveOAuth2Token], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyTokensWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -1066,6 +1382,24 @@ extension TraqAPI {
 
         /**
          未読チャンネルを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyUnreadChannels(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UnreadChannel], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyUnreadChannelsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         未読チャンネルを取得
          - GET /users/me/unread
          - 自分が現在未読のチャンネルの未読情報を取得します。
          - OAuth:
@@ -1119,6 +1453,24 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         自分のタグリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyUserTags(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UserTag], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyUserTagsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -1182,6 +1534,24 @@ extension TraqAPI {
 
         /**
          自身のチャンネル閲覧状態一覧を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyViewStates(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[MyChannelViewState], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyViewStatesWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自身のチャンネル閲覧状態一覧を取得
          - GET /users/me/view-states
          - 自身のチャンネル閲覧状態一覧を取得します。
          - OAuth:
@@ -1235,6 +1605,24 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         ユーザー設定を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getUserSettings(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserSettings, ErrorResponse>) -> Void)) -> RequestTask {
+            return getUserSettingsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -1299,6 +1687,25 @@ extension TraqAPI {
 
         /**
          外部ログインアカウントを紐付ける
+
+         - parameter postLinkExternalAccount: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         外部ログインアカウントを紐付ける
          - POST /users/me/ex-accounts/link
          - 自分に外部ログインアカウントを紐付けます。 指定した`providerName`がサーバー側で有効である必要があります。 リクエストが受理された場合、外部サービスの認証画面にリダイレクトされ、認証される必要があります。
          - OAuth:
@@ -1354,6 +1761,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         チャンネルを既読にする
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func readChannel(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return readChannelWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -1422,6 +1848,25 @@ extension TraqAPI {
 
         /**
          FCMデバイスを登録
+
+         - parameter postMyFCMDeviceRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func registerFCMDevice(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return registerFCMDeviceWithRequestBuilder(postMyFCMDeviceRequest: postMyFCMDeviceRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         FCMデバイスを登録
          - POST /users/me/fcm-device
          - 自身のFCMデバイスを登録します。
          - OAuth:
@@ -1477,6 +1922,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         チャンネルをスターから削除します
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func removeMyStar(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return removeMyStarWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -1545,6 +2009,25 @@ extension TraqAPI {
 
         /**
          自分からタグを削除します
+
+         - parameter tagId: (path) タグUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func removeMyUserTag(tagId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return removeMyUserTagWithRequestBuilder(tagId: tagId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分からタグを削除します
          - DELETE /users/me/tags/{tagId}
          - 既に存在しないタグを削除しようとした場合は204を返します。
          - OAuth:
@@ -1608,6 +2091,25 @@ extension TraqAPI {
 
         /**
          セッションを無効化
+
+         - parameter sessionId: (path) セッションUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func revokeMySession(sessionId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return revokeMySessionWithRequestBuilder(sessionId: sessionId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         セッションを無効化
          - DELETE /users/me/sessions/{sessionId}
          - 指定した自分のセッションを無効化(ログアウト)します。 既に存在しない・無効化されているセッションを指定した場合も`204`を返します。
          - OAuth:
@@ -1666,6 +2168,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         トークンの認可を取り消す
+
+         - parameter tokenId: (path) OAuth2トークンUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func revokeMyToken(tokenId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return revokeMyTokenWithRequestBuilder(tokenId: tokenId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -1735,6 +2256,26 @@ extension TraqAPI {
 
         /**
          チャンネル購読レベルを設定
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter putChannelSubscribeLevelRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func setChannelSubscribeLevel(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return setChannelSubscribeLevelWithRequestBuilder(channelId: channelId, putChannelSubscribeLevelRequest: putChannelSubscribeLevelRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         チャンネル購読レベルを設定
          - PUT /users/me/subscriptions/{channelId}
          - 自身の指定したチャンネルの購読レベルを設定します。
          - OAuth:
@@ -1794,6 +2335,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         外部ログインアカウントの紐付けを解除
+
+         - parameter postUnlinkExternalAccount: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 

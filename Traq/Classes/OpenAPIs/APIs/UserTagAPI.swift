@@ -45,6 +45,25 @@ extension TraqAPI {
 
         /**
          自分にタグを追加
+
+         - parameter postUserTagRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func addMyUserTag(postUserTagRequest: PostUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserTag, ErrorResponse>) -> Void)) -> RequestTask {
+            return addMyUserTagWithRequestBuilder(postUserTagRequest: postUserTagRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分にタグを追加
          - POST /users/me/tags
          - 自分に新しくタグを追加します。
          - OAuth:
@@ -101,6 +120,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         ユーザーにタグを追加
+
+         - parameter userId: (path) ユーザーUUID
+         - parameter postUserTagRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func addUserTag(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserTag, ErrorResponse>) -> Void)) -> RequestTask {
+            return addUserTagWithRequestBuilder(userId: userId, postUserTagRequest: postUserTagRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -171,6 +210,26 @@ extension TraqAPI {
 
         /**
          自分のタグを編集
+
+         - parameter tagId: (path) タグUUID
+         - parameter patchUserTagRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editMyUserTag(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editMyUserTagWithRequestBuilder(tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分のタグを編集
          - PATCH /users/me/tags/{tagId}
          - 自分の指定したタグの状態を変更します。
          - OAuth:
@@ -232,6 +291,27 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         ユーザーのタグを編集
+
+         - parameter userId: (path) ユーザーUUID
+         - parameter tagId: (path) タグUUID
+         - parameter patchUserTagRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editUserTag(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editUserTagWithRequestBuilder(userId: userId, tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -304,6 +384,24 @@ extension TraqAPI {
 
         /**
          自分のタグリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMyUserTags(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UserTag], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMyUserTagsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分のタグリストを取得
          - GET /users/me/tags
          - 自分に付けられているタグの配列を取得します。
          - OAuth:
@@ -358,6 +456,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         タグ情報を取得
+
+         - parameter tagId: (path) タグUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getTag(tagId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Tag, ErrorResponse>) -> Void)) -> RequestTask {
+            return getTagWithRequestBuilder(tagId: tagId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -426,6 +543,25 @@ extension TraqAPI {
 
         /**
          ユーザーのタグリストを取得
+
+         - parameter userId: (path) ユーザーUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getUserTags(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UserTag], ErrorResponse>) -> Void)) -> RequestTask {
+            return getUserTagsWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         ユーザーのタグリストを取得
          - GET /users/{userId}/tags
          - 指定したユーザーのタグリストを取得します。
          - OAuth:
@@ -484,6 +620,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         自分からタグを削除します
+
+         - parameter tagId: (path) タグUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func removeMyUserTag(tagId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return removeMyUserTagWithRequestBuilder(tagId: tagId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -548,6 +703,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         ユーザーからタグを削除します
+
+         - parameter userId: (path) ユーザーUUID
+         - parameter tagId: (path) タグUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func removeUserTag(userId: UUID, tagId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return removeUserTagWithRequestBuilder(userId: userId, tagId: tagId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 

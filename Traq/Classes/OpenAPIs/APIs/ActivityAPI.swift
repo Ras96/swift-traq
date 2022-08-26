@@ -47,6 +47,27 @@ extension TraqAPI {
 
         /**
          アクテビティタイムラインを取得
+
+         - parameter limit: (query) 取得する件数 (optional, default to 50)
+         - parameter all: (query) 全てのチャンネルのタイムラインを取得する (optional, default to false)
+         - parameter perChannel: (query) 同じチャンネルのメッセージは最新のもののみ取得するか (optional, default to false)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getActivityTimeline(limit: Int? = nil, all: Bool? = nil, perChannel: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ActivityTimelineMessage], ErrorResponse>) -> Void)) -> RequestTask {
+            return getActivityTimelineWithRequestBuilder(limit: limit, all: all, perChannel: perChannel).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         アクテビティタイムラインを取得
          - GET /activity/timeline
          - パブリックチャンネルの直近の投稿メッセージを作成日時の降順で取得します。 `all`が`true`でない場合、購読チャンネルのみのタイムラインを取得します
          - OAuth:
@@ -108,6 +129,24 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         オンラインユーザーリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getOnlineUsers(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[String], ErrorResponse>) -> Void)) -> RequestTask {
+            return getOnlineUsersWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 

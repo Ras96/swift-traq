@@ -47,6 +47,27 @@ extension TraqAPI {
 
         /**
          スタンプを押す
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter stampId: (path) スタンプUUID
+         - parameter postMessageStampRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func addMessageStamp(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return addMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId, postMessageStampRequest: postMessageStampRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         スタンプを押す
          - POST /messages/{messageId}/stamps/{stampId}
          - 指定したメッセージに指定したスタンプを押します。
          - OAuth:
@@ -115,6 +136,25 @@ extension TraqAPI {
 
         /**
          ピン留めする
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func createPin(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<MessagePin, ErrorResponse>) -> Void)) -> RequestTask {
+            return createPinWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         ピン留めする
          - POST /messages/{messageId}/pin
          - 指定したメッセージをピン留めします。 アーカイブされているチャンネルのメッセージ・存在しないメッセージ・チャンネル当たりの上限数を超えたメッセージのピン留めはできません。
          - OAuth:
@@ -173,6 +213,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         メッセージを削除
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func deleteMessage(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return deleteMessageWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -237,6 +296,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         メッセージを編集
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter postMessageRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editMessage(messageId: UUID, postMessageRequest: PostMessageRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editMessageWithRequestBuilder(messageId: messageId, postMessageRequest: postMessageRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -320,6 +399,31 @@ extension TraqAPI {
 
         /**
          ダイレクトメッセージのリストを取得
+
+         - parameter userId: (path) ユーザーUUID
+         - parameter limit: (query) 取得する件数 (optional)
+         - parameter offset: (query) 取得するオフセット (optional, default to 0)
+         - parameter since: (query) 取得する時間範囲の開始日時 (optional, default to Date(timeIntervalSince1970: -62167219200000000.0 / 1_000_000))
+         - parameter until: (query) 取得する時間範囲の終了日時 (optional)
+         - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
+         - parameter order: (query) 昇順か降順か (optional, default to .desc)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getDirectMessages(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Message], ErrorResponse>) -> Void)) -> RequestTask {
+            return getDirectMessagesWithRequestBuilder(userId: userId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         ダイレクトメッセージのリストを取得
          - GET /users/{userId}/messages
          - 指定したユーザーとのダイレクトメッセージのリストを取得します。
          - OAuth:
@@ -398,6 +502,25 @@ extension TraqAPI {
 
         /**
          メッセージを取得
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMessage(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Message, ErrorResponse>) -> Void)) -> RequestTask {
+            return getMessageWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         メッセージを取得
          - GET /messages/{messageId}
          - 指定したメッセージを取得します。
          - OAuth:
@@ -461,6 +584,25 @@ extension TraqAPI {
 
         /**
          自分のクリップを取得
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMessageClips(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[MessageClip], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMessageClipsWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         自分のクリップを取得
          - GET /messages/{messageId}/clips
          - 対象のメッセージの自分のクリップの一覧を返します。
          - OAuth:
@@ -519,6 +661,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         メッセージのスタンプリストを取得
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMessageStamps(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[MessageStamp], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMessageStampsWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -596,6 +757,31 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         チャンネルメッセージのリストを取得
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter limit: (query) 取得する件数 (optional)
+         - parameter offset: (query) 取得するオフセット (optional, default to 0)
+         - parameter since: (query) 取得する時間範囲の開始日時 (optional, default to Date(timeIntervalSince1970: -62167219200000000.0 / 1_000_000))
+         - parameter until: (query) 取得する時間範囲の終了日時 (optional)
+         - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
+         - parameter order: (query) 昇順か降順か (optional, default to .desc)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getMessages(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Message], ErrorResponse>) -> Void)) -> RequestTask {
+            return getMessagesWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -679,6 +865,25 @@ extension TraqAPI {
 
         /**
          ピン留めを取得
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getPin(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<MessagePin, ErrorResponse>) -> Void)) -> RequestTask {
+            return getPinWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         ピン留めを取得
          - GET /messages/{messageId}/pin
          - 指定したメッセージのピン留め情報を取得します。
          - OAuth:
@@ -738,6 +943,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         ダイレクトメッセージを送信
+
+         - parameter userId: (path) ユーザーUUID
+         - parameter postMessageRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func postDirectMessage(userId: UUID, postMessageRequest: PostMessageRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Message, ErrorResponse>) -> Void)) -> RequestTask {
+            return postDirectMessageWithRequestBuilder(userId: userId, postMessageRequest: postMessageRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -808,6 +1033,26 @@ extension TraqAPI {
 
         /**
          チャンネルにメッセージを投稿
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter postMessageRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func postMessage(channelId: UUID, postMessageRequest: PostMessageRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Message, ErrorResponse>) -> Void)) -> RequestTask {
+            return postMessageWithRequestBuilder(channelId: channelId, postMessageRequest: postMessageRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         チャンネルにメッセージを投稿
          - POST /channels/{channelId}/messages
          - 指定したチャンネルにメッセージを投稿します。 embedをtrueに指定すると、メッセージ埋め込みが自動で行われます。 アーカイブされているチャンネルに投稿することはできません。
          - OAuth:
@@ -868,6 +1113,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         スタンプを消す
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter stampId: (path) スタンプUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func removeMessageStamp(messageId: UUID, stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return removeMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -935,6 +1200,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         ピン留めを外す
+
+         - parameter messageId: (path) メッセージUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func removePin(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return removePinWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -1023,6 +1307,40 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         メッセージを検索
+
+         - parameter word: (query) 検索ワード Simple-Query-String-Syntaxをパースして検索します  (optional)
+         - parameter after: (query) 投稿日時が指定日時より後 (optional)
+         - parameter before: (query) 投稿日時が指定日時より前 (optional)
+         - parameter _in: (query) メッセージが投稿されたチャンネル (optional)
+         - parameter to: (query) メンションされたユーザー (optional)
+         - parameter from: (query) メッセージを投稿したユーザー (optional)
+         - parameter citation: (query) 引用しているメッセージ (optional)
+         - parameter bot: (query) メッセージを投稿したユーザーがBotかどうか (optional)
+         - parameter hasURL: (query) メッセージがURLを含むか (optional)
+         - parameter hasAttachments: (query) メッセージが添付ファイルを含むか (optional)
+         - parameter hasImage: (query) メッセージが画像を含むか (optional)
+         - parameter hasVideo: (query) メッセージが動画を含むか (optional)
+         - parameter hasAudio: (query) メッセージが音声ファイルを含むか (optional)
+         - parameter limit: (query) 検索結果から取得するメッセージの最大件数 (optional)
+         - parameter offset: (query) 検索結果から取得するメッセージのオフセット (optional)
+         - parameter sort: (query) ソート順 (作成日時が新しい &#x60;createdAt&#x60;, 作成日時が古い &#x60;-createdAt&#x60;, 更新日時が新しい &#x60;updatedAt&#x60;, 更新日時が古い &#x60;-updatedAt&#x60;) (optional, default to .createdat)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func searchMessages(word: String? = nil, after: Date? = nil, before: Date? = nil, _in: UUID? = nil, to: UUID? = nil, from: UUID? = nil, citation: UUID? = nil, bot: Bool? = nil, hasURL: Bool? = nil, hasAttachments: Bool? = nil, hasImage: Bool? = nil, hasVideo: Bool? = nil, hasAudio: Bool? = nil, limit: Int? = nil, offset: Int? = nil, sort: Sort_searchMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<MessageSearchResult, ErrorResponse>) -> Void)) -> RequestTask {
+            return searchMessagesWithRequestBuilder(word: word, after: after, before: before, _in: _in, to: to, from: from, citation: citation, bot: bot, hasURL: hasURL, hasAttachments: hasAttachments, hasImage: hasImage, hasVideo: hasVideo, hasAudio: hasAudio, limit: limit, offset: offset, sort: sort).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 

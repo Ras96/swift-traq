@@ -45,6 +45,25 @@ extension TraqAPI {
 
         /**
          BOTをアクティベート
+
+         - parameter botId: (path) BOTUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func activateBot(botId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return activateBotWithRequestBuilder(botId: botId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         BOTをアクティベート
          - POST /bots/{botId}/actions/activate
          - 指定したBOTを有効化します。 対象のBOTの管理権限が必要です。
          - OAuth:
@@ -104,6 +123,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         BOTのアイコン画像を変更
+
+         - parameter botId: (path) BOTUUID
+         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func changeBotIcon(botId: UUID, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return changeBotIconWithRequestBuilder(botId: botId, file: file).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -179,6 +218,24 @@ extension TraqAPI {
 
         /**
          WebSocket Mode BOT用通知ストリームに接続します
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func connectBotWS(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return connectBotWSWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         WebSocket Mode BOT用通知ストリームに接続します
          - GET /bots/ws
          - # BOT WebSocketプロトコル  ## 送信  `コマンド:引数1:引数2:...` のような形式のTextMessageをサーバーに送信することで、このWebSocketセッションに対する設定が実行できます。  ### `rtcstate`コマンド 自分のWebRTC状態を変更します。 他のコネクションが既に状態を保持している場合、変更することができません。  `rtcstate:{チャンネルID}:({状態}:{セッションID})*`  チャンネルIDにnullもしくは空文字を指定するか、状態にnullもしくは空文字を指定した場合、WebRTC状態はリセットされます。  `rtcstate:null`, `rtcstate:`, `rtcstate:channelId:null`, `rtcstate:channelId:`  コネクションが切断された場合、自分のWebRTC状態はリセットされます。  ## 受信  TextMessageとして各種イベントが`type`、`reqId`、`body`を持つJSONとして非同期に送られます。 `body`の内容はHTTP Modeの場合のRequest Bodyと同様です。 例外として`ERROR`イベントは`reqId`を持ちません。  例: PINGイベント `{\"type\":\"PING\",\"reqId\":\"requestId\",\"body\":{\"eventTime\":\"2019-05-07T04:50:48.582586882Z\"}}`  ### `ERROR`  コマンドの引数が不正などの理由でコマンドが受理されなかった場合に送られます。 非同期に送られるため、必ずしもコマンドとの対応関係を確定できないことに注意してください。 本番環境ではERRORが送られないようにすることが望ましいです。  `{\"type\":\"ERROR\",\"body\":\"message\"}`
          - OAuth:
@@ -233,6 +290,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         BOTを作成
+
+         - parameter postBotRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func createBot(postBotRequest: PostBotRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<BotDetail, ErrorResponse>) -> Void)) -> RequestTask {
+            return createBotWithRequestBuilder(postBotRequest: postBotRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -293,6 +369,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         BOTを削除
+
+         - parameter botId: (path) BOTUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func deleteBot(botId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return deleteBotWithRequestBuilder(botId: botId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -362,6 +457,26 @@ extension TraqAPI {
 
         /**
          BOT情報を変更
+
+         - parameter botId: (path) BOTUUID
+         - parameter patchBotRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func editBot(botId: UUID, patchBotRequest: PatchBotRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return editBotWithRequestBuilder(botId: botId, patchBotRequest: patchBotRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         BOT情報を変更
          - PATCH /bots/{botId}
          - 指定したBOTの情報を変更します。 対象のBOTの管理権限が必要です。 BOT開発者UUIDを変更した場合は、変更先ユーザーにBOT管理権限が移譲され、自分自身は権限を失います。
          - OAuth:
@@ -422,6 +537,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         BOT情報を取得
+
+         - parameter botId: (path) BOTUUID
+         - parameter detail: (query) 詳細情報を含めるかどうか (optional, default to false)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getBot(botId: UUID, detail: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<GetBot200Response, ErrorResponse>) -> Void)) -> RequestTask {
+            return getBotWithRequestBuilder(botId: botId, detail: detail).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -494,6 +629,25 @@ extension TraqAPI {
 
         /**
          BOTのアイコン画像を取得
+
+         - parameter botId: (path) BOTUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getBotIcon(botId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
+            return getBotIconWithRequestBuilder(botId: botId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         BOTのアイコン画像を取得
          - GET /bots/{botId}/icon
          - 指定したBOTのアイコン画像を取得を取得します。
          - OAuth:
@@ -554,6 +708,27 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         BOTのイベントログを取得
+
+         - parameter botId: (path) BOTUUID
+         - parameter limit: (query) 取得する件数 (optional)
+         - parameter offset: (query) 取得するオフセット (optional, default to 0)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getBotLogs(botId: UUID, limit: Int? = nil, offset: Int? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[BotEventLog], ErrorResponse>) -> Void)) -> RequestTask {
+            return getBotLogsWithRequestBuilder(botId: botId, limit: limit, offset: offset).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -628,6 +803,25 @@ extension TraqAPI {
 
         /**
          BOTリストを取得
+
+         - parameter all: (query) 全てのBOTを取得するかどうか (optional, default to false)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getBots(all: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Bot], ErrorResponse>) -> Void)) -> RequestTask {
+            return getBotsWithRequestBuilder(all: all).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         BOTリストを取得
          - GET /bots
          - BOT情報のリストを取得します。 allを指定しない場合、自分が開発者のBOTのみを返します。
          - OAuth:
@@ -686,6 +880,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         チャンネル参加中のBOTのリストを取得
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func getChannelBots(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[BotUser], ErrorResponse>) -> Void)) -> RequestTask {
+            return getChannelBotsWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -754,6 +967,25 @@ extension TraqAPI {
 
         /**
          BOTをインアクティベート
+
+         - parameter botId: (path) BOTUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func inactivateBot(botId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return inactivateBotWithRequestBuilder(botId: botId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         BOTをインアクティベート
          - POST /bots/{botId}/actions/inactivate
          - 指定したBOTを無効化します。対象のBOTの管理権限が必要です。
          - OAuth:
@@ -813,6 +1045,26 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         BOTをチャンネルに参加させる
+
+         - parameter botId: (path) BOTUUID
+         - parameter postBotActionJoinRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func letBotJoinChannel(botId: UUID, postBotActionJoinRequest: PostBotActionJoinRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return letBotJoinChannelWithRequestBuilder(botId: botId, postBotActionJoinRequest: postBotActionJoinRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
@@ -883,6 +1135,26 @@ extension TraqAPI {
 
         /**
          BOTをチャンネルから退出させる
+
+         - parameter botId: (path) BOTUUID
+         - parameter postBotActionLeaveRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func letBotLeaveChannel(botId: UUID, postBotActionLeaveRequest: PostBotActionLeaveRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
+            return letBotLeaveChannelWithRequestBuilder(botId: botId, postBotActionLeaveRequest: postBotActionLeaveRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+
+        /**
+         BOTをチャンネルから退出させる
          - POST /bots/{botId}/actions/leave
          - 指定したBOTを指定したチャンネルから退出させます。 対象のBOTの管理権限が必要です。
          - OAuth:
@@ -942,6 +1214,25 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
+            }
+        }
+
+        /**
+         BOTのトークンを再発行
+
+         - parameter botId: (path) BOTUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the result
+         */
+        @discardableResult
+        open class func reissueBot(botId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<BotTokens, ErrorResponse>) -> Void)) -> RequestTask {
+            return reissueBotWithRequestBuilder(botId: botId).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.body))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
 
