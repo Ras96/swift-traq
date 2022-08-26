@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ChannelList")
 public typealias ChannelList = TraqAPI.ChannelList
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** GET /channelsレスポンス */
+    struct ChannelList: Codable, JSONEncodable, Hashable {
+        /** パブリックチャンネルの配列 */
+        public var _public: [Channel]
+        /** ダイレクトメッセージチャンネルの配列 */
+        public var dm: [DMChannel]?
 
-/** GET /channelsレスポンス */
-public struct ChannelList: Codable, JSONEncodable, Hashable {
+        public init(_public: [Channel], dm: [DMChannel]? = nil) {
+            self._public = _public
+            self.dm = dm
+        }
 
-    /** パブリックチャンネルの配列 */
-    public var _public: [Channel]
-    /** ダイレクトメッセージチャンネルの配列 */
-    public var dm: [DMChannel]?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case _public = "public"
+            case dm
+        }
 
-    public init(_public: [Channel], dm: [DMChannel]? = nil) {
-        self._public = _public
-        self.dm = dm
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(_public, forKey: ._public)
+            try container.encodeIfPresent(dm, forKey: .dm)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case _public = "public"
-        case dm
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(_public, forKey: ._public)
-        try container.encodeIfPresent(dm, forKey: .dm)
-    }
-}
-
 }

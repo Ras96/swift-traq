@@ -7,43 +7,40 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.Version")
 public typealias Version = TraqAPI.Version
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** バージョン・サーバーフラグ情報 */
+    struct Version: Codable, JSONEncodable, Hashable {
+        /** traQ(サーバー)リビジョン */
+        public var revision: String
+        /** traQ(サーバー)バージョン */
+        public var version: String
+        public var flags: VersionFlags
 
-/** バージョン・サーバーフラグ情報 */
-public struct Version: Codable, JSONEncodable, Hashable {
+        public init(revision: String, version: String, flags: VersionFlags) {
+            self.revision = revision
+            self.version = version
+            self.flags = flags
+        }
 
-    /** traQ(サーバー)リビジョン */
-    public var revision: String
-    /** traQ(サーバー)バージョン */
-    public var version: String
-    public var flags: VersionFlags
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case revision
+            case version
+            case flags
+        }
 
-    public init(revision: String, version: String, flags: VersionFlags) {
-        self.revision = revision
-        self.version = version
-        self.flags = flags
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(revision, forKey: .revision)
+            try container.encode(version, forKey: .version)
+            try container.encode(flags, forKey: .flags)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case revision
-        case version
-        case flags
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(revision, forKey: .revision)
-        try container.encode(version, forKey: .version)
-        try container.encode(flags, forKey: .flags)
-    }
-}
-
 }

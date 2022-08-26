@@ -7,17 +7,16 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ThumbnailType")
 public typealias ThumbnailType = TraqAPI.ThumbnailType
 
-extension TraqAPI {
-
-/** サムネイル画像のタイプ  */
-public enum ThumbnailType: String, Codable, CaseIterable {
-    case image = "image"
-    case waveform = "waveform"
-}
+public extension TraqAPI {
+    /** サムネイル画像のタイプ  */
+    enum ThumbnailType: String, Codable, CaseIterable {
+        case image
+        case waveform
+    }
 }

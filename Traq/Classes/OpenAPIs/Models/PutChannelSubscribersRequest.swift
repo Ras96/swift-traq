@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PutChannelSubscribersRequest")
 public typealias PutChannelSubscribersRequest = TraqAPI.PutChannelSubscribersRequest
 
-extension TraqAPI {
-
-/** 通知をオンにするユーザーのUUID配列 */
-public struct PutChannelSubscribersRequest: Codable, JSONEncodable, Hashable {
-
+public extension TraqAPI {
     /** 通知をオンにするユーザーのUUID配列 */
-    public var on: [UUID]
+    struct PutChannelSubscribersRequest: Codable, JSONEncodable, Hashable {
+        /** 通知をオンにするユーザーのUUID配列 */
+        public var on: [UUID]
 
-    public init(on: [UUID]) {
-        self.on = on
+        public init(on: [UUID]) {
+            self.on = on
+        }
+
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case on
+        }
+
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(on, forKey: .on)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case on
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(on, forKey: .on)
-    }
-}
-
 }

@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.MessagePin")
 public typealias MessagePin = TraqAPI.MessagePin
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ピン情報 */
+    struct MessagePin: Codable, JSONEncodable, Hashable {
+        /** ピン留めしたユーザーUUID */
+        public var userId: UUID
+        /** ピン留めされた日時 */
+        public var pinnedAt: Date
 
-/** ピン情報 */
-public struct MessagePin: Codable, JSONEncodable, Hashable {
+        public init(userId: UUID, pinnedAt: Date) {
+            self.userId = userId
+            self.pinnedAt = pinnedAt
+        }
 
-    /** ピン留めしたユーザーUUID */
-    public var userId: UUID
-    /** ピン留めされた日時 */
-    public var pinnedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case userId
+            case pinnedAt
+        }
 
-    public init(userId: UUID, pinnedAt: Date) {
-        self.userId = userId
-        self.pinnedAt = pinnedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(userId, forKey: .userId)
+            try container.encode(pinnedAt, forKey: .pinnedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case userId
-        case pinnedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
-        try container.encode(pinnedAt, forKey: .pinnedAt)
-    }
-}
-
 }

@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PatchUserTagRequest")
 public typealias PatchUserTagRequest = TraqAPI.PatchUserTagRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザーのタグの編集リクエスト */
+    struct PatchUserTagRequest: Codable, JSONEncodable, Hashable {
+        /** タグのロック状態 */
+        public var isLocked: Bool
 
-/** ユーザーのタグの編集リクエスト */
-public struct PatchUserTagRequest: Codable, JSONEncodable, Hashable {
+        public init(isLocked: Bool) {
+            self.isLocked = isLocked
+        }
 
-    /** タグのロック状態 */
-    public var isLocked: Bool
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case isLocked
+        }
 
-    public init(isLocked: Bool) {
-        self.isLocked = isLocked
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(isLocked, forKey: .isLocked)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case isLocked
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(isLocked, forKey: .isLocked)
-    }
-}
-
 }

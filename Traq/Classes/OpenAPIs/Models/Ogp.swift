@@ -7,53 +7,50 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.Ogp")
 public typealias Ogp = TraqAPI.Ogp
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** OGPの情報 */
+    struct Ogp: Codable, JSONEncodable, Hashable {
+        public var type: String
+        public var title: String
+        public var url: String
+        public var images: [OgpMedia]
+        public var description: String
+        public var videos: [OgpMedia]
 
-/** OGPの情報 */
-public struct Ogp: Codable, JSONEncodable, Hashable {
+        public init(type: String, title: String, url: String, images: [OgpMedia], description: String, videos: [OgpMedia]) {
+            self.type = type
+            self.title = title
+            self.url = url
+            self.images = images
+            self.description = description
+            self.videos = videos
+        }
 
-    public var type: String
-    public var title: String
-    public var url: String
-    public var images: [OgpMedia]
-    public var description: String
-    public var videos: [OgpMedia]
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case type
+            case title
+            case url
+            case images
+            case description
+            case videos
+        }
 
-    public init(type: String, title: String, url: String, images: [OgpMedia], description: String, videos: [OgpMedia]) {
-        self.type = type
-        self.title = title
-        self.url = url
-        self.images = images
-        self.description = description
-        self.videos = videos
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(type, forKey: .type)
+            try container.encode(title, forKey: .title)
+            try container.encode(url, forKey: .url)
+            try container.encode(images, forKey: .images)
+            try container.encode(description, forKey: .description)
+            try container.encode(videos, forKey: .videos)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case type
-        case title
-        case url
-        case images
-        case description
-        case videos
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(type, forKey: .type)
-        try container.encode(title, forKey: .title)
-        try container.encode(url, forKey: .url)
-        try container.encode(images, forKey: .images)
-        try container.encode(description, forKey: .description)
-        try container.encode(videos, forKey: .videos)
-    }
-}
-
 }

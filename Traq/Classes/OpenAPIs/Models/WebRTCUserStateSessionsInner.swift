@@ -7,38 +7,35 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.WebRTCUserStateSessionsInner")
 public typealias WebRTCUserStateSessionsInner = TraqAPI.WebRTCUserStateSessionsInner
 
-extension TraqAPI {
+public extension TraqAPI {
+    struct WebRTCUserStateSessionsInner: Codable, JSONEncodable, Hashable {
+        /** 状態 */
+        public var state: String
+        /** セッションID */
+        public var sessionId: String
 
-public struct WebRTCUserStateSessionsInner: Codable, JSONEncodable, Hashable {
+        public init(state: String, sessionId: String) {
+            self.state = state
+            self.sessionId = sessionId
+        }
 
-    /** 状態 */
-    public var state: String
-    /** セッションID */
-    public var sessionId: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case state
+            case sessionId
+        }
 
-    public init(state: String, sessionId: String) {
-        self.state = state
-        self.sessionId = sessionId
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(state, forKey: .state)
+            try container.encode(sessionId, forKey: .sessionId)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case state
-        case sessionId
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(state, forKey: .state)
-        try container.encode(sessionId, forKey: .sessionId)
-    }
-}
-
 }

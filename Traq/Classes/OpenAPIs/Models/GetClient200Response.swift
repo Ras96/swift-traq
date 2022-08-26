@@ -7,38 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.GetClient200Response")
 public typealias GetClient200Response = TraqAPI.GetClient200Response
 
-extension TraqAPI {
+public extension TraqAPI {
+    enum GetClient200Response: Codable, JSONEncodable, Hashable {
+        case typeOAuth2Client(OAuth2Client)
+        case typeOAuth2ClientDetail(OAuth2ClientDetail)
 
-public enum GetClient200Response: Codable, JSONEncodable, Hashable {
-    case typeOAuth2Client(OAuth2Client)
-    case typeOAuth2ClientDetail(OAuth2ClientDetail)
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            switch self {
+            case let .typeOAuth2Client(value):
+                try container.encode(value)
+            case let .typeOAuth2ClientDetail(value):
+                try container.encode(value)
+            }
+        }
 
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case .typeOAuth2Client(let value):
-            try container.encode(value)
-        case .typeOAuth2ClientDetail(let value):
-            try container.encode(value)
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let value = try? container.decode(OAuth2Client.self) {
+                self = .typeOAuth2Client(value)
+            } else if let value = try? container.decode(OAuth2ClientDetail.self) {
+                self = .typeOAuth2ClientDetail(value)
+            } else {
+                throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of GetClient200Response"))
+            }
         }
     }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(OAuth2Client.self) {
-            self = .typeOAuth2Client(value)
-        } else if let value = try? container.decode(OAuth2ClientDetail.self) {
-            self = .typeOAuth2ClientDetail(value)
-        } else {
-            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of GetClient200Response"))
-        }
-    }
-}
-
 }

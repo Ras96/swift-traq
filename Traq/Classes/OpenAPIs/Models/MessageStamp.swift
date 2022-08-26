@@ -7,54 +7,51 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.MessageStamp")
 public typealias MessageStamp = TraqAPI.MessageStamp
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** メッセージに押されたスタンプ */
+    struct MessageStamp: Codable, JSONEncodable, Hashable {
+        /** ユーザーUUID */
+        public var userId: UUID
+        /** スタンプUUID */
+        public var stampId: UUID
+        /** スタンプ数 */
+        public var count: Int
+        /** スタンプが最初に押された日時 */
+        public var createdAt: Date
+        /** スタンプが最後に押された日時 */
+        public var updatedAt: Date
 
-/** メッセージに押されたスタンプ */
-public struct MessageStamp: Codable, JSONEncodable, Hashable {
+        public init(userId: UUID, stampId: UUID, count: Int, createdAt: Date, updatedAt: Date) {
+            self.userId = userId
+            self.stampId = stampId
+            self.count = count
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+        }
 
-    /** ユーザーUUID */
-    public var userId: UUID
-    /** スタンプUUID */
-    public var stampId: UUID
-    /** スタンプ数 */
-    public var count: Int
-    /** スタンプが最初に押された日時 */
-    public var createdAt: Date
-    /** スタンプが最後に押された日時 */
-    public var updatedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case userId
+            case stampId
+            case count
+            case createdAt
+            case updatedAt
+        }
 
-    public init(userId: UUID, stampId: UUID, count: Int, createdAt: Date, updatedAt: Date) {
-        self.userId = userId
-        self.stampId = stampId
-        self.count = count
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(userId, forKey: .userId)
+            try container.encode(stampId, forKey: .stampId)
+            try container.encode(count, forKey: .count)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(updatedAt, forKey: .updatedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case userId
-        case stampId
-        case count
-        case createdAt
-        case updatedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
-        try container.encode(stampId, forKey: .stampId)
-        try container.encode(count, forKey: .count)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
-    }
-}
-
 }

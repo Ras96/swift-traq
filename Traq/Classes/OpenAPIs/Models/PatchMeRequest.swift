@@ -7,49 +7,46 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PatchMeRequest")
 public typealias PatchMeRequest = TraqAPI.PatchMeRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** 自分のユーザー情報変更リクエスト */
+    struct PatchMeRequest: Codable, JSONEncodable, Hashable {
+        /** 新しい表示名 */
+        public var displayName: String?
+        /** TwitterID */
+        public var twitterId: String?
+        /** 自己紹介(biography) */
+        public var bio: String?
+        /** ホームチャンネルのUUID `00000000-0000-0000-0000-000000000000`を指定すると、ホームチャンネルが`null`に設定されます */
+        public var homeChannel: UUID?
 
-/** 自分のユーザー情報変更リクエスト */
-public struct PatchMeRequest: Codable, JSONEncodable, Hashable {
+        public init(displayName: String? = nil, twitterId: String? = nil, bio: String? = nil, homeChannel: UUID? = nil) {
+            self.displayName = displayName
+            self.twitterId = twitterId
+            self.bio = bio
+            self.homeChannel = homeChannel
+        }
 
-    /** 新しい表示名 */
-    public var displayName: String?
-    /** TwitterID */
-    public var twitterId: String?
-    /** 自己紹介(biography) */
-    public var bio: String?
-    /** ホームチャンネルのUUID `00000000-0000-0000-0000-000000000000`を指定すると、ホームチャンネルが`null`に設定されます */
-    public var homeChannel: UUID?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case displayName
+            case twitterId
+            case bio
+            case homeChannel
+        }
 
-    public init(displayName: String? = nil, twitterId: String? = nil, bio: String? = nil, homeChannel: UUID? = nil) {
-        self.displayName = displayName
-        self.twitterId = twitterId
-        self.bio = bio
-        self.homeChannel = homeChannel
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(displayName, forKey: .displayName)
+            try container.encodeIfPresent(twitterId, forKey: .twitterId)
+            try container.encodeIfPresent(bio, forKey: .bio)
+            try container.encodeIfPresent(homeChannel, forKey: .homeChannel)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case displayName
-        case twitterId
-        case bio
-        case homeChannel
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(displayName, forKey: .displayName)
-        try container.encodeIfPresent(twitterId, forKey: .twitterId)
-        try container.encodeIfPresent(bio, forKey: .bio)
-        try container.encodeIfPresent(homeChannel, forKey: .homeChannel)
-    }
-}
-
 }

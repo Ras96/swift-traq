@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostClipFolderMessageRequest")
 public typealias PostClipFolderMessageRequest = TraqAPI.PostClipFolderMessageRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** クリップ追加リクエスト */
+    struct PostClipFolderMessageRequest: Codable, JSONEncodable, Hashable {
+        /** メッセージUUID */
+        public var messageId: UUID
 
-/** クリップ追加リクエスト */
-public struct PostClipFolderMessageRequest: Codable, JSONEncodable, Hashable {
+        public init(messageId: UUID) {
+            self.messageId = messageId
+        }
 
-    /** メッセージUUID */
-    public var messageId: UUID
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case messageId
+        }
 
-    public init(messageId: UUID) {
-        self.messageId = messageId
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(messageId, forKey: .messageId)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case messageId
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(messageId, forKey: .messageId)
-    }
-}
-
 }

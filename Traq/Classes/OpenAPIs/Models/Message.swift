@@ -7,74 +7,71 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.Message")
 public typealias Message = TraqAPI.Message
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** メッセージ */
+    struct Message: Codable, JSONEncodable, Hashable {
+        /** メッセージUUID */
+        public var id: UUID
+        /** 投稿者UUID */
+        public var userId: UUID
+        /** チャンネルUUID */
+        public var channelId: UUID
+        /** メッセージ本文 */
+        public var content: String
+        /** 投稿日時 */
+        public var createdAt: Date
+        /** 編集日時 */
+        public var updatedAt: Date
+        /** ピン留めされているかどうか */
+        public var pinned: Bool
+        /** 押されているスタンプの配列 */
+        public var stamps: [MessageStamp]
+        /** スレッドUUID */
+        public var threadId: UUID?
 
-/** メッセージ */
-public struct Message: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, userId: UUID, channelId: UUID, content: String, createdAt: Date, updatedAt: Date, pinned: Bool, stamps: [MessageStamp], threadId: UUID?) {
+            self.id = id
+            self.userId = userId
+            self.channelId = channelId
+            self.content = content
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+            self.pinned = pinned
+            self.stamps = stamps
+            self.threadId = threadId
+        }
 
-    /** メッセージUUID */
-    public var id: UUID
-    /** 投稿者UUID */
-    public var userId: UUID
-    /** チャンネルUUID */
-    public var channelId: UUID
-    /** メッセージ本文 */
-    public var content: String
-    /** 投稿日時 */
-    public var createdAt: Date
-    /** 編集日時 */
-    public var updatedAt: Date
-    /** ピン留めされているかどうか */
-    public var pinned: Bool
-    /** 押されているスタンプの配列 */
-    public var stamps: [MessageStamp]
-    /** スレッドUUID */
-    public var threadId: UUID?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case userId
+            case channelId
+            case content
+            case createdAt
+            case updatedAt
+            case pinned
+            case stamps
+            case threadId
+        }
 
-    public init(id: UUID, userId: UUID, channelId: UUID, content: String, createdAt: Date, updatedAt: Date, pinned: Bool, stamps: [MessageStamp], threadId: UUID?) {
-        self.id = id
-        self.userId = userId
-        self.channelId = channelId
-        self.content = content
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.pinned = pinned
-        self.stamps = stamps
-        self.threadId = threadId
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(userId, forKey: .userId)
+            try container.encode(channelId, forKey: .channelId)
+            try container.encode(content, forKey: .content)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(updatedAt, forKey: .updatedAt)
+            try container.encode(pinned, forKey: .pinned)
+            try container.encode(stamps, forKey: .stamps)
+            try container.encode(threadId, forKey: .threadId)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case userId
-        case channelId
-        case content
-        case createdAt
-        case updatedAt
-        case pinned
-        case stamps
-        case threadId
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(userId, forKey: .userId)
-        try container.encode(channelId, forKey: .channelId)
-        try container.encode(content, forKey: .content)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
-        try container.encode(pinned, forKey: .pinned)
-        try container.encode(stamps, forKey: .stamps)
-        try container.encode(threadId, forKey: .threadId)
-    }
-}
-
 }

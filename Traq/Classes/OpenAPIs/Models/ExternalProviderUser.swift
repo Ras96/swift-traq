@@ -7,44 +7,41 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ExternalProviderUser")
 public typealias ExternalProviderUser = TraqAPI.ExternalProviderUser
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** 外部認証アカウントユーザー */
+    struct ExternalProviderUser: Codable, JSONEncodable, Hashable {
+        /** 外部サービス名 */
+        public var providerName: String
+        /** 紐付けた日時 */
+        public var linkedAt: String
+        /** 外部アカウント名 */
+        public var externalName: String
 
-/** 外部認証アカウントユーザー */
-public struct ExternalProviderUser: Codable, JSONEncodable, Hashable {
+        public init(providerName: String, linkedAt: String, externalName: String) {
+            self.providerName = providerName
+            self.linkedAt = linkedAt
+            self.externalName = externalName
+        }
 
-    /** 外部サービス名 */
-    public var providerName: String
-    /** 紐付けた日時 */
-    public var linkedAt: String
-    /** 外部アカウント名 */
-    public var externalName: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case providerName
+            case linkedAt
+            case externalName
+        }
 
-    public init(providerName: String, linkedAt: String, externalName: String) {
-        self.providerName = providerName
-        self.linkedAt = linkedAt
-        self.externalName = externalName
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(providerName, forKey: .providerName)
+            try container.encode(linkedAt, forKey: .linkedAt)
+            try container.encode(externalName, forKey: .externalName)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case providerName
-        case linkedAt
-        case externalName
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(providerName, forKey: .providerName)
-        try container.encode(linkedAt, forKey: .linkedAt)
-        try container.encode(externalName, forKey: .externalName)
-    }
-}
-
 }

@@ -7,44 +7,41 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PatchStampPaletteRequest")
 public typealias PatchStampPaletteRequest = TraqAPI.PatchStampPaletteRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** スタンプパレット情報変更リクエスト */
+    struct PatchStampPaletteRequest: Codable, JSONEncodable, Hashable {
+        /** パレット名 */
+        public var name: String?
+        /** 説明 */
+        public var description: String?
+        /** パレット内のスタンプUUIDの配列 */
+        public var stamps: Set<UUID>?
 
-/** スタンプパレット情報変更リクエスト */
-public struct PatchStampPaletteRequest: Codable, JSONEncodable, Hashable {
+        public init(name: String? = nil, description: String? = nil, stamps: Set<UUID>? = nil) {
+            self.name = name
+            self.description = description
+            self.stamps = stamps
+        }
 
-    /** パレット名 */
-    public var name: String?
-    /** 説明 */
-    public var description: String?
-    /** パレット内のスタンプUUIDの配列 */
-    public var stamps: Set<UUID>?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case name
+            case description
+            case stamps
+        }
 
-    public init(name: String? = nil, description: String? = nil, stamps: Set<UUID>? = nil) {
-        self.name = name
-        self.description = description
-        self.stamps = stamps
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(name, forKey: .name)
+            try container.encodeIfPresent(description, forKey: .description)
+            try container.encodeIfPresent(stamps, forKey: .stamps)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case name
-        case description
-        case stamps
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(stamps, forKey: .stamps)
-    }
-}
-
 }

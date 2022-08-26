@@ -7,19 +7,18 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.BotEventResult")
 public typealias BotEventResult = TraqAPI.BotEventResult
 
-extension TraqAPI {
-
-/** イベント配送結果 */
-public enum BotEventResult: String, Codable, CaseIterable {
-    case OK = "ok"
-    case NG = "ng"
-    case NetworkError = "ne"
-    case Dropped = "dp"
-}
+public extension TraqAPI {
+    /** イベント配送結果 */
+    enum BotEventResult: String, Codable, CaseIterable {
+        case OK = "ok"
+        case NG = "ng"
+        case NetworkError = "ne"
+        case Dropped = "dp"
+    }
 }

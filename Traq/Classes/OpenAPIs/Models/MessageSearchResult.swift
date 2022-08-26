@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.MessageSearchResult")
 public typealias MessageSearchResult = TraqAPI.MessageSearchResult
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** メッセージ検索結果 */
+    struct MessageSearchResult: Codable, JSONEncodable, Hashable {
+        /** 検索にヒットしたメッセージ件数 */
+        public var totalHits: Int64
+        /** 検索にヒットしたメッセージの配列 */
+        public var hits: [Message]
 
-/** メッセージ検索結果 */
-public struct MessageSearchResult: Codable, JSONEncodable, Hashable {
+        public init(totalHits: Int64, hits: [Message]) {
+            self.totalHits = totalHits
+            self.hits = hits
+        }
 
-    /** 検索にヒットしたメッセージ件数 */
-    public var totalHits: Int64
-    /** 検索にヒットしたメッセージの配列 */
-    public var hits: [Message]
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case totalHits
+            case hits
+        }
 
-    public init(totalHits: Int64, hits: [Message]) {
-        self.totalHits = totalHits
-        self.hits = hits
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(totalHits, forKey: .totalHits)
+            try container.encode(hits, forKey: .hits)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case totalHits
-        case hits
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(totalHits, forKey: .totalHits)
-        try container.encode(hits, forKey: .hits)
-    }
-}
-
 }

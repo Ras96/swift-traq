@@ -7,38 +7,35 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ClippedMessage")
 public typealias ClippedMessage = TraqAPI.ClippedMessage
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** クリップされたメッセージ */
+    struct ClippedMessage: Codable, JSONEncodable, Hashable {
+        public var message: Message
+        /** クリップした日時 */
+        public var clippedAt: Date
 
-/** クリップされたメッセージ */
-public struct ClippedMessage: Codable, JSONEncodable, Hashable {
+        public init(message: Message, clippedAt: Date) {
+            self.message = message
+            self.clippedAt = clippedAt
+        }
 
-    public var message: Message
-    /** クリップした日時 */
-    public var clippedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case message
+            case clippedAt
+        }
 
-    public init(message: Message, clippedAt: Date) {
-        self.message = message
-        self.clippedAt = clippedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(message, forKey: .message)
+            try container.encode(clippedAt, forKey: .clippedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case message
-        case clippedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(message, forKey: .message)
-        try container.encode(clippedAt, forKey: .clippedAt)
-    }
-}
-
 }

@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PutUserPasswordRequest")
 public typealias PutUserPasswordRequest = TraqAPI.PutUserPasswordRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザーパスワード変更リクエスト */
+    struct PutUserPasswordRequest: Codable, JSONEncodable, Hashable {
+        /** 新しいパスワード */
+        public var newPassword: String
 
-/** ユーザーパスワード変更リクエスト */
-public struct PutUserPasswordRequest: Codable, JSONEncodable, Hashable {
+        public init(newPassword: String) {
+            self.newPassword = newPassword
+        }
 
-    /** 新しいパスワード */
-    public var newPassword: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case newPassword
+        }
 
-    public init(newPassword: String) {
-        self.newPassword = newPassword
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(newPassword, forKey: .newPassword)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case newPassword
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(newPassword, forKey: .newPassword)
-    }
-}
-
 }

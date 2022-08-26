@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostMessageRequest")
 public typealias PostMessageRequest = TraqAPI.PostMessageRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** メッセージ投稿リクエスト */
+    struct PostMessageRequest: Codable, JSONEncodable, Hashable {
+        /** メッセージ本文 */
+        public var content: String
+        /** メンション・チャンネルリンクを自動埋め込みするか */
+        public var embed: Bool? = false
 
-/** メッセージ投稿リクエスト */
-public struct PostMessageRequest: Codable, JSONEncodable, Hashable {
+        public init(content: String, embed: Bool? = false) {
+            self.content = content
+            self.embed = embed
+        }
 
-    /** メッセージ本文 */
-    public var content: String
-    /** メンション・チャンネルリンクを自動埋め込みするか */
-    public var embed: Bool? = false
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case content
+            case embed
+        }
 
-    public init(content: String, embed: Bool? = false) {
-        self.content = content
-        self.embed = embed
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(content, forKey: .content)
+            try container.encodeIfPresent(embed, forKey: .embed)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case content
-        case embed
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(content, forKey: .content)
-        try container.encodeIfPresent(embed, forKey: .embed)
-    }
-}
-
 }

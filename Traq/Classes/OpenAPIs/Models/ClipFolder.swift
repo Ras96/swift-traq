@@ -7,54 +7,51 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ClipFolder")
 public typealias ClipFolder = TraqAPI.ClipFolder
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** クリップフォルダ情報 */
+    struct ClipFolder: Codable, JSONEncodable, Hashable {
+        /** フォルダUUID */
+        public var id: UUID
+        /** フォルダ名 */
+        public var name: String
+        /** 作成日時 */
+        public var createdAt: Date
+        /** フォルダ所有者UUID */
+        public var ownerId: UUID
+        /** 説明 */
+        public var description: String
 
-/** クリップフォルダ情報 */
-public struct ClipFolder: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, name: String, createdAt: Date, ownerId: UUID, description: String) {
+            self.id = id
+            self.name = name
+            self.createdAt = createdAt
+            self.ownerId = ownerId
+            self.description = description
+        }
 
-    /** フォルダUUID */
-    public var id: UUID
-    /** フォルダ名 */
-    public var name: String
-    /** 作成日時 */
-    public var createdAt: Date
-    /** フォルダ所有者UUID */
-    public var ownerId: UUID
-    /** 説明 */
-    public var description: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case name
+            case createdAt
+            case ownerId
+            case description
+        }
 
-    public init(id: UUID, name: String, createdAt: Date, ownerId: UUID, description: String) {
-        self.id = id
-        self.name = name
-        self.createdAt = createdAt
-        self.ownerId = ownerId
-        self.description = description
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(name, forKey: .name)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(ownerId, forKey: .ownerId)
+            try container.encode(description, forKey: .description)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case name
-        case createdAt
-        case ownerId
-        case description
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(ownerId, forKey: .ownerId)
-        try container.encode(description, forKey: .description)
-    }
-}
-
 }

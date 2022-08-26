@@ -7,48 +7,45 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.FileInfoThumbnail")
 public typealias FileInfoThumbnail = TraqAPI.FileInfoThumbnail
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** サムネイル情報 サムネイルが存在しない場合はnullになります Deprecated: thumbnailsを参照してください */
+    @available(*, deprecated, message: "This schema is deprecated.")
+    struct FileInfoThumbnail: Codable, JSONEncodable, Hashable {
+        /** MIMEタイプ */
+        @available(*, deprecated, message: "This property is deprecated.")
+        public var mime: String
+        /** サムネイル幅 */
+        @available(*, deprecated, message: "This property is deprecated.")
+        public var width: Int?
+        /** サムネイル高さ */
+        @available(*, deprecated, message: "This property is deprecated.")
+        public var height: Int?
 
-/** サムネイル情報 サムネイルが存在しない場合はnullになります Deprecated: thumbnailsを参照してください */
-@available(*, deprecated, message: "This schema is deprecated.")
-public struct FileInfoThumbnail: Codable, JSONEncodable, Hashable {
+        public init(mime: String, width: Int? = nil, height: Int? = nil) {
+            self.mime = mime
+            self.width = width
+            self.height = height
+        }
 
-    /** MIMEタイプ */
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var mime: String
-    /** サムネイル幅 */
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var width: Int?
-    /** サムネイル高さ */
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var height: Int?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case mime
+            case width
+            case height
+        }
 
-    public init(mime: String, width: Int? = nil, height: Int? = nil) {
-        self.mime = mime
-        self.width = width
-        self.height = height
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(mime, forKey: .mime)
+            try container.encodeIfPresent(width, forKey: .width)
+            try container.encodeIfPresent(height, forKey: .height)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case mime
-        case width
-        case height
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(mime, forKey: .mime)
-        try container.encodeIfPresent(width, forKey: .width)
-        try container.encodeIfPresent(height, forKey: .height)
-    }
-}
-
 }

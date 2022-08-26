@@ -7,18 +7,17 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ChannelSubscribeLevel")
 public typealias ChannelSubscribeLevel = TraqAPI.ChannelSubscribeLevel
 
-extension TraqAPI {
-
-/** チャンネル購読レベル 0：無し 1：未読管理 2：未読管理+通知 */
-public enum ChannelSubscribeLevel: Int, Codable, CaseIterable {
-    case none = 0
-    case subscribed = 1
-    case notified = 2
-}
+public extension TraqAPI {
+    /** チャンネル購読レベル 0：無し 1：未読管理 2：未読管理+通知 */
+    enum ChannelSubscribeLevel: Int, Codable, CaseIterable {
+        case none = 0
+        case subscribed = 1
+        case notified = 2
+    }
 }

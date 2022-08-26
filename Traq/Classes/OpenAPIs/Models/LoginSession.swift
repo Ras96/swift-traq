@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.LoginSession")
 public typealias LoginSession = TraqAPI.LoginSession
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ログインセッション情報 */
+    struct LoginSession: Codable, JSONEncodable, Hashable {
+        /** セッションUUID */
+        public var id: UUID
+        /** 発行日時 */
+        public var issuedAt: Date
 
-/** ログインセッション情報 */
-public struct LoginSession: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, issuedAt: Date) {
+            self.id = id
+            self.issuedAt = issuedAt
+        }
 
-    /** セッションUUID */
-    public var id: UUID
-    /** 発行日時 */
-    public var issuedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case issuedAt
+        }
 
-    public init(id: UUID, issuedAt: Date) {
-        self.id = id
-        self.issuedAt = issuedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(issuedAt, forKey: .issuedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case issuedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(issuedAt, forKey: .issuedAt)
-    }
-}
-
 }

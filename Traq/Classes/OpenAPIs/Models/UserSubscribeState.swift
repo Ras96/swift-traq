@@ -7,38 +7,35 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.UserSubscribeState")
 public typealias UserSubscribeState = TraqAPI.UserSubscribeState
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザーのチャンネル購読状態 */
+    struct UserSubscribeState: Codable, JSONEncodable, Hashable {
+        /** チャンネルUUID */
+        public var channelId: UUID
+        public var level: ChannelSubscribeLevel
 
-/** ユーザーのチャンネル購読状態 */
-public struct UserSubscribeState: Codable, JSONEncodable, Hashable {
+        public init(channelId: UUID, level: ChannelSubscribeLevel) {
+            self.channelId = channelId
+            self.level = level
+        }
 
-    /** チャンネルUUID */
-    public var channelId: UUID
-    public var level: ChannelSubscribeLevel
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case channelId
+            case level
+        }
 
-    public init(channelId: UUID, level: ChannelSubscribeLevel) {
-        self.channelId = channelId
-        self.level = level
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(channelId, forKey: .channelId)
+            try container.encode(level, forKey: .level)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case channelId
-        case level
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(channelId, forKey: .channelId)
-        try container.encode(level, forKey: .level)
-    }
-}
-
 }

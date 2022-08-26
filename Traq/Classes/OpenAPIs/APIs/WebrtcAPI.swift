@@ -7,110 +7,103 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 extension TraqAPI {
+    open class WebrtcAPI {
+        /**
+         WebRTC状態を取得
 
-
-open class WebrtcAPI {
-
-    /**
-     WebRTC状態を取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getWebRTCState(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [WebRTCUserState]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getWebRTCStateWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getWebRTCState(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [WebRTCUserState]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getWebRTCStateWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     WebRTC状態を取得
-     - GET /webrtc/state
-     - 現在のWebRTC状態を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[WebRTCUserState]> 
-     */
-    open class func getWebRTCStateWithRequestBuilder() -> RequestBuilder<[WebRTCUserState]> {
-        let localVariablePath = "/webrtc/state"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         WebRTC状態を取得
+         - GET /webrtc/state
+         - 現在のWebRTC状態を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[WebRTCUserState]>
+         */
+        open class func getWebRTCStateWithRequestBuilder() -> RequestBuilder<[WebRTCUserState]> {
+            let localVariablePath = "/webrtc/state"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[WebRTCUserState]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[WebRTCUserState]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     Skyway用認証API
-     
-     - parameter postWebRTCAuthenticateRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func postWebRTCAuthenticate(postWebRTCAuthenticateRequest: PostWebRTCAuthenticateRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: WebRTCAuthenticateResult?, _ error: Error?) -> Void)) -> RequestTask {
-        return postWebRTCAuthenticateWithRequestBuilder(postWebRTCAuthenticateRequest: postWebRTCAuthenticateRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         Skyway用認証API
+
+         - parameter postWebRTCAuthenticateRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func postWebRTCAuthenticate(postWebRTCAuthenticateRequest: PostWebRTCAuthenticateRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: WebRTCAuthenticateResult?, _ error: Error?) -> Void)) -> RequestTask {
+            return postWebRTCAuthenticateWithRequestBuilder(postWebRTCAuthenticateRequest: postWebRTCAuthenticateRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
+
+        /**
+         Skyway用認証API
+         - POST /webrtc/authenticate
+         - Skyway WebRTC用の認証API
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter postWebRTCAuthenticateRequest: (body)  (optional)
+         - returns: RequestBuilder<WebRTCAuthenticateResult>
+         */
+        open class func postWebRTCAuthenticateWithRequestBuilder(postWebRTCAuthenticateRequest: PostWebRTCAuthenticateRequest? = nil) -> RequestBuilder<WebRTCAuthenticateResult> {
+            let localVariablePath = "/webrtc/authenticate"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postWebRTCAuthenticateRequest)
+
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+            let localVariableNillableHeaders: [String: Any?] = [:]
+
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+            let localVariableRequestBuilder: RequestBuilder<WebRTCAuthenticateResult>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
     }
-
-    /**
-     Skyway用認証API
-     - POST /webrtc/authenticate
-     - Skyway WebRTC用の認証API
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter postWebRTCAuthenticateRequest: (body)  (optional)
-     - returns: RequestBuilder<WebRTCAuthenticateResult> 
-     */
-    open class func postWebRTCAuthenticateWithRequestBuilder(postWebRTCAuthenticateRequest: PostWebRTCAuthenticateRequest? = nil) -> RequestBuilder<WebRTCAuthenticateResult> {
-        let localVariablePath = "/webrtc/authenticate"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postWebRTCAuthenticateRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<WebRTCAuthenticateResult>.Type = TraqAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-}
 }

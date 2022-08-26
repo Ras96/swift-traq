@@ -7,43 +7,40 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.Pin")
 public typealias Pin = TraqAPI.Pin
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ピン情報(メッセージ本体付き) */
+    struct Pin: Codable, JSONEncodable, Hashable {
+        /** ピン留めしたユーザーUUID */
+        public var userId: UUID
+        /** ピン留めされた日時 */
+        public var pinnedAt: Date
+        public var message: Message
 
-/** ピン情報(メッセージ本体付き) */
-public struct Pin: Codable, JSONEncodable, Hashable {
+        public init(userId: UUID, pinnedAt: Date, message: Message) {
+            self.userId = userId
+            self.pinnedAt = pinnedAt
+            self.message = message
+        }
 
-    /** ピン留めしたユーザーUUID */
-    public var userId: UUID
-    /** ピン留めされた日時 */
-    public var pinnedAt: Date
-    public var message: Message
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case userId
+            case pinnedAt
+            case message
+        }
 
-    public init(userId: UUID, pinnedAt: Date, message: Message) {
-        self.userId = userId
-        self.pinnedAt = pinnedAt
-        self.message = message
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(userId, forKey: .userId)
+            try container.encode(pinnedAt, forKey: .pinnedAt)
+            try container.encode(message, forKey: .message)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case userId
-        case pinnedAt
-        case message
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
-        try container.encode(pinnedAt, forKey: .pinnedAt)
-        try container.encode(message, forKey: .message)
-    }
-}
-
 }

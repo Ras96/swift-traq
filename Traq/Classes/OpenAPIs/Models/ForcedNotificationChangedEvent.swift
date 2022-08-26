@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ForcedNotificationChangedEvent")
 public typealias ForcedNotificationChangedEvent = TraqAPI.ForcedNotificationChangedEvent
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** チャンネル強制通知状態変更イベント */
+    struct ForcedNotificationChangedEvent: Codable, JSONEncodable, Hashable {
+        /** 変更者UUID */
+        public var userId: UUID
+        /** 変更後強制通知状態 */
+        public var force: Bool
 
-/** チャンネル強制通知状態変更イベント */
-public struct ForcedNotificationChangedEvent: Codable, JSONEncodable, Hashable {
+        public init(userId: UUID, force: Bool) {
+            self.userId = userId
+            self.force = force
+        }
 
-    /** 変更者UUID */
-    public var userId: UUID
-    /** 変更後強制通知状態 */
-    public var force: Bool
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case userId
+            case force
+        }
 
-    public init(userId: UUID, force: Bool) {
-        self.userId = userId
-        self.force = force
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(userId, forKey: .userId)
+            try container.encode(force, forKey: .force)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case userId
-        case force
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
-        try container.encode(force, forKey: .force)
-    }
-}
-
 }

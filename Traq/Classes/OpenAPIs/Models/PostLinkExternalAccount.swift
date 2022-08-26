@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostLinkExternalAccount")
 public typealias PostLinkExternalAccount = TraqAPI.PostLinkExternalAccount
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** POST /users/me/ex-accounts/link 用リクエストボディ */
+    struct PostLinkExternalAccount: Codable, JSONEncodable, Hashable {
+        /** 外部サービス名 */
+        public var providerName: String
 
-/** POST /users/me/ex-accounts/link 用リクエストボディ */
-public struct PostLinkExternalAccount: Codable, JSONEncodable, Hashable {
+        public init(providerName: String) {
+            self.providerName = providerName
+        }
 
-    /** 外部サービス名 */
-    public var providerName: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case providerName
+        }
 
-    public init(providerName: String) {
-        self.providerName = providerName
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(providerName, forKey: .providerName)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case providerName
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(providerName, forKey: .providerName)
-    }
-}
-
 }

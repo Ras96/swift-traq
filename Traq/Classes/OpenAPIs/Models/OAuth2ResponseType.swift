@@ -7,17 +7,16 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.OAuth2ResponseType")
 public typealias OAuth2ResponseType = TraqAPI.OAuth2ResponseType
 
-extension TraqAPI {
-
-public enum OAuth2ResponseType: String, Codable, CaseIterable {
-    case code = "code"
-    case token = "token"
-    case _none = "none"
-}
+public extension TraqAPI {
+    enum OAuth2ResponseType: String, Codable, CaseIterable {
+        case code
+        case token
+        case _none = "none"
+    }
 }

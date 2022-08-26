@@ -7,38 +7,35 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.VersionFlags")
 public typealias VersionFlags = TraqAPI.VersionFlags
 
-extension TraqAPI {
+public extension TraqAPI {
+    struct VersionFlags: Codable, JSONEncodable, Hashable {
+        /** 有効な外部ログインプロバイダ */
+        public var externalLogin: [String]
+        /** ユーザーが自身で新規登録(POST /api/v3/users)可能か */
+        public var signUpAllowed: Bool
 
-public struct VersionFlags: Codable, JSONEncodable, Hashable {
+        public init(externalLogin: [String], signUpAllowed: Bool) {
+            self.externalLogin = externalLogin
+            self.signUpAllowed = signUpAllowed
+        }
 
-    /** 有効な外部ログインプロバイダ */
-    public var externalLogin: [String]
-    /** ユーザーが自身で新規登録(POST /api/v3/users)可能か */
-    public var signUpAllowed: Bool
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case externalLogin
+            case signUpAllowed
+        }
 
-    public init(externalLogin: [String], signUpAllowed: Bool) {
-        self.externalLogin = externalLogin
-        self.signUpAllowed = signUpAllowed
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(externalLogin, forKey: .externalLogin)
+            try container.encode(signUpAllowed, forKey: .signUpAllowed)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case externalLogin
-        case signUpAllowed
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(externalLogin, forKey: .externalLogin)
-        try container.encode(signUpAllowed, forKey: .signUpAllowed)
-    }
-}
-
 }

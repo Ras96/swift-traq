@@ -7,17 +7,16 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.BotMode")
 public typealias BotMode = TraqAPI.BotMode
 
-extension TraqAPI {
-
-/** BOT動作モード  HTTP: HTTP Mode WebSocket: WebSocket Mode */
-public enum BotMode: String, Codable, CaseIterable {
-    case HTTP = "HTTP"
-    case WebSocket = "WebSocket"
-}
+public extension TraqAPI {
+    /** BOT動作モード  HTTP: HTTP Mode WebSocket: WebSocket Mode */
+    enum BotMode: String, Codable, CaseIterable {
+        case HTTP
+        case WebSocket
+    }
 }

@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostUserRequest")
 public typealias PostUserRequest = TraqAPI.PostUserRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザー登録リクエスト */
+    struct PostUserRequest: Codable, JSONEncodable, Hashable {
+        /** ユーザー名 */
+        public var name: String
+        /** パスワード */
+        public var password: String?
 
-/** ユーザー登録リクエスト */
-public struct PostUserRequest: Codable, JSONEncodable, Hashable {
+        public init(name: String, password: String? = nil) {
+            self.name = name
+            self.password = password
+        }
 
-    /** ユーザー名 */
-    public var name: String
-    /** パスワード */
-    public var password: String?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case name
+            case password
+        }
 
-    public init(name: String, password: String? = nil) {
-        self.name = name
-        self.password = password
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(name, forKey: .name)
+            try container.encodeIfPresent(password, forKey: .password)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case name
-        case password
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(password, forKey: .password)
-    }
-}
-
 }

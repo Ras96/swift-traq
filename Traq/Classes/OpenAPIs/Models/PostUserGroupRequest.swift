@@ -7,44 +7,41 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostUserGroupRequest")
 public typealias PostUserGroupRequest = TraqAPI.PostUserGroupRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザーグループ作成リクエスト */
+    struct PostUserGroupRequest: Codable, JSONEncodable, Hashable {
+        /** グループ名 */
+        public var name: String
+        /** 説明 */
+        public var description: String
+        /** グループタイプ */
+        public var type: String
 
-/** ユーザーグループ作成リクエスト */
-public struct PostUserGroupRequest: Codable, JSONEncodable, Hashable {
+        public init(name: String, description: String, type: String) {
+            self.name = name
+            self.description = description
+            self.type = type
+        }
 
-    /** グループ名 */
-    public var name: String
-    /** 説明 */
-    public var description: String
-    /** グループタイプ */
-    public var type: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case name
+            case description
+            case type
+        }
 
-    public init(name: String, description: String, type: String) {
-        self.name = name
-        self.description = description
-        self.type = type
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(name, forKey: .name)
+            try container.encode(description, forKey: .description)
+            try container.encode(type, forKey: .type)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case name
-        case description
-        case type
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
-        try container.encode(description, forKey: .description)
-        try container.encode(type, forKey: .type)
-    }
-}
-
 }

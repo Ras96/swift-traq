@@ -7,65 +7,60 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 extension TraqAPI {
+    open class OgpAPI {
+        /**
+         OGP情報を取得
 
-
-open class OgpAPI {
-
-    /**
-     OGP情報を取得
-     
-     - parameter url: (query) OGPを取得したいURL 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getOgp(url: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Ogp?, _ error: Error?) -> Void)) -> RequestTask {
-        return getOgpWithRequestBuilder(url: url).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+         - parameter url: (query) OGPを取得したいURL
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getOgp(url: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Ogp?, _ error: Error?) -> Void)) -> RequestTask {
+            return getOgpWithRequestBuilder(url: url).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
+
+        /**
+         OGP情報を取得
+         - GET /ogp
+         - OGP情報を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter url: (query) OGPを取得したいURL
+         - returns: RequestBuilder<Ogp>
+         */
+        open class func getOgpWithRequestBuilder(url: String) -> RequestBuilder<Ogp> {
+            let localVariablePath = "/ogp"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
+
+            var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+                "url": url.encodeToJSON(),
+            ])
+
+            let localVariableNillableHeaders: [String: Any?] = [:]
+
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+            let localVariableRequestBuilder: RequestBuilder<Ogp>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
     }
-
-    /**
-     OGP情報を取得
-     - GET /ogp
-     - OGP情報を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter url: (query) OGPを取得したいURL 
-     - returns: RequestBuilder<Ogp> 
-     */
-    open class func getOgpWithRequestBuilder(url: String) -> RequestBuilder<Ogp> {
-        let localVariablePath = "/ogp"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "url": url.encodeToJSON(),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Ogp>.Type = TraqAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-}
 }

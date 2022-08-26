@@ -7,18 +7,17 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.UserAccountState")
 public typealias UserAccountState = TraqAPI.UserAccountState
 
-extension TraqAPI {
-
-/** ユーザーアカウント状態 0: 停止 1: 有効 2: 一時停止 */
-public enum UserAccountState: Int, Codable, CaseIterable {
-    case deactivated = 0
-    case active = 1
-    case suspended = 2
-}
+public extension TraqAPI {
+    /** ユーザーアカウント状態 0: 停止 1: 有効 2: 一時停止 */
+    enum UserAccountState: Int, Codable, CaseIterable {
+        case deactivated = 0
+        case active = 1
+        case suspended = 2
+    }
 }

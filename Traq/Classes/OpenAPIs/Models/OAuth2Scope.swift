@@ -7,18 +7,17 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.OAuth2Scope")
 public typealias OAuth2Scope = TraqAPI.OAuth2Scope
 
-extension TraqAPI {
-
-/** OAuth2スコープ */
-public enum OAuth2Scope: String, Codable, CaseIterable {
-    case read = "read"
-    case write = "write"
-    case manageBot = "manage_bot"
-}
+public extension TraqAPI {
+    /** OAuth2スコープ */
+    enum OAuth2Scope: String, Codable, CaseIterable {
+        case read
+        case write
+        case manageBot = "manage_bot"
+    }
 }

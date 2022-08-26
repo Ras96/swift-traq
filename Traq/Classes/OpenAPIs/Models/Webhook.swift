@@ -7,74 +7,71 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.Webhook")
 public typealias Webhook = TraqAPI.Webhook
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** Webhook情報 */
+    struct Webhook: Codable, JSONEncodable, Hashable {
+        /** WebhookUUID */
+        public var id: UUID
+        /** WebhookユーザーUUID */
+        public var botUserId: UUID
+        /** Webhookユーザー表示名 */
+        public var displayName: String
+        /** 説明 */
+        public var description: String
+        /** セキュアWebhookかどうか */
+        public var secure: Bool
+        /** デフォルトの投稿先チャンネルUUID */
+        public var channelId: UUID
+        /** オーナーUUID */
+        public var ownerId: UUID
+        /** 作成日時 */
+        public var createdAt: Date
+        /** 更新日時 */
+        public var updatedAt: Date
 
-/** Webhook情報 */
-public struct Webhook: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, botUserId: UUID, displayName: String, description: String, secure: Bool, channelId: UUID, ownerId: UUID, createdAt: Date, updatedAt: Date) {
+            self.id = id
+            self.botUserId = botUserId
+            self.displayName = displayName
+            self.description = description
+            self.secure = secure
+            self.channelId = channelId
+            self.ownerId = ownerId
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+        }
 
-    /** WebhookUUID */
-    public var id: UUID
-    /** WebhookユーザーUUID */
-    public var botUserId: UUID
-    /** Webhookユーザー表示名 */
-    public var displayName: String
-    /** 説明 */
-    public var description: String
-    /** セキュアWebhookかどうか */
-    public var secure: Bool
-    /** デフォルトの投稿先チャンネルUUID */
-    public var channelId: UUID
-    /** オーナーUUID */
-    public var ownerId: UUID
-    /** 作成日時 */
-    public var createdAt: Date
-    /** 更新日時 */
-    public var updatedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case botUserId
+            case displayName
+            case description
+            case secure
+            case channelId
+            case ownerId
+            case createdAt
+            case updatedAt
+        }
 
-    public init(id: UUID, botUserId: UUID, displayName: String, description: String, secure: Bool, channelId: UUID, ownerId: UUID, createdAt: Date, updatedAt: Date) {
-        self.id = id
-        self.botUserId = botUserId
-        self.displayName = displayName
-        self.description = description
-        self.secure = secure
-        self.channelId = channelId
-        self.ownerId = ownerId
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(botUserId, forKey: .botUserId)
+            try container.encode(displayName, forKey: .displayName)
+            try container.encode(description, forKey: .description)
+            try container.encode(secure, forKey: .secure)
+            try container.encode(channelId, forKey: .channelId)
+            try container.encode(ownerId, forKey: .ownerId)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(updatedAt, forKey: .updatedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case botUserId
-        case displayName
-        case description
-        case secure
-        case channelId
-        case ownerId
-        case createdAt
-        case updatedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(botUserId, forKey: .botUserId)
-        try container.encode(displayName, forKey: .displayName)
-        try container.encode(description, forKey: .description)
-        try container.encode(secure, forKey: .secure)
-        try container.encode(channelId, forKey: .channelId)
-        try container.encode(ownerId, forKey: .ownerId)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
-    }
-}
-
 }

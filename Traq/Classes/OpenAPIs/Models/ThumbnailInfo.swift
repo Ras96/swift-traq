@@ -7,47 +7,44 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ThumbnailInfo")
 public typealias ThumbnailInfo = TraqAPI.ThumbnailInfo
 
-extension TraqAPI {
+public extension TraqAPI {
+    struct ThumbnailInfo: Codable, JSONEncodable, Hashable {
+        public var type: ThumbnailType
+        /** MIMEタイプ */
+        public var mime: String
+        /** サムネイル幅 */
+        public var width: Int?
+        /** サムネイル高さ */
+        public var height: Int?
 
-public struct ThumbnailInfo: Codable, JSONEncodable, Hashable {
+        public init(type: ThumbnailType, mime: String, width: Int? = nil, height: Int? = nil) {
+            self.type = type
+            self.mime = mime
+            self.width = width
+            self.height = height
+        }
 
-    public var type: ThumbnailType
-    /** MIMEタイプ */
-    public var mime: String
-    /** サムネイル幅 */
-    public var width: Int?
-    /** サムネイル高さ */
-    public var height: Int?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case type
+            case mime
+            case width
+            case height
+        }
 
-    public init(type: ThumbnailType, mime: String, width: Int? = nil, height: Int? = nil) {
-        self.type = type
-        self.mime = mime
-        self.width = width
-        self.height = height
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(type, forKey: .type)
+            try container.encode(mime, forKey: .mime)
+            try container.encodeIfPresent(width, forKey: .width)
+            try container.encodeIfPresent(height, forKey: .height)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case type
-        case mime
-        case width
-        case height
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(type, forKey: .type)
-        try container.encode(mime, forKey: .mime)
-        try container.encodeIfPresent(width, forKey: .width)
-        try container.encodeIfPresent(height, forKey: .height)
-    }
-}
-
 }

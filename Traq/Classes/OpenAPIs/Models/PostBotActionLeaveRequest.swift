@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostBotActionLeaveRequest")
 public typealias PostBotActionLeaveRequest = TraqAPI.PostBotActionLeaveRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** BOTチャンネル退出リクエスト */
+    struct PostBotActionLeaveRequest: Codable, JSONEncodable, Hashable {
+        /** チャンネルUUID */
+        public var channelId: UUID
 
-/** BOTチャンネル退出リクエスト */
-public struct PostBotActionLeaveRequest: Codable, JSONEncodable, Hashable {
+        public init(channelId: UUID) {
+            self.channelId = channelId
+        }
 
-    /** チャンネルUUID */
-    public var channelId: UUID
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case channelId
+        }
 
-    public init(channelId: UUID) {
-        self.channelId = channelId
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(channelId, forKey: .channelId)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case channelId
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(channelId, forKey: .channelId)
-    }
-}
-
 }

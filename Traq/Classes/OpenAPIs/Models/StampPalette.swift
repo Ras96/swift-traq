@@ -7,64 +7,61 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.StampPalette")
 public typealias StampPalette = TraqAPI.StampPalette
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** スタンプパレット情報 */
+    struct StampPalette: Codable, JSONEncodable, Hashable {
+        /** スタンプパレットUUID */
+        public var id: UUID
+        /** パレット名 */
+        public var name: String
+        /** パレット内のスタンプのUUID配列 */
+        public var stamps: [UUID]
+        /** 作成者UUID */
+        public var creatorId: UUID
+        /** パレット作成日時 */
+        public var createdAt: Date
+        /** パレット更新日時 */
+        public var updatedAt: Date
+        /** パレット説明 */
+        public var description: String
 
-/** スタンプパレット情報 */
-public struct StampPalette: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, name: String, stamps: [UUID], creatorId: UUID, createdAt: Date, updatedAt: Date, description: String) {
+            self.id = id
+            self.name = name
+            self.stamps = stamps
+            self.creatorId = creatorId
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+            self.description = description
+        }
 
-    /** スタンプパレットUUID */
-    public var id: UUID
-    /** パレット名 */
-    public var name: String
-    /** パレット内のスタンプのUUID配列 */
-    public var stamps: [UUID]
-    /** 作成者UUID */
-    public var creatorId: UUID
-    /** パレット作成日時 */
-    public var createdAt: Date
-    /** パレット更新日時 */
-    public var updatedAt: Date
-    /** パレット説明 */
-    public var description: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case name
+            case stamps
+            case creatorId
+            case createdAt
+            case updatedAt
+            case description
+        }
 
-    public init(id: UUID, name: String, stamps: [UUID], creatorId: UUID, createdAt: Date, updatedAt: Date, description: String) {
-        self.id = id
-        self.name = name
-        self.stamps = stamps
-        self.creatorId = creatorId
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.description = description
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(name, forKey: .name)
+            try container.encode(stamps, forKey: .stamps)
+            try container.encode(creatorId, forKey: .creatorId)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(updatedAt, forKey: .updatedAt)
+            try container.encode(description, forKey: .description)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case name
-        case stamps
-        case creatorId
-        case createdAt
-        case updatedAt
-        case description
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        try container.encode(stamps, forKey: .stamps)
-        try container.encode(creatorId, forKey: .creatorId)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
-        try container.encode(description, forKey: .description)
-    }
-}
-
 }

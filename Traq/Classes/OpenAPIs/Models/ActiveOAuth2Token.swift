@@ -7,49 +7,46 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ActiveOAuth2Token")
 public typealias ActiveOAuth2Token = TraqAPI.ActiveOAuth2Token
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** 有効なOAuth2トークン情報 */
+    struct ActiveOAuth2Token: Codable, JSONEncodable, Hashable {
+        /** トークンUUID */
+        public var id: UUID
+        /** OAuth2クライアントUUID */
+        public var clientId: String
+        /** スコープ */
+        public var scopes: [OAuth2Scope]
+        /** 発行日時 */
+        public var issuedAt: Date
 
-/** 有効なOAuth2トークン情報 */
-public struct ActiveOAuth2Token: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, clientId: String, scopes: [OAuth2Scope], issuedAt: Date) {
+            self.id = id
+            self.clientId = clientId
+            self.scopes = scopes
+            self.issuedAt = issuedAt
+        }
 
-    /** トークンUUID */
-    public var id: UUID
-    /** OAuth2クライアントUUID */
-    public var clientId: String
-    /** スコープ */
-    public var scopes: [OAuth2Scope]
-    /** 発行日時 */
-    public var issuedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case clientId
+            case scopes
+            case issuedAt
+        }
 
-    public init(id: UUID, clientId: String, scopes: [OAuth2Scope], issuedAt: Date) {
-        self.id = id
-        self.clientId = clientId
-        self.scopes = scopes
-        self.issuedAt = issuedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(clientId, forKey: .clientId)
+            try container.encode(scopes, forKey: .scopes)
+            try container.encode(issuedAt, forKey: .issuedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case clientId
-        case scopes
-        case issuedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(clientId, forKey: .clientId)
-        try container.encode(scopes, forKey: .scopes)
-        try container.encode(issuedAt, forKey: .issuedAt)
-    }
-}
-
 }

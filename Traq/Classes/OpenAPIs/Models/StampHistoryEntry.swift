@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.StampHistoryEntry")
 public typealias StampHistoryEntry = TraqAPI.StampHistoryEntry
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** スタンプ履歴の1項目 */
+    struct StampHistoryEntry: Codable, JSONEncodable, Hashable {
+        /** スタンプUUID */
+        public var stampId: UUID
+        /** 使用日時 */
+        public var datetime: Date
 
-/** スタンプ履歴の1項目 */
-public struct StampHistoryEntry: Codable, JSONEncodable, Hashable {
+        public init(stampId: UUID, datetime: Date) {
+            self.stampId = stampId
+            self.datetime = datetime
+        }
 
-    /** スタンプUUID */
-    public var stampId: UUID
-    /** 使用日時 */
-    public var datetime: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case stampId
+            case datetime
+        }
 
-    public init(stampId: UUID, datetime: Date) {
-        self.stampId = stampId
-        self.datetime = datetime
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(stampId, forKey: .stampId)
+            try container.encode(datetime, forKey: .datetime)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case stampId
-        case datetime
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(stampId, forKey: .stampId)
-        try container.encode(datetime, forKey: .datetime)
-    }
-}
-
 }

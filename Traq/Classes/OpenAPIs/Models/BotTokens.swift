@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.BotTokens")
 public typealias BotTokens = TraqAPI.BotTokens
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** BOTのトークン情報 */
+    struct BotTokens: Codable, JSONEncodable, Hashable {
+        /** Verification Token */
+        public var verificationToken: String
+        /** BOTアクセストークン */
+        public var accessToken: String
 
-/** BOTのトークン情報 */
-public struct BotTokens: Codable, JSONEncodable, Hashable {
+        public init(verificationToken: String, accessToken: String) {
+            self.verificationToken = verificationToken
+            self.accessToken = accessToken
+        }
 
-    /** Verification Token */
-    public var verificationToken: String
-    /** BOTアクセストークン */
-    public var accessToken: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case verificationToken
+            case accessToken
+        }
 
-    public init(verificationToken: String, accessToken: String) {
-        self.verificationToken = verificationToken
-        self.accessToken = accessToken
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(verificationToken, forKey: .verificationToken)
+            try container.encode(accessToken, forKey: .accessToken)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case verificationToken
-        case accessToken
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(verificationToken, forKey: .verificationToken)
-        try container.encode(accessToken, forKey: .accessToken)
-    }
-}
-
 }

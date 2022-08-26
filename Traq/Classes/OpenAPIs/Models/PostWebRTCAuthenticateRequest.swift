@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostWebRTCAuthenticateRequest")
 public typealias PostWebRTCAuthenticateRequest = TraqAPI.PostWebRTCAuthenticateRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** skyway用認証リクエスト */
+    struct PostWebRTCAuthenticateRequest: Codable, JSONEncodable, Hashable {
+        /** ピアID */
+        public var peerId: String
 
-/** skyway用認証リクエスト */
-public struct PostWebRTCAuthenticateRequest: Codable, JSONEncodable, Hashable {
+        public init(peerId: String) {
+            self.peerId = peerId
+        }
 
-    /** ピアID */
-    public var peerId: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case peerId
+        }
 
-    public init(peerId: String) {
-        self.peerId = peerId
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(peerId, forKey: .peerId)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case peerId
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(peerId, forKey: .peerId)
-    }
-}
-
 }

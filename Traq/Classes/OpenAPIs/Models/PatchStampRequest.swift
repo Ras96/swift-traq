@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PatchStampRequest")
 public typealias PatchStampRequest = TraqAPI.PatchStampRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** スタンプ情報変更リクエスト */
+    struct PatchStampRequest: Codable, JSONEncodable, Hashable {
+        /** スタンプ名 */
+        public var name: String?
+        /** 作成者UUID */
+        public var creatorId: UUID?
 
-/** スタンプ情報変更リクエスト */
-public struct PatchStampRequest: Codable, JSONEncodable, Hashable {
+        public init(name: String? = nil, creatorId: UUID? = nil) {
+            self.name = name
+            self.creatorId = creatorId
+        }
 
-    /** スタンプ名 */
-    public var name: String?
-    /** 作成者UUID */
-    public var creatorId: UUID?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case name
+            case creatorId
+        }
 
-    public init(name: String? = nil, creatorId: UUID? = nil) {
-        self.name = name
-        self.creatorId = creatorId
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(name, forKey: .name)
+            try container.encodeIfPresent(creatorId, forKey: .creatorId)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case name
-        case creatorId
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(creatorId, forKey: .creatorId)
-    }
-}
-
 }

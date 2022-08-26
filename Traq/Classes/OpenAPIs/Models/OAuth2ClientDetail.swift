@@ -7,64 +7,61 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.OAuth2ClientDetail")
 public typealias OAuth2ClientDetail = TraqAPI.OAuth2ClientDetail
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** OAuth2クライアント詳細情報 */
+    struct OAuth2ClientDetail: Codable, JSONEncodable, Hashable {
+        /** クライアントUUID */
+        public var id: String
+        /** クライアント開発者UUID */
+        public var developerId: UUID
+        /** 説明 */
+        public var description: String
+        /** クライアント名 */
+        public var name: String
+        /** 要求スコープの配列 */
+        public var scopes: [OAuth2Scope]
+        /** コールバックURL */
+        public var callbackUrl: String
+        /** クライアントシークレット */
+        public var secret: String
 
-/** OAuth2クライアント詳細情報 */
-public struct OAuth2ClientDetail: Codable, JSONEncodable, Hashable {
+        public init(id: String, developerId: UUID, description: String, name: String, scopes: [OAuth2Scope], callbackUrl: String, secret: String) {
+            self.id = id
+            self.developerId = developerId
+            self.description = description
+            self.name = name
+            self.scopes = scopes
+            self.callbackUrl = callbackUrl
+            self.secret = secret
+        }
 
-    /** クライアントUUID */
-    public var id: String
-    /** クライアント開発者UUID */
-    public var developerId: UUID
-    /** 説明 */
-    public var description: String
-    /** クライアント名 */
-    public var name: String
-    /** 要求スコープの配列 */
-    public var scopes: [OAuth2Scope]
-    /** コールバックURL */
-    public var callbackUrl: String
-    /** クライアントシークレット */
-    public var secret: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case developerId
+            case description
+            case name
+            case scopes
+            case callbackUrl
+            case secret
+        }
 
-    public init(id: String, developerId: UUID, description: String, name: String, scopes: [OAuth2Scope], callbackUrl: String, secret: String) {
-        self.id = id
-        self.developerId = developerId
-        self.description = description
-        self.name = name
-        self.scopes = scopes
-        self.callbackUrl = callbackUrl
-        self.secret = secret
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(developerId, forKey: .developerId)
+            try container.encode(description, forKey: .description)
+            try container.encode(name, forKey: .name)
+            try container.encode(scopes, forKey: .scopes)
+            try container.encode(callbackUrl, forKey: .callbackUrl)
+            try container.encode(secret, forKey: .secret)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case developerId
-        case description
-        case name
-        case scopes
-        case callbackUrl
-        case secret
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(developerId, forKey: .developerId)
-        try container.encode(description, forKey: .description)
-        try container.encode(name, forKey: .name)
-        try container.encode(scopes, forKey: .scopes)
-        try container.encode(callbackUrl, forKey: .callbackUrl)
-        try container.encode(secret, forKey: .secret)
-    }
-}
-
 }

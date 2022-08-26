@@ -7,1524 +7,1463 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 extension TraqAPI {
+    open class MeAPI {
+        /**
+         チャンネルをスターに追加
 
-
-open class MeAPI {
-
-    /**
-     チャンネルをスターに追加
-     
-     - parameter postStarRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func addMyStar(postStarRequest: PostStarRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return addMyStarWithRequestBuilder(postStarRequest: postStarRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+         - parameter postStarRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func addMyStar(postStarRequest: PostStarRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return addMyStarWithRequestBuilder(postStarRequest: postStarRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     チャンネルをスターに追加
-     - POST /users/me/stars
-     - 指定したチャンネルをスターチャンネルに追加します。 スター済みのチャンネルIDを指定した場合、204を返します。 不正なチャンネルIDを指定した場合、400を返します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter postStarRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func addMyStarWithRequestBuilder(postStarRequest: PostStarRequest? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/users/me/stars"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postStarRequest)
+        /**
+         チャンネルをスターに追加
+         - POST /users/me/stars
+         - 指定したチャンネルをスターチャンネルに追加します。 スター済みのチャンネルIDを指定した場合、204を返します。 不正なチャンネルIDを指定した場合、400を返します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter postStarRequest: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func addMyStarWithRequestBuilder(postStarRequest: PostStarRequest? = nil) -> RequestBuilder<Void> {
+            let localVariablePath = "/users/me/stars"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postStarRequest)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分にタグを追加
-     
-     - parameter postUserTagRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func addMyUserTag(postUserTagRequest: PostUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: UserTag?, _ error: Error?) -> Void)) -> RequestTask {
-        return addMyUserTagWithRequestBuilder(postUserTagRequest: postUserTagRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分にタグを追加
+
+         - parameter postUserTagRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func addMyUserTag(postUserTagRequest: PostUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: UserTag?, _ error: Error?) -> Void)) -> RequestTask {
+            return addMyUserTagWithRequestBuilder(postUserTagRequest: postUserTagRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分にタグを追加
-     - POST /users/me/tags
-     - 自分に新しくタグを追加します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter postUserTagRequest: (body)  (optional)
-     - returns: RequestBuilder<UserTag> 
-     */
-    open class func addMyUserTagWithRequestBuilder(postUserTagRequest: PostUserTagRequest? = nil) -> RequestBuilder<UserTag> {
-        let localVariablePath = "/users/me/tags"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postUserTagRequest)
+        /**
+         自分にタグを追加
+         - POST /users/me/tags
+         - 自分に新しくタグを追加します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter postUserTagRequest: (body)  (optional)
+         - returns: RequestBuilder<UserTag>
+         */
+        open class func addMyUserTagWithRequestBuilder(postUserTagRequest: PostUserTagRequest? = nil) -> RequestBuilder<UserTag> {
+            let localVariablePath = "/users/me/tags"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postUserTagRequest)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<UserTag>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<UserTag>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のアイコン画像を変更
-     
-     - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif) 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func changeMyIcon(file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return changeMyIconWithRequestBuilder(file: file).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のアイコン画像を変更
+
+         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func changeMyIcon(file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return changeMyIconWithRequestBuilder(file: file).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のアイコン画像を変更
-     - PUT /users/me/icon
-     - 自分のアイコン画像を変更します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif) 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func changeMyIconWithRequestBuilder(file: URL) -> RequestBuilder<Void> {
-        let localVariablePath = "/users/me/icon"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-        ]
+        /**
+         自分のアイコン画像を変更
+         - PUT /users/me/icon
+         - 自分のアイコン画像を変更します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - returns: RequestBuilder<Void>
+         */
+        open class func changeMyIconWithRequestBuilder(file: URL) -> RequestBuilder<Void> {
+            let localVariablePath = "/users/me/icon"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableFormParams: [String: Any?] = [
+                "file": file.encodeToJSON(),
+            ]
 
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+            let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
+            let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [
+                "Content-Type": "multipart/form-data",
+            ]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "PUT", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     メッセージ引用通知の設定情報を変更
-     
-     - parameter putNotifyCitationRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func changeMyNotifyCitation(putNotifyCitationRequest: PutNotifyCitationRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return changeMyNotifyCitationWithRequestBuilder(putNotifyCitationRequest: putNotifyCitationRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         メッセージ引用通知の設定情報を変更
+
+         - parameter putNotifyCitationRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func changeMyNotifyCitation(putNotifyCitationRequest: PutNotifyCitationRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return changeMyNotifyCitationWithRequestBuilder(putNotifyCitationRequest: putNotifyCitationRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     メッセージ引用通知の設定情報を変更
-     - PUT /users/me/settings/notify-citation
-     - メッセージ引用通知の設定情報を変更します
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter putNotifyCitationRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func changeMyNotifyCitationWithRequestBuilder(putNotifyCitationRequest: PutNotifyCitationRequest? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/users/me/settings/notify-citation"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: putNotifyCitationRequest)
+        /**
+         メッセージ引用通知の設定情報を変更
+         - PUT /users/me/settings/notify-citation
+         - メッセージ引用通知の設定情報を変更します
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter putNotifyCitationRequest: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func changeMyNotifyCitationWithRequestBuilder(putNotifyCitationRequest: PutNotifyCitationRequest? = nil) -> RequestBuilder<Void> {
+            let localVariablePath = "/users/me/settings/notify-citation"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: putNotifyCitationRequest)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "PUT", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のパスワードを変更
-     
-     - parameter putMyPasswordRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func changeMyPassword(putMyPasswordRequest: PutMyPasswordRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return changeMyPasswordWithRequestBuilder(putMyPasswordRequest: putMyPasswordRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のパスワードを変更
+
+         - parameter putMyPasswordRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func changeMyPassword(putMyPasswordRequest: PutMyPasswordRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return changeMyPasswordWithRequestBuilder(putMyPasswordRequest: putMyPasswordRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のパスワードを変更
-     - PUT /users/me/password
-     - 自身のパスワードを変更します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter putMyPasswordRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func changeMyPasswordWithRequestBuilder(putMyPasswordRequest: PutMyPasswordRequest? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/users/me/password"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: putMyPasswordRequest)
+        /**
+         自分のパスワードを変更
+         - PUT /users/me/password
+         - 自身のパスワードを変更します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter putMyPasswordRequest: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func changeMyPasswordWithRequestBuilder(putMyPasswordRequest: PutMyPasswordRequest? = nil) -> RequestBuilder<Void> {
+            let localVariablePath = "/users/me/password"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: putMyPasswordRequest)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "PUT", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のユーザー情報を変更
-     
-     - parameter patchMeRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func editMe(patchMeRequest: PatchMeRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return editMeWithRequestBuilder(patchMeRequest: patchMeRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のユーザー情報を変更
+
+         - parameter patchMeRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func editMe(patchMeRequest: PatchMeRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return editMeWithRequestBuilder(patchMeRequest: patchMeRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のユーザー情報を変更
-     - PATCH /users/me
-     - 自身のユーザー情報を変更します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter patchMeRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func editMeWithRequestBuilder(patchMeRequest: PatchMeRequest? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/users/me"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: patchMeRequest)
+        /**
+         自分のユーザー情報を変更
+         - PATCH /users/me
+         - 自身のユーザー情報を変更します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter patchMeRequest: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func editMeWithRequestBuilder(patchMeRequest: PatchMeRequest? = nil) -> RequestBuilder<Void> {
+            let localVariablePath = "/users/me"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: patchMeRequest)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "PATCH", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のタグを編集
-     
-     - parameter tagId: (path) タグUUID 
-     - parameter patchUserTagRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func editMyUserTag(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return editMyUserTagWithRequestBuilder(tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のタグを編集
+
+         - parameter tagId: (path) タグUUID
+         - parameter patchUserTagRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func editMyUserTag(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return editMyUserTagWithRequestBuilder(tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のタグを編集
-     - PATCH /users/me/tags/{tagId}
-     - 自分の指定したタグの状態を変更します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter tagId: (path) タグUUID 
-     - parameter patchUserTagRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func editMyUserTagWithRequestBuilder(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) -> RequestBuilder<Void> {
-        var localVariablePath = "/users/me/tags/{tagId}"
-        let tagIdPreEscape = "\(APIHelper.mapValueToPathItem(tagId))"
-        let tagIdPostEscape = tagIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{tagId}", with: tagIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: patchUserTagRequest)
+        /**
+         自分のタグを編集
+         - PATCH /users/me/tags/{tagId}
+         - 自分の指定したタグの状態を変更します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter tagId: (path) タグUUID
+         - parameter patchUserTagRequest: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func editMyUserTagWithRequestBuilder(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) -> RequestBuilder<Void> {
+            var localVariablePath = "/users/me/tags/{tagId}"
+            let tagIdPreEscape = "\(APIHelper.mapValueToPathItem(tagId))"
+            let tagIdPostEscape = tagIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{tagId}", with: tagIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: patchUserTagRequest)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "PATCH", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のユーザー詳細を取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMe(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: MyUserDetail?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMeWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のユーザー詳細を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMe(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: MyUserDetail?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMeWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のユーザー詳細を取得
-     - GET /users/me
-     - 自身のユーザー詳細情報を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<MyUserDetail> 
-     */
-    open class func getMeWithRequestBuilder() -> RequestBuilder<MyUserDetail> {
-        let localVariablePath = "/users/me"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         自分のユーザー詳細を取得
+         - GET /users/me
+         - 自身のユーザー詳細情報を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<MyUserDetail>
+         */
+        open class func getMeWithRequestBuilder() -> RequestBuilder<MyUserDetail> {
+            let localVariablePath = "/users/me"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<MyUserDetail>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<MyUserDetail>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のチャンネル購読状態を取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyChannelSubscriptions(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UserSubscribeState]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyChannelSubscriptionsWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のチャンネル購読状態を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyChannelSubscriptions(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UserSubscribeState]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyChannelSubscriptionsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のチャンネル購読状態を取得
-     - GET /users/me/subscriptions
-     - 自身のチャンネル購読状態を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[UserSubscribeState]> 
-     */
-    open class func getMyChannelSubscriptionsWithRequestBuilder() -> RequestBuilder<[UserSubscribeState]> {
-        let localVariablePath = "/users/me/subscriptions"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         自分のチャンネル購読状態を取得
+         - GET /users/me/subscriptions
+         - 自身のチャンネル購読状態を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[UserSubscribeState]>
+         */
+        open class func getMyChannelSubscriptionsWithRequestBuilder() -> RequestBuilder<[UserSubscribeState]> {
+            let localVariablePath = "/users/me/subscriptions"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[UserSubscribeState]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[UserSubscribeState]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     外部ログインアカウント一覧を取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyExternalAccounts(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [ExternalProviderUser]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyExternalAccountsWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         外部ログインアカウント一覧を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyExternalAccounts(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [ExternalProviderUser]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyExternalAccountsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     外部ログインアカウント一覧を取得
-     - GET /users/me/ex-accounts
-     - 自分に紐付けられている外部ログインアカウント一覧を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[ExternalProviderUser]> 
-     */
-    open class func getMyExternalAccountsWithRequestBuilder() -> RequestBuilder<[ExternalProviderUser]> {
-        let localVariablePath = "/users/me/ex-accounts"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         外部ログインアカウント一覧を取得
+         - GET /users/me/ex-accounts
+         - 自分に紐付けられている外部ログインアカウント一覧を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[ExternalProviderUser]>
+         */
+        open class func getMyExternalAccountsWithRequestBuilder() -> RequestBuilder<[ExternalProviderUser]> {
+            let localVariablePath = "/users/me/ex-accounts"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[ExternalProviderUser]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[ExternalProviderUser]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のアイコン画像を取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyIcon(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: URL?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyIconWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のアイコン画像を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyIcon(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: URL?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyIconWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のアイコン画像を取得
-     - GET /users/me/icon
-     - 自分のアイコン画像を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<URL> 
-     */
-    open class func getMyIconWithRequestBuilder() -> RequestBuilder<URL> {
-        let localVariablePath = "/users/me/icon"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         自分のアイコン画像を取得
+         - GET /users/me/icon
+         - 自分のアイコン画像を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<URL>
+         */
+        open class func getMyIconWithRequestBuilder() -> RequestBuilder<URL> {
+            let localVariablePath = "/users/me/icon"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<URL>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<URL>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     メッセージ引用通知の設定情報を取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyNotifyCitation(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: GetNotifyCitation?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyNotifyCitationWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         メッセージ引用通知の設定情報を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyNotifyCitation(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: GetNotifyCitation?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyNotifyCitationWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     メッセージ引用通知の設定情報を取得
-     - GET /users/me/settings/notify-citation
-     - メッセージ引用通知の設定情報を変更します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<GetNotifyCitation> 
-     */
-    open class func getMyNotifyCitationWithRequestBuilder() -> RequestBuilder<GetNotifyCitation> {
-        let localVariablePath = "/users/me/settings/notify-citation"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         メッセージ引用通知の設定情報を取得
+         - GET /users/me/settings/notify-citation
+         - メッセージ引用通知の設定情報を変更します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<GetNotifyCitation>
+         */
+        open class func getMyNotifyCitationWithRequestBuilder() -> RequestBuilder<GetNotifyCitation> {
+            let localVariablePath = "/users/me/settings/notify-citation"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetNotifyCitation>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<GetNotifyCitation>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     QRコードを取得
-     
-     - parameter token: (query) 画像でなくトークン文字列で返すかどうか (optional, default to false)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyQRCode(token: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: URL?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyQRCodeWithRequestBuilder(token: token).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         QRコードを取得
+
+         - parameter token: (query) 画像でなくトークン文字列で返すかどうか (optional, default to false)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyQRCode(token: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: URL?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyQRCodeWithRequestBuilder(token: token).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     QRコードを取得
-     - GET /users/me/qr-code
-     - 自身のQRコードを取得します。 返されたQRコードまたはトークンは、発行後の5分間のみ有効です
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter token: (query) 画像でなくトークン文字列で返すかどうか (optional, default to false)
-     - returns: RequestBuilder<URL> 
-     */
-    open class func getMyQRCodeWithRequestBuilder(token: Bool? = nil) -> RequestBuilder<URL> {
-        let localVariablePath = "/users/me/qr-code"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         QRコードを取得
+         - GET /users/me/qr-code
+         - 自身のQRコードを取得します。 返されたQRコードまたはトークンは、発行後の5分間のみ有効です
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter token: (query) 画像でなくトークン文字列で返すかどうか (optional, default to false)
+         - returns: RequestBuilder<URL>
+         */
+        open class func getMyQRCodeWithRequestBuilder(token: Bool? = nil) -> RequestBuilder<URL> {
+            let localVariablePath = "/users/me/qr-code"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "token": token?.encodeToJSON(),
-        ])
+            var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+                "token": token?.encodeToJSON(),
+            ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<URL>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<URL>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のログインセッションリストを取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMySessions(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [LoginSession]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMySessionsWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のログインセッションリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMySessions(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [LoginSession]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMySessionsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のログインセッションリストを取得
-     - GET /users/me/sessions
-     - 自分のログインセッションのリストを取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[LoginSession]> 
-     */
-    open class func getMySessionsWithRequestBuilder() -> RequestBuilder<[LoginSession]> {
-        let localVariablePath = "/users/me/sessions"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         自分のログインセッションリストを取得
+         - GET /users/me/sessions
+         - 自分のログインセッションのリストを取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[LoginSession]>
+         */
+        open class func getMySessionsWithRequestBuilder() -> RequestBuilder<[LoginSession]> {
+            let localVariablePath = "/users/me/sessions"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[LoginSession]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[LoginSession]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     スタンプ履歴を取得
-     
-     - parameter limit: (query) 件数 (optional, default to 100)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyStampHistory(limit: Int? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [StampHistoryEntry]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyStampHistoryWithRequestBuilder(limit: limit).execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         スタンプ履歴を取得
+
+         - parameter limit: (query) 件数 (optional, default to 100)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyStampHistory(limit: Int? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [StampHistoryEntry]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyStampHistoryWithRequestBuilder(limit: limit).execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     スタンプ履歴を取得
-     - GET /users/me/stamp-history
-     - 自分のスタンプ履歴を最大100件まで取得します。 結果は降順で返されます。  このAPIが返すスタンプ履歴は厳密な履歴ではありません。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter limit: (query) 件数 (optional, default to 100)
-     - returns: RequestBuilder<[StampHistoryEntry]> 
-     */
-    open class func getMyStampHistoryWithRequestBuilder(limit: Int? = nil) -> RequestBuilder<[StampHistoryEntry]> {
-        let localVariablePath = "/users/me/stamp-history"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         スタンプ履歴を取得
+         - GET /users/me/stamp-history
+         - 自分のスタンプ履歴を最大100件まで取得します。 結果は降順で返されます。  このAPIが返すスタンプ履歴は厳密な履歴ではありません。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter limit: (query) 件数 (optional, default to 100)
+         - returns: RequestBuilder<[StampHistoryEntry]>
+         */
+        open class func getMyStampHistoryWithRequestBuilder(limit: Int? = nil) -> RequestBuilder<[StampHistoryEntry]> {
+            let localVariablePath = "/users/me/stamp-history"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "limit": limit?.encodeToJSON(),
-        ])
+            var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+                "limit": limit?.encodeToJSON(),
+            ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[StampHistoryEntry]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[StampHistoryEntry]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     スターチャンネルリストを取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyStars(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UUID]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyStarsWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         スターチャンネルリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyStars(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UUID]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyStarsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     スターチャンネルリストを取得
-     - GET /users/me/stars
-     - 自分がスターしているチャンネルのUUIDの配列を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[UUID]> 
-     */
-    open class func getMyStarsWithRequestBuilder() -> RequestBuilder<[UUID]> {
-        let localVariablePath = "/users/me/stars"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         スターチャンネルリストを取得
+         - GET /users/me/stars
+         - 自分がスターしているチャンネルのUUIDの配列を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[UUID]>
+         */
+        open class func getMyStarsWithRequestBuilder() -> RequestBuilder<[UUID]> {
+            let localVariablePath = "/users/me/stars"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[UUID]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[UUID]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     有効トークンのリストを取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyTokens(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [ActiveOAuth2Token]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyTokensWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         有効トークンのリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyTokens(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [ActiveOAuth2Token]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyTokensWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     有効トークンのリストを取得
-     - GET /users/me/tokens
-     - 有効な自分に発行されたOAuth2トークンのリストを取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[ActiveOAuth2Token]> 
-     */
-    open class func getMyTokensWithRequestBuilder() -> RequestBuilder<[ActiveOAuth2Token]> {
-        let localVariablePath = "/users/me/tokens"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         有効トークンのリストを取得
+         - GET /users/me/tokens
+         - 有効な自分に発行されたOAuth2トークンのリストを取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[ActiveOAuth2Token]>
+         */
+        open class func getMyTokensWithRequestBuilder() -> RequestBuilder<[ActiveOAuth2Token]> {
+            let localVariablePath = "/users/me/tokens"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[ActiveOAuth2Token]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[ActiveOAuth2Token]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     未読チャンネルを取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyUnreadChannels(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UnreadChannel]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyUnreadChannelsWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         未読チャンネルを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyUnreadChannels(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UnreadChannel]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyUnreadChannelsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     未読チャンネルを取得
-     - GET /users/me/unread
-     - 自分が現在未読のチャンネルの未読情報を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[UnreadChannel]> 
-     */
-    open class func getMyUnreadChannelsWithRequestBuilder() -> RequestBuilder<[UnreadChannel]> {
-        let localVariablePath = "/users/me/unread"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         未読チャンネルを取得
+         - GET /users/me/unread
+         - 自分が現在未読のチャンネルの未読情報を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[UnreadChannel]>
+         */
+        open class func getMyUnreadChannelsWithRequestBuilder() -> RequestBuilder<[UnreadChannel]> {
+            let localVariablePath = "/users/me/unread"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[UnreadChannel]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[UnreadChannel]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分のタグリストを取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyUserTags(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UserTag]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyUserTagsWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分のタグリストを取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyUserTags(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [UserTag]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyUserTagsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分のタグリストを取得
-     - GET /users/me/tags
-     - 自分に付けられているタグの配列を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[UserTag]> 
-     */
-    open class func getMyUserTagsWithRequestBuilder() -> RequestBuilder<[UserTag]> {
-        let localVariablePath = "/users/me/tags"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         自分のタグリストを取得
+         - GET /users/me/tags
+         - 自分に付けられているタグの配列を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[UserTag]>
+         */
+        open class func getMyUserTagsWithRequestBuilder() -> RequestBuilder<[UserTag]> {
+            let localVariablePath = "/users/me/tags"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[UserTag]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[UserTag]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自身のチャンネル閲覧状態一覧を取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getMyViewStates(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [MyChannelViewState]?, _ error: Error?) -> Void)) -> RequestTask {
-        return getMyViewStatesWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自身のチャンネル閲覧状態一覧を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getMyViewStates(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: [MyChannelViewState]?, _ error: Error?) -> Void)) -> RequestTask {
+            return getMyViewStatesWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自身のチャンネル閲覧状態一覧を取得
-     - GET /users/me/view-states
-     - 自身のチャンネル閲覧状態一覧を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[MyChannelViewState]> 
-     */
-    open class func getMyViewStatesWithRequestBuilder() -> RequestBuilder<[MyChannelViewState]> {
-        let localVariablePath = "/users/me/view-states"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         自身のチャンネル閲覧状態一覧を取得
+         - GET /users/me/view-states
+         - 自身のチャンネル閲覧状態一覧を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<[MyChannelViewState]>
+         */
+        open class func getMyViewStatesWithRequestBuilder() -> RequestBuilder<[MyChannelViewState]> {
+            let localVariablePath = "/users/me/view-states"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[MyChannelViewState]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[MyChannelViewState]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     ユーザー設定を取得
-     
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func getUserSettings(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: UserSettings?, _ error: Error?) -> Void)) -> RequestTask {
-        return getUserSettingsWithRequestBuilder().execute(apiResponseQueue) { result in
-            switch result {
-            case let .success(response):
-                completion(response.body, nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         ユーザー設定を取得
+
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func getUserSettings(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: UserSettings?, _ error: Error?) -> Void)) -> RequestTask {
+            return getUserSettingsWithRequestBuilder().execute(apiResponseQueue) { result in
+                switch result {
+                case let .success(response):
+                    completion(response.body, nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     ユーザー設定を取得
-     - GET /users/me/settings
-     - ユーザー設定を取得します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<UserSettings> 
-     */
-    open class func getUserSettingsWithRequestBuilder() -> RequestBuilder<UserSettings> {
-        let localVariablePath = "/users/me/settings"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         ユーザー設定を取得
+         - GET /users/me/settings
+         - ユーザー設定を取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<UserSettings>
+         */
+        open class func getUserSettingsWithRequestBuilder() -> RequestBuilder<UserSettings> {
+            let localVariablePath = "/users/me/settings"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<UserSettings>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<UserSettings>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     外部ログインアカウントを紐付ける
-     
-     - parameter postLinkExternalAccount: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         外部ログインアカウントを紐付ける
+
+         - parameter postLinkExternalAccount: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     外部ログインアカウントを紐付ける
-     - POST /users/me/ex-accounts/link
-     - 自分に外部ログインアカウントを紐付けます。 指定した`providerName`がサーバー側で有効である必要があります。 リクエストが受理された場合、外部サービスの認証画面にリダイレクトされ、認証される必要があります。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter postLinkExternalAccount: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func linkExternalAccountWithRequestBuilder(postLinkExternalAccount: PostLinkExternalAccount? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/users/me/ex-accounts/link"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postLinkExternalAccount)
+        /**
+         外部ログインアカウントを紐付ける
+         - POST /users/me/ex-accounts/link
+         - 自分に外部ログインアカウントを紐付けます。 指定した`providerName`がサーバー側で有効である必要があります。 リクエストが受理された場合、外部サービスの認証画面にリダイレクトされ、認証される必要があります。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter postLinkExternalAccount: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func linkExternalAccountWithRequestBuilder(postLinkExternalAccount: PostLinkExternalAccount? = nil) -> RequestBuilder<Void> {
+            let localVariablePath = "/users/me/ex-accounts/link"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postLinkExternalAccount)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     チャンネルを既読にする
-     
-     - parameter channelId: (path) チャンネルUUID 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func readChannel(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return readChannelWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         チャンネルを既読にする
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func readChannel(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return readChannelWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     チャンネルを既読にする
-     - DELETE /users/me/unread/{channelId}
-     - 自分が未読のチャンネルを既読にします。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter channelId: (path) チャンネルUUID 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func readChannelWithRequestBuilder(channelId: UUID) -> RequestBuilder<Void> {
-        var localVariablePath = "/users/me/unread/{channelId}"
-        let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
-        let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{channelId}", with: channelIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         チャンネルを既読にする
+         - DELETE /users/me/unread/{channelId}
+         - 自分が未読のチャンネルを既読にします。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter channelId: (path) チャンネルUUID
+         - returns: RequestBuilder<Void>
+         */
+        open class func readChannelWithRequestBuilder(channelId: UUID) -> RequestBuilder<Void> {
+            var localVariablePath = "/users/me/unread/{channelId}"
+            let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
+            let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{channelId}", with: channelIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     FCMデバイスを登録
-     
-     - parameter postMyFCMDeviceRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func registerFCMDevice(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return registerFCMDeviceWithRequestBuilder(postMyFCMDeviceRequest: postMyFCMDeviceRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         FCMデバイスを登録
+
+         - parameter postMyFCMDeviceRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func registerFCMDevice(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return registerFCMDeviceWithRequestBuilder(postMyFCMDeviceRequest: postMyFCMDeviceRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     FCMデバイスを登録
-     - POST /users/me/fcm-device
-     - 自身のFCMデバイスを登録します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter postMyFCMDeviceRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func registerFCMDeviceWithRequestBuilder(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/users/me/fcm-device"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postMyFCMDeviceRequest)
+        /**
+         FCMデバイスを登録
+         - POST /users/me/fcm-device
+         - 自身のFCMデバイスを登録します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter postMyFCMDeviceRequest: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func registerFCMDeviceWithRequestBuilder(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil) -> RequestBuilder<Void> {
+            let localVariablePath = "/users/me/fcm-device"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postMyFCMDeviceRequest)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     チャンネルをスターから削除します
-     
-     - parameter channelId: (path) チャンネルUUID 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func removeMyStar(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return removeMyStarWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         チャンネルをスターから削除します
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func removeMyStar(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return removeMyStarWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     チャンネルをスターから削除します
-     - DELETE /users/me/stars/{channelId}
-     - 既にスターから削除されているチャンネルを指定した場合は204を返します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter channelId: (path) チャンネルUUID 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func removeMyStarWithRequestBuilder(channelId: UUID) -> RequestBuilder<Void> {
-        var localVariablePath = "/users/me/stars/{channelId}"
-        let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
-        let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{channelId}", with: channelIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         チャンネルをスターから削除します
+         - DELETE /users/me/stars/{channelId}
+         - 既にスターから削除されているチャンネルを指定した場合は204を返します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter channelId: (path) チャンネルUUID
+         - returns: RequestBuilder<Void>
+         */
+        open class func removeMyStarWithRequestBuilder(channelId: UUID) -> RequestBuilder<Void> {
+            var localVariablePath = "/users/me/stars/{channelId}"
+            let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
+            let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{channelId}", with: channelIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     自分からタグを削除します
-     
-     - parameter tagId: (path) タグUUID 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func removeMyUserTag(tagId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return removeMyUserTagWithRequestBuilder(tagId: tagId).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         自分からタグを削除します
+
+         - parameter tagId: (path) タグUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func removeMyUserTag(tagId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return removeMyUserTagWithRequestBuilder(tagId: tagId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     自分からタグを削除します
-     - DELETE /users/me/tags/{tagId}
-     - 既に存在しないタグを削除しようとした場合は204を返します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter tagId: (path) タグUUID 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func removeMyUserTagWithRequestBuilder(tagId: UUID) -> RequestBuilder<Void> {
-        var localVariablePath = "/users/me/tags/{tagId}"
-        let tagIdPreEscape = "\(APIHelper.mapValueToPathItem(tagId))"
-        let tagIdPostEscape = tagIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{tagId}", with: tagIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         自分からタグを削除します
+         - DELETE /users/me/tags/{tagId}
+         - 既に存在しないタグを削除しようとした場合は204を返します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter tagId: (path) タグUUID
+         - returns: RequestBuilder<Void>
+         */
+        open class func removeMyUserTagWithRequestBuilder(tagId: UUID) -> RequestBuilder<Void> {
+            var localVariablePath = "/users/me/tags/{tagId}"
+            let tagIdPreEscape = "\(APIHelper.mapValueToPathItem(tagId))"
+            let tagIdPostEscape = tagIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{tagId}", with: tagIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     セッションを無効化
-     
-     - parameter sessionId: (path) セッションUUID 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func revokeMySession(sessionId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return revokeMySessionWithRequestBuilder(sessionId: sessionId).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         セッションを無効化
+
+         - parameter sessionId: (path) セッションUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func revokeMySession(sessionId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return revokeMySessionWithRequestBuilder(sessionId: sessionId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     セッションを無効化
-     - DELETE /users/me/sessions/{sessionId}
-     - 指定した自分のセッションを無効化(ログアウト)します。 既に存在しない・無効化されているセッションを指定した場合も`204`を返します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter sessionId: (path) セッションUUID 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func revokeMySessionWithRequestBuilder(sessionId: UUID) -> RequestBuilder<Void> {
-        var localVariablePath = "/users/me/sessions/{sessionId}"
-        let sessionIdPreEscape = "\(APIHelper.mapValueToPathItem(sessionId))"
-        let sessionIdPostEscape = sessionIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{sessionId}", with: sessionIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         セッションを無効化
+         - DELETE /users/me/sessions/{sessionId}
+         - 指定した自分のセッションを無効化(ログアウト)します。 既に存在しない・無効化されているセッションを指定した場合も`204`を返します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter sessionId: (path) セッションUUID
+         - returns: RequestBuilder<Void>
+         */
+        open class func revokeMySessionWithRequestBuilder(sessionId: UUID) -> RequestBuilder<Void> {
+            var localVariablePath = "/users/me/sessions/{sessionId}"
+            let sessionIdPreEscape = "\(APIHelper.mapValueToPathItem(sessionId))"
+            let sessionIdPostEscape = sessionIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{sessionId}", with: sessionIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     トークンの認可を取り消す
-     
-     - parameter tokenId: (path) OAuth2トークンUUID 
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func revokeMyToken(tokenId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return revokeMyTokenWithRequestBuilder(tokenId: tokenId).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         トークンの認可を取り消す
+
+         - parameter tokenId: (path) OAuth2トークンUUID
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func revokeMyToken(tokenId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return revokeMyTokenWithRequestBuilder(tokenId: tokenId).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     トークンの認可を取り消す
-     - DELETE /users/me/tokens/{tokenId}
-     - 自分の指定したトークンの認可を取り消します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter tokenId: (path) OAuth2トークンUUID 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func revokeMyTokenWithRequestBuilder(tokenId: UUID) -> RequestBuilder<Void> {
-        var localVariablePath = "/users/me/tokens/{tokenId}"
-        let tokenIdPreEscape = "\(APIHelper.mapValueToPathItem(tokenId))"
-        let tokenIdPostEscape = tokenIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{tokenId}", with: tokenIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        /**
+         トークンの認可を取り消す
+         - DELETE /users/me/tokens/{tokenId}
+         - 自分の指定したトークンの認可を取り消します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter tokenId: (path) OAuth2トークンUUID
+         - returns: RequestBuilder<Void>
+         */
+        open class func revokeMyTokenWithRequestBuilder(tokenId: UUID) -> RequestBuilder<Void> {
+            var localVariablePath = "/users/me/tokens/{tokenId}"
+            let tokenIdPreEscape = "\(APIHelper.mapValueToPathItem(tokenId))"
+            let tokenIdPostEscape = tokenIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{tokenId}", with: tokenIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     チャンネル購読レベルを設定
-     
-     - parameter channelId: (path) チャンネルUUID 
-     - parameter putChannelSubscribeLevelRequest: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func setChannelSubscribeLevel(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return setChannelSubscribeLevelWithRequestBuilder(channelId: channelId, putChannelSubscribeLevelRequest: putChannelSubscribeLevelRequest).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         チャンネル購読レベルを設定
+
+         - parameter channelId: (path) チャンネルUUID
+         - parameter putChannelSubscribeLevelRequest: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func setChannelSubscribeLevel(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return setChannelSubscribeLevelWithRequestBuilder(channelId: channelId, putChannelSubscribeLevelRequest: putChannelSubscribeLevelRequest).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
-    }
 
-    /**
-     チャンネル購読レベルを設定
-     - PUT /users/me/subscriptions/{channelId}
-     - 自身の指定したチャンネルの購読レベルを設定します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter channelId: (path) チャンネルUUID 
-     - parameter putChannelSubscribeLevelRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func setChannelSubscribeLevelWithRequestBuilder(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil) -> RequestBuilder<Void> {
-        var localVariablePath = "/users/me/subscriptions/{channelId}"
-        let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
-        let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{channelId}", with: channelIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: putChannelSubscribeLevelRequest)
+        /**
+         チャンネル購読レベルを設定
+         - PUT /users/me/subscriptions/{channelId}
+         - 自身の指定したチャンネルの購読レベルを設定します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter channelId: (path) チャンネルUUID
+         - parameter putChannelSubscribeLevelRequest: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func setChannelSubscribeLevelWithRequestBuilder(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil) -> RequestBuilder<Void> {
+            var localVariablePath = "/users/me/subscriptions/{channelId}"
+            let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
+            let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{channelId}", with: channelIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: putChannelSubscribeLevelRequest)
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
+            let localVariableNillableHeaders: [String: Any?] = [:]
 
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
+            return localVariableRequestBuilder.init(method: "PUT", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
 
-    /**
-     外部ログインアカウントの紐付けを解除
-     
-     - parameter postUnlinkExternalAccount: (body)  (optional)
-     - parameter apiResponseQueue: The queue on which api response is dispatched.
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    @discardableResult
-    open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute(apiResponseQueue) { result in
-            switch result {
-            case .success:
-                completion((), nil)
-            case let .failure(error):
-                completion(nil, error)
+        /**
+         外部ログインアカウントの紐付けを解除
+
+         - parameter postUnlinkExternalAccount: (body)  (optional)
+         - parameter apiResponseQueue: The queue on which api response is dispatched.
+         - parameter completion: completion handler to receive the data and the error objects
+         */
+        @discardableResult
+        open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+            return unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute(apiResponseQueue) { result in
+                switch result {
+                case .success:
+                    completion((), nil)
+                case let .failure(error):
+                    completion(nil, error)
+                }
             }
         }
+
+        /**
+         外部ログインアカウントの紐付けを解除
+         - POST /users/me/ex-accounts/unlink
+         - 自分に紐付けられている外部ログインアカウントの紐付けを解除します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter postUnlinkExternalAccount: (body)  (optional)
+         - returns: RequestBuilder<Void>
+         */
+        open class func unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil) -> RequestBuilder<Void> {
+            let localVariablePath = "/users/me/ex-accounts/unlink"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postUnlinkExternalAccount)
+
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+            let localVariableNillableHeaders: [String: Any?] = [:]
+
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
     }
-
-    /**
-     外部ログインアカウントの紐付けを解除
-     - POST /users/me/ex-accounts/unlink
-     - 自分に紐付けられている外部ログインアカウントの紐付けを解除します。
-     - OAuth:
-       - type: oauth2
-       - name: OAuth2
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter postUnlinkExternalAccount: (body)  (optional)
-     - returns: RequestBuilder<Void> 
-     */
-    open class func unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil) -> RequestBuilder<Void> {
-        let localVariablePath = "/users/me/ex-accounts/unlink"
-        let localVariableURLString = TraqAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postUnlinkExternalAccount)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
-    }
-}
 }

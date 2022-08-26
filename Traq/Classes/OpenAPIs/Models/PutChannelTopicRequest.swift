@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PutChannelTopicRequest")
 public typealias PutChannelTopicRequest = TraqAPI.PutChannelTopicRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** チャンネルトピック編集リクエスト */
+    struct PutChannelTopicRequest: Codable, JSONEncodable, Hashable {
+        /** トピック */
+        public var topic: String
 
-/** チャンネルトピック編集リクエスト */
-public struct PutChannelTopicRequest: Codable, JSONEncodable, Hashable {
+        public init(topic: String) {
+            self.topic = topic
+        }
 
-    /** トピック */
-    public var topic: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case topic
+        }
 
-    public init(topic: String) {
-        self.topic = topic
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(topic, forKey: .topic)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case topic
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(topic, forKey: .topic)
-    }
-}
-
 }

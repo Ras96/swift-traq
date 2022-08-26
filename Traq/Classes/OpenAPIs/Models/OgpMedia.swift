@@ -7,49 +7,46 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.OgpMedia")
 public typealias OgpMedia = TraqAPI.OgpMedia
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** OGPに含まれる画像の情報 */
+    struct OgpMedia: Codable, JSONEncodable, Hashable {
+        public var url: String
+        public var secureUrl: String?
+        public var type: String?
+        public var width: Int?
+        public var height: Int?
 
-/** OGPに含まれる画像の情報 */
-public struct OgpMedia: Codable, JSONEncodable, Hashable {
+        public init(url: String, secureUrl: String?, type: String?, width: Int?, height: Int?) {
+            self.url = url
+            self.secureUrl = secureUrl
+            self.type = type
+            self.width = width
+            self.height = height
+        }
 
-    public var url: String
-    public var secureUrl: String?
-    public var type: String?
-    public var width: Int?
-    public var height: Int?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case url
+            case secureUrl
+            case type
+            case width
+            case height
+        }
 
-    public init(url: String, secureUrl: String?, type: String?, width: Int?, height: Int?) {
-        self.url = url
-        self.secureUrl = secureUrl
-        self.type = type
-        self.width = width
-        self.height = height
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(url, forKey: .url)
+            try container.encode(secureUrl, forKey: .secureUrl)
+            try container.encode(type, forKey: .type)
+            try container.encode(width, forKey: .width)
+            try container.encode(height, forKey: .height)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case url
-        case secureUrl
-        case type
-        case width
-        case height
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(url, forKey: .url)
-        try container.encode(secureUrl, forKey: .secureUrl)
-        try container.encode(type, forKey: .type)
-        try container.encode(width, forKey: .width)
-        try container.encode(height, forKey: .height)
-    }
-}
-
 }

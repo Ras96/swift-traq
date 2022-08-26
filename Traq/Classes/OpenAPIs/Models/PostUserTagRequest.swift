@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostUserTagRequest")
 public typealias PostUserTagRequest = TraqAPI.PostUserTagRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザータグ追加リクエスト */
+    struct PostUserTagRequest: Codable, JSONEncodable, Hashable {
+        /** タグ文字列 */
+        public var tag: String
 
-/** ユーザータグ追加リクエスト */
-public struct PostUserTagRequest: Codable, JSONEncodable, Hashable {
+        public init(tag: String) {
+            self.tag = tag
+        }
 
-    /** タグ文字列 */
-    public var tag: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case tag
+        }
 
-    public init(tag: String) {
-        self.tag = tag
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(tag, forKey: .tag)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case tag
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(tag, forKey: .tag)
-    }
-}
-
 }

@@ -7,44 +7,41 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ChannelStatsStamp")
 public typealias ChannelStatsStamp = TraqAPI.ChannelStatsStamp
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** チャンネル上の特定スタンプ統計情報 */
+    struct ChannelStatsStamp: Codable, JSONEncodable, Hashable {
+        /** スタンプID */
+        public var id: UUID
+        /** スタンプ数(同一メッセージ上のものは複数カウントしない) */
+        public var count: Int64
+        /** スタンプ数(同一メッセージ上のものも複数カウントする) */
+        public var total: Int64
 
-/** チャンネル上の特定スタンプ統計情報 */
-public struct ChannelStatsStamp: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, count: Int64, total: Int64) {
+            self.id = id
+            self.count = count
+            self.total = total
+        }
 
-    /** スタンプID */
-    public var id: UUID
-    /** スタンプ数(同一メッセージ上のものは複数カウントしない) */
-    public var count: Int64
-    /** スタンプ数(同一メッセージ上のものも複数カウントする) */
-    public var total: Int64
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case count
+            case total
+        }
 
-    public init(id: UUID, count: Int64, total: Int64) {
-        self.id = id
-        self.count = count
-        self.total = total
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(count, forKey: .count)
+            try container.encode(total, forKey: .total)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case count
-        case total
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(count, forKey: .count)
-        try container.encode(total, forKey: .total)
-    }
-}
-
 }

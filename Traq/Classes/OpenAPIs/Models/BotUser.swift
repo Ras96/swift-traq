@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.BotUser")
 public typealias BotUser = TraqAPI.BotUser
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** BOTユーザー対 */
+    struct BotUser: Codable, JSONEncodable, Hashable {
+        /** BOT UUID */
+        public var id: UUID
+        /** BOTユーザーUUID */
+        public var botUserId: UUID
 
-/** BOTユーザー対 */
-public struct BotUser: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, botUserId: UUID) {
+            self.id = id
+            self.botUserId = botUserId
+        }
 
-    /** BOT UUID */
-    public var id: UUID
-    /** BOTユーザーUUID */
-    public var botUserId: UUID
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case botUserId
+        }
 
-    public init(id: UUID, botUserId: UUID) {
-        self.id = id
-        self.botUserId = botUserId
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(botUserId, forKey: .botUserId)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case botUserId
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(botUserId, forKey: .botUserId)
-    }
-}
-
 }

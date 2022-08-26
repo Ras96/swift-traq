@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.MessageClip")
 public typealias MessageClip = TraqAPI.MessageClip
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** メッセージクリップ */
+    struct MessageClip: Codable, JSONEncodable, Hashable {
+        /** クリップされているフォルダのID */
+        public var folderId: UUID
+        /** クリップされた日時 */
+        public var clippedAt: Date
 
-/** メッセージクリップ */
-public struct MessageClip: Codable, JSONEncodable, Hashable {
+        public init(folderId: UUID, clippedAt: Date) {
+            self.folderId = folderId
+            self.clippedAt = clippedAt
+        }
 
-    /** クリップされているフォルダのID */
-    public var folderId: UUID
-    /** クリップされた日時 */
-    public var clippedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case folderId
+            case clippedAt
+        }
 
-    public init(folderId: UUID, clippedAt: Date) {
-        self.folderId = folderId
-        self.clippedAt = clippedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(folderId, forKey: .folderId)
+            try container.encode(clippedAt, forKey: .clippedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case folderId
-        case clippedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(folderId, forKey: .folderId)
-        try container.encode(clippedAt, forKey: .clippedAt)
-    }
-}
-
 }

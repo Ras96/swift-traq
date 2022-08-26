@@ -7,44 +7,41 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.TopicChangedEvent")
 public typealias TopicChangedEvent = TraqAPI.TopicChangedEvent
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** トピック変更イベント */
+    struct TopicChangedEvent: Codable, JSONEncodable, Hashable {
+        /** 変更者UUID */
+        public var userId: UUID
+        /** 変更前トピック */
+        public var before: String
+        /** 変更後トピック */
+        public var after: String
 
-/** トピック変更イベント */
-public struct TopicChangedEvent: Codable, JSONEncodable, Hashable {
+        public init(userId: UUID, before: String, after: String) {
+            self.userId = userId
+            self.before = before
+            self.after = after
+        }
 
-    /** 変更者UUID */
-    public var userId: UUID
-    /** 変更前トピック */
-    public var before: String
-    /** 変更後トピック */
-    public var after: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case userId
+            case before
+            case after
+        }
 
-    public init(userId: UUID, before: String, after: String) {
-        self.userId = userId
-        self.before = before
-        self.after = after
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(userId, forKey: .userId)
+            try container.encode(before, forKey: .before)
+            try container.encode(after, forKey: .after)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case userId
-        case before
-        case after
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
-        try container.encode(before, forKey: .before)
-        try container.encode(after, forKey: .after)
-    }
-}
-
 }

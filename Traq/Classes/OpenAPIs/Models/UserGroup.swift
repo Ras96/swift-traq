@@ -7,74 +7,71 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.UserGroup")
 public typealias UserGroup = TraqAPI.UserGroup
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザーグループ */
+    struct UserGroup: Codable, JSONEncodable, Hashable {
+        /** グループUUID */
+        public var id: UUID
+        /** グループ名 */
+        public var name: String
+        /** グループ説明 */
+        public var description: String
+        /** グループタイプ */
+        public var type: String
+        /** グループアイコンUUID */
+        public var icon: UUID
+        /** グループメンバーの配列 */
+        public var members: [UserGroupMember]
+        /** 作成日時 */
+        public var createdAt: Date
+        /** 更新日時 */
+        public var updatedAt: Date
+        /** グループ管理者のUUIDの配列 */
+        public var admins: [UUID]
 
-/** ユーザーグループ */
-public struct UserGroup: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, name: String, description: String, type: String, icon: UUID, members: [UserGroupMember], createdAt: Date, updatedAt: Date, admins: [UUID]) {
+            self.id = id
+            self.name = name
+            self.description = description
+            self.type = type
+            self.icon = icon
+            self.members = members
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+            self.admins = admins
+        }
 
-    /** グループUUID */
-    public var id: UUID
-    /** グループ名 */
-    public var name: String
-    /** グループ説明 */
-    public var description: String
-    /** グループタイプ */
-    public var type: String
-    /** グループアイコンUUID */
-    public var icon: UUID
-    /** グループメンバーの配列 */
-    public var members: [UserGroupMember]
-    /** 作成日時 */
-    public var createdAt: Date
-    /** 更新日時 */
-    public var updatedAt: Date
-    /** グループ管理者のUUIDの配列 */
-    public var admins: [UUID]
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case name
+            case description
+            case type
+            case icon
+            case members
+            case createdAt
+            case updatedAt
+            case admins
+        }
 
-    public init(id: UUID, name: String, description: String, type: String, icon: UUID, members: [UserGroupMember], createdAt: Date, updatedAt: Date, admins: [UUID]) {
-        self.id = id
-        self.name = name
-        self.description = description
-        self.type = type
-        self.icon = icon
-        self.members = members
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.admins = admins
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(name, forKey: .name)
+            try container.encode(description, forKey: .description)
+            try container.encode(type, forKey: .type)
+            try container.encode(icon, forKey: .icon)
+            try container.encode(members, forKey: .members)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(updatedAt, forKey: .updatedAt)
+            try container.encode(admins, forKey: .admins)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case name
-        case description
-        case type
-        case icon
-        case members
-        case createdAt
-        case updatedAt
-        case admins
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        try container.encode(description, forKey: .description)
-        try container.encode(type, forKey: .type)
-        try container.encode(icon, forKey: .icon)
-        try container.encode(members, forKey: .members)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
-        try container.encode(admins, forKey: .admins)
-    }
-}
-
 }

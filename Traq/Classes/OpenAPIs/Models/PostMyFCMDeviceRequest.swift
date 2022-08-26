@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostMyFCMDeviceRequest")
 public typealias PostMyFCMDeviceRequest = TraqAPI.PostMyFCMDeviceRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** FCMデバイス登録リクエスト */
+    struct PostMyFCMDeviceRequest: Codable, JSONEncodable, Hashable {
+        /** FCMのデバイストークン */
+        public var token: String
 
-/** FCMデバイス登録リクエスト */
-public struct PostMyFCMDeviceRequest: Codable, JSONEncodable, Hashable {
+        public init(token: String) {
+            self.token = token
+        }
 
-    /** FCMのデバイストークン */
-    public var token: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case token
+        }
 
-    public init(token: String) {
-        self.token = token
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(token, forKey: .token)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case token
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(token, forKey: .token)
-    }
-}
-
 }

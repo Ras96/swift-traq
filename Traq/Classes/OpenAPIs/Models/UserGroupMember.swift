@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.UserGroupMember")
 public typealias UserGroupMember = TraqAPI.UserGroupMember
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザーグループメンバー */
+    struct UserGroupMember: Codable, JSONEncodable, Hashable {
+        /** ユーザーUUID */
+        public var id: UUID
+        /** ユーザーの役割 */
+        public var role: String
 
-/** ユーザーグループメンバー */
-public struct UserGroupMember: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, role: String) {
+            self.id = id
+            self.role = role
+        }
 
-    /** ユーザーUUID */
-    public var id: UUID
-    /** ユーザーの役割 */
-    public var role: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case role
+        }
 
-    public init(id: UUID, role: String) {
-        self.id = id
-        self.role = role
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(role, forKey: .role)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case role
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(role, forKey: .role)
-    }
-}
-
 }

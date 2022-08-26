@@ -7,44 +7,41 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostStampPaletteRequest")
 public typealias PostStampPaletteRequest = TraqAPI.PostStampPaletteRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** スタンプパレット作成リクエスト */
+    struct PostStampPaletteRequest: Codable, JSONEncodable, Hashable {
+        /** パレット内のスタンプのUUID配列 */
+        public var stamps: Set<UUID>
+        /** パレット名 */
+        public var name: String
+        /** 説明 */
+        public var description: String
 
-/** スタンプパレット作成リクエスト */
-public struct PostStampPaletteRequest: Codable, JSONEncodable, Hashable {
+        public init(stamps: Set<UUID>, name: String, description: String) {
+            self.stamps = stamps
+            self.name = name
+            self.description = description
+        }
 
-    /** パレット内のスタンプのUUID配列 */
-    public var stamps: Set<UUID>
-    /** パレット名 */
-    public var name: String
-    /** 説明 */
-    public var description: String
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case stamps
+            case name
+            case description
+        }
 
-    public init(stamps: Set<UUID>, name: String, description: String) {
-        self.stamps = stamps
-        self.name = name
-        self.description = description
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(stamps, forKey: .stamps)
+            try container.encode(name, forKey: .name)
+            try container.encode(description, forKey: .description)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case stamps
-        case name
-        case description
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(stamps, forKey: .stamps)
-        try container.encode(name, forKey: .name)
-        try container.encode(description, forKey: .description)
-    }
-}
-
 }

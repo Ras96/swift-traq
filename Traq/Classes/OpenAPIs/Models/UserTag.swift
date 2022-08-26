@@ -7,54 +7,51 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.UserTag")
 public typealias UserTag = TraqAPI.UserTag
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザータグ */
+    struct UserTag: Codable, JSONEncodable, Hashable {
+        /** タグUUID */
+        public var tagId: UUID
+        /** タグ文字列 */
+        public var tag: String
+        /** タグがロックされているか */
+        public var isLocked: Bool
+        /** タグ付与日時 */
+        public var createdAt: Date
+        /** タグ更新日時 */
+        public var updatedAt: Date
 
-/** ユーザータグ */
-public struct UserTag: Codable, JSONEncodable, Hashable {
+        public init(tagId: UUID, tag: String, isLocked: Bool, createdAt: Date, updatedAt: Date) {
+            self.tagId = tagId
+            self.tag = tag
+            self.isLocked = isLocked
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+        }
 
-    /** タグUUID */
-    public var tagId: UUID
-    /** タグ文字列 */
-    public var tag: String
-    /** タグがロックされているか */
-    public var isLocked: Bool
-    /** タグ付与日時 */
-    public var createdAt: Date
-    /** タグ更新日時 */
-    public var updatedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case tagId
+            case tag
+            case isLocked
+            case createdAt
+            case updatedAt
+        }
 
-    public init(tagId: UUID, tag: String, isLocked: Bool, createdAt: Date, updatedAt: Date) {
-        self.tagId = tagId
-        self.tag = tag
-        self.isLocked = isLocked
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(tagId, forKey: .tagId)
+            try container.encode(tag, forKey: .tag)
+            try container.encode(isLocked, forKey: .isLocked)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(updatedAt, forKey: .updatedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case tagId
-        case tag
-        case isLocked
-        case createdAt
-        case updatedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(tagId, forKey: .tagId)
-        try container.encode(tag, forKey: .tag)
-        try container.encode(isLocked, forKey: .isLocked)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
-    }
-}
-
 }

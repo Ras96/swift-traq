@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostUserGroupAdminRequest")
 public typealias PostUserGroupAdminRequest = TraqAPI.PostUserGroupAdminRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** グループ管理者追加リクエスト */
+    struct PostUserGroupAdminRequest: Codable, JSONEncodable, Hashable {
+        /** 追加するユーザーのUUID */
+        public var id: UUID
 
-/** グループ管理者追加リクエスト */
-public struct PostUserGroupAdminRequest: Codable, JSONEncodable, Hashable {
+        public init(id: UUID) {
+            self.id = id
+        }
 
-    /** 追加するユーザーのUUID */
-    public var id: UUID
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+        }
 
-    public init(id: UUID) {
-        self.id = id
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-    }
-}
-
 }

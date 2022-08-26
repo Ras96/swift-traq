@@ -7,34 +7,31 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PostMessageStampRequest")
 public typealias PostMessageStampRequest = TraqAPI.PostMessageStampRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** スタンプを押すリクエスト */
+    struct PostMessageStampRequest: Codable, JSONEncodable, Hashable {
+        /** 押す数 */
+        public var count: Int
 
-/** スタンプを押すリクエスト */
-public struct PostMessageStampRequest: Codable, JSONEncodable, Hashable {
+        public init(count: Int) {
+            self.count = count
+        }
 
-    /** 押す数 */
-    public var count: Int
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case count
+        }
 
-    public init(count: Int) {
-        self.count = count
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(count, forKey: .count)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case count
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(count, forKey: .count)
-    }
-}
-
 }

@@ -7,54 +7,51 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.UnreadChannel")
 public typealias UnreadChannel = TraqAPI.UnreadChannel
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** 未読チャンネル情報 */
+    struct UnreadChannel: Codable, JSONEncodable, Hashable {
+        /** チャンネルUUID */
+        public var channelId: UUID
+        /** 未読メッセージ数 */
+        public var count: Int
+        /** 自分宛てメッセージが含まれているかどうか */
+        public var noticeable: Bool
+        /** チャンネルの最古の未読メッセージの日時 */
+        public var since: Date
+        /** チャンネルの最新の未読メッセージの日時 */
+        public var updatedAt: Date
 
-/** 未読チャンネル情報 */
-public struct UnreadChannel: Codable, JSONEncodable, Hashable {
+        public init(channelId: UUID, count: Int, noticeable: Bool, since: Date, updatedAt: Date) {
+            self.channelId = channelId
+            self.count = count
+            self.noticeable = noticeable
+            self.since = since
+            self.updatedAt = updatedAt
+        }
 
-    /** チャンネルUUID */
-    public var channelId: UUID
-    /** 未読メッセージ数 */
-    public var count: Int
-    /** 自分宛てメッセージが含まれているかどうか */
-    public var noticeable: Bool
-    /** チャンネルの最古の未読メッセージの日時 */
-    public var since: Date
-    /** チャンネルの最新の未読メッセージの日時 */
-    public var updatedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case channelId
+            case count
+            case noticeable
+            case since
+            case updatedAt
+        }
 
-    public init(channelId: UUID, count: Int, noticeable: Bool, since: Date, updatedAt: Date) {
-        self.channelId = channelId
-        self.count = count
-        self.noticeable = noticeable
-        self.since = since
-        self.updatedAt = updatedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(channelId, forKey: .channelId)
+            try container.encode(count, forKey: .count)
+            try container.encode(noticeable, forKey: .noticeable)
+            try container.encode(since, forKey: .since)
+            try container.encode(updatedAt, forKey: .updatedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case channelId
-        case count
-        case noticeable
-        case since
-        case updatedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(channelId, forKey: .channelId)
-        try container.encode(count, forKey: .count)
-        try container.encode(noticeable, forKey: .noticeable)
-        try container.encode(since, forKey: .since)
-        try container.encode(updatedAt, forKey: .updatedAt)
-    }
-}
-
 }

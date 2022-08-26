@@ -7,39 +7,36 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.DMChannel")
 public typealias DMChannel = TraqAPI.DMChannel
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ダイレクトメッセージチャンネル */
+    struct DMChannel: Codable, JSONEncodable, Hashable {
+        /** チャンネルUUID */
+        public var id: UUID
+        /** 送信先相手のUUID */
+        public var userId: UUID
 
-/** ダイレクトメッセージチャンネル */
-public struct DMChannel: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, userId: UUID) {
+            self.id = id
+            self.userId = userId
+        }
 
-    /** チャンネルUUID */
-    public var id: UUID
-    /** 送信先相手のUUID */
-    public var userId: UUID
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case userId
+        }
 
-    public init(id: UUID, userId: UUID) {
-        self.id = id
-        self.userId = userId
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(userId, forKey: .userId)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case userId
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(userId, forKey: .userId)
-    }
-}
-
 }

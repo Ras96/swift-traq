@@ -7,15 +7,14 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.OAuth2Prompt")
 public typealias OAuth2Prompt = TraqAPI.OAuth2Prompt
 
-extension TraqAPI {
-
-public enum OAuth2Prompt: String, Codable, CaseIterable {
-    case _none = "none"
-}
+public extension TraqAPI {
+    enum OAuth2Prompt: String, Codable, CaseIterable {
+        case _none = "none"
+    }
 }

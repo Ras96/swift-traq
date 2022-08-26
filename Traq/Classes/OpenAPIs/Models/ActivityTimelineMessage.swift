@@ -7,59 +7,56 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.ActivityTimelineMessage")
 public typealias ActivityTimelineMessage = TraqAPI.ActivityTimelineMessage
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** Timelineアクテビティ用メッセージ */
+    struct ActivityTimelineMessage: Codable, JSONEncodable, Hashable {
+        /** メッセージUUID */
+        public var id: UUID
+        /** 投稿者UUID */
+        public var userId: UUID
+        /** チャンネルUUID */
+        public var channelId: UUID
+        /** メッセージ本文 */
+        public var content: String
+        /** 投稿日時 */
+        public var createdAt: Date
+        /** 編集日時 */
+        public var updatedAt: Date
 
-/** Timelineアクテビティ用メッセージ */
-public struct ActivityTimelineMessage: Codable, JSONEncodable, Hashable {
+        public init(id: UUID, userId: UUID, channelId: UUID, content: String, createdAt: Date, updatedAt: Date) {
+            self.id = id
+            self.userId = userId
+            self.channelId = channelId
+            self.content = content
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+        }
 
-    /** メッセージUUID */
-    public var id: UUID
-    /** 投稿者UUID */
-    public var userId: UUID
-    /** チャンネルUUID */
-    public var channelId: UUID
-    /** メッセージ本文 */
-    public var content: String
-    /** 投稿日時 */
-    public var createdAt: Date
-    /** 編集日時 */
-    public var updatedAt: Date
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case id
+            case userId
+            case channelId
+            case content
+            case createdAt
+            case updatedAt
+        }
 
-    public init(id: UUID, userId: UUID, channelId: UUID, content: String, createdAt: Date, updatedAt: Date) {
-        self.id = id
-        self.userId = userId
-        self.channelId = channelId
-        self.content = content
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(id, forKey: .id)
+            try container.encode(userId, forKey: .userId)
+            try container.encode(channelId, forKey: .channelId)
+            try container.encode(content, forKey: .content)
+            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(updatedAt, forKey: .updatedAt)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case userId
-        case channelId
-        case content
-        case createdAt
-        case updatedAt
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(userId, forKey: .userId)
-        try container.encode(channelId, forKey: .channelId)
-        try container.encode(content, forKey: .content)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
-    }
-}
-
 }

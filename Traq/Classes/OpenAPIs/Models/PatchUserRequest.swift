@@ -7,48 +7,45 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.PatchUserRequest")
 public typealias PatchUserRequest = TraqAPI.PatchUserRequest
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** ユーザー情報編集リクエスト */
+    struct PatchUserRequest: Codable, JSONEncodable, Hashable {
+        /** 新しい表示名 */
+        public var displayName: String?
+        /** TwitterID */
+        public var twitterId: String?
+        public var state: UserAccountState?
+        /** ユーザーロール */
+        public var role: String?
 
-/** ユーザー情報編集リクエスト */
-public struct PatchUserRequest: Codable, JSONEncodable, Hashable {
+        public init(displayName: String? = nil, twitterId: String? = nil, state: UserAccountState? = nil, role: String? = nil) {
+            self.displayName = displayName
+            self.twitterId = twitterId
+            self.state = state
+            self.role = role
+        }
 
-    /** 新しい表示名 */
-    public var displayName: String?
-    /** TwitterID */
-    public var twitterId: String?
-    public var state: UserAccountState?
-    /** ユーザーロール */
-    public var role: String?
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case displayName
+            case twitterId
+            case state
+            case role
+        }
 
-    public init(displayName: String? = nil, twitterId: String? = nil, state: UserAccountState? = nil, role: String? = nil) {
-        self.displayName = displayName
-        self.twitterId = twitterId
-        self.state = state
-        self.role = role
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(displayName, forKey: .displayName)
+            try container.encodeIfPresent(twitterId, forKey: .twitterId)
+            try container.encodeIfPresent(state, forKey: .state)
+            try container.encodeIfPresent(role, forKey: .role)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case displayName
-        case twitterId
-        case state
-        case role
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(displayName, forKey: .displayName)
-        try container.encodeIfPresent(twitterId, forKey: .twitterId)
-        try container.encodeIfPresent(state, forKey: .state)
-        try container.encodeIfPresent(role, forKey: .role)
-    }
-}
-
 }

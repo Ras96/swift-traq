@@ -7,44 +7,41 @@
 
 import Foundation
 #if canImport(AnyCodable)
-import AnyCodable
+    import AnyCodable
 #endif
 
 @available(*, deprecated, renamed: "TraqAPI.SubscribersChangedEvent")
 public typealias SubscribersChangedEvent = TraqAPI.SubscribersChangedEvent
 
-extension TraqAPI {
+public extension TraqAPI {
+    /** 購読者変更イベント */
+    struct SubscribersChangedEvent: Codable, JSONEncodable, Hashable {
+        /** 変更者UUID */
+        public var userId: UUID
+        /** オンにされたユーザーのUUID配列 */
+        public var on: [UUID]
+        /** オフにされたユーザーのUUID配列 */
+        public var off: [UUID]
 
-/** 購読者変更イベント */
-public struct SubscribersChangedEvent: Codable, JSONEncodable, Hashable {
+        public init(userId: UUID, on: [UUID], off: [UUID]) {
+            self.userId = userId
+            self.on = on
+            self.off = off
+        }
 
-    /** 変更者UUID */
-    public var userId: UUID
-    /** オンにされたユーザーのUUID配列 */
-    public var on: [UUID]
-    /** オフにされたユーザーのUUID配列 */
-    public var off: [UUID]
+        public enum CodingKeys: String, CodingKey, CaseIterable {
+            case userId
+            case on
+            case off
+        }
 
-    public init(userId: UUID, on: [UUID], off: [UUID]) {
-        self.userId = userId
-        self.on = on
-        self.off = off
+        // Encodable protocol methods
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(userId, forKey: .userId)
+            try container.encode(on, forKey: .on)
+            try container.encode(off, forKey: .off)
+        }
     }
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case userId
-        case on
-        case off
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(userId, forKey: .userId)
-        try container.encode(on, forKey: .on)
-        try container.encode(off, forKey: .off)
-    }
-}
-
 }
