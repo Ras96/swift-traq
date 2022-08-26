@@ -5,15 +5,7 @@
 //
 
 import Foundation
-
-// We reverted the change of TraqAPI to Traq introduced in https://github.com/OpenAPITools/openapi-generator/pull/9624
-// Because it was causing the following issue https://github.com/OpenAPITools/openapi-generator/issues/9953
-// If you are affected by this issue, please consider removing the following two lines,
-// By setting the option removeMigrationProjectNameClass to true in the generator
-@available(*, deprecated, renamed: "TraqAPI")
-public typealias Traq = TraqAPI
-
-open enum TraqAPI {
+open class TraqAPI {
     public static var basePath = "https://q.trap.jp/api/v3"
     public static var customHeaders: [String: String] = [:]
     public static var credential: URLCredential?
