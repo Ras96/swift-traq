@@ -1,10 +1,20 @@
 #!/bin/sh
 
-wget -nv -P /tmp https://raw.githubusercontent.com/traPtitech/traQ/master/docs/v3-api.yaml
+OPENAPI_GENERATOR_VERSION='6.0.1'
 
-openapi-generator-cli generate \
+# fetch openapi-generator
+NEEDS_FETCH='1'
+if [ -e 'openapi-generator-cli.jar' ]; then
+  VERSION_DOWNLOADED=`java -jar openapi-generator-cli.jar version`
+  NEEDS_FETCH=`test $OPENAPI_GENERATOR_VERSION != $VERSION_DOWNLOADED && echo '1' || echo '0'`
+fi
+if [ $NEEDS_FETCH = '1' ]; then
+  wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$OPENAPI_GENERATOR_VERSION/openapi-generator-cli-$OPENAPI_GENERATOR_VERSION.jar -O openapi-generator-cli.jar
+fi
+
+java -jar openapi-generator-cli.jar generate \
   -g swift5 \
-  -i /tmp/v3-api.yaml \
+  -i https://raw.githubusercontent.com/traPtitech/traQ/master/docs/v3-api.yaml \
   -c ./.openapi-generator.yml
 
 # NOTE: enumの`-createdAt`と`createdAt`が共に`createdat`に変換されて衝突するため置換する
@@ -18,7 +28,8 @@ sed -i.bak -e '23i\
  .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.17"),' ./Package.swift
 rm ./Package.swift.bak
 
-# Packages/をignore
+# ignore files
 echo "Packages/" >> .gitignore
+echo "openapi-generator-cli.jar" >> .gitignore
 
 swift run swiftformat --config .swiftformat .
