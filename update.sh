@@ -21,4 +21,4 @@ rm ./Package.swift.bak
 # Packages/をignore
 echo "Packages/" >> .gitignore
 
-swift run swiftformat .
+swift run swiftformat --config .swiftformat .
