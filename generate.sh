@@ -1,6 +1,9 @@
 #!/bin/sh
 
-OPENAPI_GENERATOR_VERSION='6.0.1'
+OPENAPI_GENERATOR_VERSION=$(cat .openapi-generator/VERSION)
+
+# remove old files
+cat .openapi-generator/FILES | xargs rm -f
 
 # fetch openapi-generator
 NEEDS_FETCH='1'
