@@ -25,6 +25,11 @@ jobs:
           java-version: '8'
       - name: setup Swift
         uses: swift-actions/setup-swift@v1
+      - name: cache packages
+        uses: actions/cache@v3
+        with:
+          path: ./Packages
+          key: ${{ runner.os }}-${{ hashFiles('./Package.swift') }}
       - name: build
         run: sh ./generate.sh
       - name: Check diff
