@@ -28,7 +28,7 @@ jobs:
       - name: cache packages
         uses: actions/cache@v3
         with:
-          path: ./Packages
+          path: ./.build
           key: ${{ runner.os }}-${{ hashFiles('./Package.swift') }}
       - name: build
         run: sh ./generate.sh
