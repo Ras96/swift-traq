@@ -97,5 +97,8 @@ public extension TraqAPI {
         case CreateClipFolder = "create_clip_folder"
         case EditClipFolder = "edit_clip_folder"
         case DeleteClipFolder = "delete_clip_folder"
+        // TODO: traQのmigration errorによるものなので解消したら消す
+        case get_favorite_stamp = "get_favorite_stamp"
+        case edit_favorite_stamp = "edit_favorite_stamp"
     }
 }
