@@ -15,6 +15,7 @@ if [ $NEEDS_FETCH = '1' ]; then
   wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$OPENAPI_GENERATOR_VERSION/openapi-generator-cli-$OPENAPI_GENERATOR_VERSION.jar -O openapi-generator-cli.jar
 fi
 
+# コード生成
 java -jar openapi-generator-cli.jar generate \
   -g swift5 \
   -i https://raw.githubusercontent.com/traPtitech/traQ/master/docs/v3-api.yaml \
@@ -26,16 +27,15 @@ sed -i.bak -e 's/createdat = "-createdAt"/createdatAsc = "-createdAt"/' $MESSAGE
 sed -i.bak -e 's/updatedat = "-updatedAt"/updatedatAsc = "-updatedAt"/' $MESSAGEAPI_FILE
 rm ${MESSAGEAPI_FILE}.bak
 
-# SwiftFormatをPackage.swiftに追加
+# SwiftFormatをPackage.swiftに追加し実行
 echo '
 // devdependencies
 package.dependencies.append(
   .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.17")
 )
 ' >> ./Package.swift
+swift run swiftformat --config .swiftformat .
 
-# ignore files
+# 無視するファイルを追加
 echo "Packages/" >> .gitignore
 echo "openapi-generator-cli.jar" >> .gitignore
-
-swift run swiftformat --config .swiftformat .
