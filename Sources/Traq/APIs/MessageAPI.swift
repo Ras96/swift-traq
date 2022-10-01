@@ -1259,9 +1259,9 @@ extension TraqAPI {
          */
         public enum Sort_searchMessages: String, CaseIterable {
             case createdat = "createdAt"
-            case createdat = "-createdAt"
+            case createdatAsc = "-createdAt"
             case updatedat = "updatedAt"
-            case updatedat = "-updatedAt"
+            case updatedatAsc = "-updatedAt"
         }
 
         /**
