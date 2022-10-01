@@ -10,6 +10,6 @@ Pod::Spec.new do |s|
   s.license = 'Proprietary'
   s.homepage = 'https://github.com/OpenAPITools/openapi-generator'
   s.summary = 'Traq Swift SDK'
-  s.source_files = 'Traq/Classes/**/*.swift'
+  s.source_files = 'Sources/Traq/**/*.swift'
   s.dependency 'AnyCodable-FlightSchool', '~> 0.6.1'
 end

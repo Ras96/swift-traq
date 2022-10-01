@@ -27,7 +27,7 @@ let package = Package(
         .target(
             name: "Traq",
             dependencies: ["AnyCodable"],
-            path: "Traq/Classes"
+            path: "Sources/Traq"
         ),
     ]
 )

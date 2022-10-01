@@ -4,7 +4,7 @@ targets:
     type: framework
     platform: iOS
     deploymentTarget: "9.0"
-    sources: [Traq]
+    sources: [Sources]
     info:
       path: ./Info.plist
       version: 3.0
