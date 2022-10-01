@@ -2,10 +2,10 @@
 
 OPENAPI_GENERATOR_VERSION=$(cat .openapi-generator/VERSION)
 
-# remove old files
+# 前回ファイルを削除
 cat .openapi-generator/FILES | xargs rm -f
 
-# fetch openapi-generator
+# openapi-generatorをダウンロード
 NEEDS_FETCH='1'
 if [ -e 'openapi-generator-cli.jar' ]; then
   VERSION_DOWNLOADED=`java -jar openapi-generator-cli.jar version`
@@ -27,9 +27,12 @@ sed -i.bak -e 's/updatedat = "-updatedAt"/updatedatAsc = "-updatedAt"/' $MESSAGE
 rm ${MESSAGEAPI_FILE}.bak
 
 # SwiftFormatをPackage.swiftに追加
-sed -i.bak -e '23i\
- .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.17"),' ./Package.swift
-rm ./Package.swift.bak
+echo '
+// devdependencies
+package.dependencies.append(
+  .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.17")
+)
+' >> ./Package.swift
 
 # ignore files
 echo "Packages/" >> .gitignore

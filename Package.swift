@@ -20,7 +20,6 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.1"),
-        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.17"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -31,4 +30,9 @@ let package = Package(
             path: "Traq/Classes"
         ),
     ]
+)
+
+// devdependencies
+package.dependencies.append(
+    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.17")
 )
