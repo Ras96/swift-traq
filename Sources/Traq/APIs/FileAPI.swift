@@ -45,25 +45,6 @@ extension TraqAPI {
 
         /**
          ファイルを削除
-
-         - parameter fileId: (path) ファイルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func deleteFile(fileId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return deleteFileWithRequestBuilder(fileId: fileId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ファイルを削除
          - DELETE /files/{fileId}
          - 指定したファイルを削除します。 指定したファイルの削除権限が必要です。
          - OAuth:
@@ -123,26 +104,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ファイルをダウンロード
-
-         - parameter fileId: (path) ファイルUUID
-         - parameter dl: (query) 1を指定するとレスポンスにContent-Dispositionヘッダーが付与されます (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getFile(fileId: UUID, dl: Int? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
-            return getFileWithRequestBuilder(fileId: fileId, dl: dl).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -211,25 +172,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ファイルメタを取得
-
-         - parameter fileId: (path) ファイルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getFileMeta(fileId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<FileInfo, ErrorResponse>) -> Void)) -> RequestTask {
-            return getFileMetaWithRequestBuilder(fileId: fileId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -308,32 +250,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ファイルメタのリストを取得
-
-         - parameter channelId: (query) アップロード先チャンネルUUID (optional)
-         - parameter limit: (query) 取得する件数 (optional)
-         - parameter offset: (query) 取得するオフセット (optional, default to 0)
-         - parameter since: (query) 取得する時間範囲の開始日時 (optional, default to Date(timeIntervalSince1970: -62167219200000000.0 / 1_000_000))
-         - parameter until: (query) 取得する時間範囲の終了日時 (optional)
-         - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
-         - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter mine: (query) アップロード者が自分のファイルのみを取得するか (optional, default to false)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getFiles(channelId: UUID? = nil, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getFiles? = nil, mine: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[FileInfo], ErrorResponse>) -> Void)) -> RequestTask {
-            return getFilesWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order, mine: mine).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -418,26 +334,6 @@ extension TraqAPI {
 
         /**
          サムネイル画像を取得
-
-         - parameter fileId: (path) ファイルUUID
-         - parameter type: (query) 取得するサムネイルのタイプ (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getThumbnailImage(fileId: UUID, type: ThumbnailType? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
-            return getThumbnailImageWithRequestBuilder(fileId: fileId, type: type).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         サムネイル画像を取得
          - GET /files/{fileId}/thumbnail
          - 指定したファイルのサムネイル画像を取得します。 指定したファイルへのアクセス権限が必要です。
          - OAuth:
@@ -501,26 +397,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ファイルをアップロード
-
-         - parameter file: (form) ファイル本体
-         - parameter channelId: (form) アップロード先チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func postFile(file: URL, channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<FileInfo, ErrorResponse>) -> Void)) -> RequestTask {
-            return postFileWithRequestBuilder(file: file, channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 

@@ -45,25 +45,6 @@ extension TraqAPI {
 
         /**
          ピン留めする
-
-         - parameter messageId: (path) メッセージUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func createPin(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<MessagePin, ErrorResponse>) -> Void)) -> RequestTask {
-            return createPinWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ピン留めする
          - POST /messages/{messageId}/pin
          - 指定したメッセージをピン留めします。 アーカイブされているチャンネルのメッセージ・存在しないメッセージ・チャンネル当たりの上限数を超えたメッセージのピン留めはできません。
          - OAuth:
@@ -122,25 +103,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルピンのリストを取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannelPins(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Pin], ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelPinsWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -209,25 +171,6 @@ extension TraqAPI {
 
         /**
          ピン留めを取得
-
-         - parameter messageId: (path) メッセージUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getPin(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<MessagePin, ErrorResponse>) -> Void)) -> RequestTask {
-            return getPinWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ピン留めを取得
          - GET /messages/{messageId}/pin
          - 指定したメッセージのピン留め情報を取得します。
          - OAuth:
@@ -286,25 +229,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ピン留めを外す
-
-         - parameter messageId: (path) メッセージUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func removePin(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return removePinWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 

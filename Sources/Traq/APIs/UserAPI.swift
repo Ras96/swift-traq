@@ -46,26 +46,6 @@ extension TraqAPI {
 
         /**
          ユーザーにタグを追加
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter postUserTagRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func addUserTag(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserTag, ErrorResponse>) -> Void)) -> RequestTask {
-            return addUserTagWithRequestBuilder(userId: userId, postUserTagRequest: postUserTagRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ユーザーにタグを追加
          - POST /users/{userId}/tags
          - 指定したユーザーに指定したタグを追加します。 Webhookユーザーにタグを追加することは出来ません。
          - OAuth:
@@ -126,26 +106,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ユーザーのアイコン画像を変更します
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func changeUserIcon(userId: UUID, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return changeUserIconWithRequestBuilder(userId: userId, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -223,26 +183,6 @@ extension TraqAPI {
 
         /**
          ユーザーのパスワードを変更
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter putUserPasswordRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func changeUserPassword(userId: UUID, putUserPasswordRequest: PutUserPasswordRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return changeUserPasswordWithRequestBuilder(userId: userId, putUserPasswordRequest: putUserPasswordRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ユーザーのパスワードを変更
          - PUT /users/{userId}/password
          - 指定したユーザーのパスワードを変更します。 管理者権限が必要です。
          - OAuth:
@@ -302,25 +242,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ユーザーを登録
-
-         - parameter postUserRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func createUser(postUserRequest: PostUserRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserDetail, ErrorResponse>) -> Void)) -> RequestTask {
-            return createUserWithRequestBuilder(postUserRequest: postUserRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -387,26 +308,6 @@ extension TraqAPI {
 
         /**
          ユーザー情報を変更
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter patchUserRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func editUser(userId: UUID, patchUserRequest: PatchUserRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return editUserWithRequestBuilder(userId: userId, patchUserRequest: patchUserRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ユーザー情報を変更
          - PATCH /users/{userId}
          - 指定したユーザーの情報を変更します。 管理者権限が必要です。
          - OAuth:
@@ -468,27 +369,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ユーザーのタグを編集
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter tagId: (path) タグUUID
-         - parameter patchUserTagRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func editUserTag(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return editUserTagWithRequestBuilder(userId: userId, tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -576,31 +456,6 @@ extension TraqAPI {
 
         /**
          ダイレクトメッセージのリストを取得
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter limit: (query) 取得する件数 (optional)
-         - parameter offset: (query) 取得するオフセット (optional, default to 0)
-         - parameter since: (query) 取得する時間範囲の開始日時 (optional, default to Date(timeIntervalSince1970: -62167219200000000.0 / 1_000_000))
-         - parameter until: (query) 取得する時間範囲の終了日時 (optional)
-         - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
-         - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getDirectMessages(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Message], ErrorResponse>) -> Void)) -> RequestTask {
-            return getDirectMessagesWithRequestBuilder(userId: userId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ダイレクトメッセージのリストを取得
          - GET /users/{userId}/messages
          - 指定したユーザーとのダイレクトメッセージのリストを取得します。
          - OAuth:
@@ -679,25 +534,6 @@ extension TraqAPI {
 
         /**
          ユーザー詳細情報を取得
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getUser(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserDetail, ErrorResponse>) -> Void)) -> RequestTask {
-            return getUserWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ユーザー詳細情報を取得
          - GET /users/{userId}
          - 指定したユーザーの詳細情報を取得します。
          - OAuth:
@@ -756,25 +592,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         DMチャンネル情報を取得
-
-         - parameter userId: (path)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getUserDMChannel(userId: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<DMChannel, ErrorResponse>) -> Void)) -> RequestTask {
-            return getUserDMChannelWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -843,25 +660,6 @@ extension TraqAPI {
 
         /**
          ユーザーのアイコン画像を取得
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getUserIcon(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
-            return getUserIconWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ユーザーのアイコン画像を取得
          - GET /users/{userId}/icon
          - 指定したユーザーのアイコン画像を取得します。
          - OAuth:
@@ -920,25 +718,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ユーザー統計情報を取得
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getUserStats(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<UserStats, ErrorResponse>) -> Void)) -> RequestTask {
-            return getUserStatsWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -1007,25 +786,6 @@ extension TraqAPI {
 
         /**
          ユーザーのタグリストを取得
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getUserTags(userId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UserTag], ErrorResponse>) -> Void)) -> RequestTask {
-            return getUserTagsWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ユーザーのタグリストを取得
          - GET /users/{userId}/tags
          - 指定したユーザーのタグリストを取得します。
          - OAuth:
@@ -1085,26 +845,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ユーザーのリストを取得
-
-         - parameter includeSuspended: (query) アカウントがアクティブでないユーザーを含め、全てのユーザーを取得するかどうか (optional, default to false)
-         - parameter name: (query) 名前が一致するアカウントのみを取得する (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getUsers(includeSuspended: Bool? = nil, name: String? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[User], ErrorResponse>) -> Void)) -> RequestTask {
-            return getUsersWithRequestBuilder(includeSuspended: includeSuspended, name: name).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -1176,26 +916,6 @@ extension TraqAPI {
 
         /**
          ダイレクトメッセージを送信
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter postMessageRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func postDirectMessage(userId: UUID, postMessageRequest: PostMessageRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Message, ErrorResponse>) -> Void)) -> RequestTask {
-            return postDirectMessageWithRequestBuilder(userId: userId, postMessageRequest: postMessageRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ダイレクトメッセージを送信
          - POST /users/{userId}/messages
          - 指定したユーザーにダイレクトメッセージを送信します。
          - OAuth:
@@ -1256,26 +976,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ユーザーからタグを削除します
-
-         - parameter userId: (path) ユーザーUUID
-         - parameter tagId: (path) タグUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func removeUserTag(userId: UUID, tagId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return removeUserTagWithRequestBuilder(userId: userId, tagId: tagId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 

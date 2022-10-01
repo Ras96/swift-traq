@@ -44,24 +44,6 @@ extension TraqAPI {
 
         /**
          外部ログインアカウント一覧を取得
-
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getMyExternalAccounts(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ExternalProviderUser], ErrorResponse>) -> Void)) -> RequestTask {
-            return getMyExternalAccountsWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         外部ログインアカウント一覧を取得
          - GET /users/me/ex-accounts
          - 自分に紐付けられている外部ログインアカウント一覧を取得します。
          - OAuth:
@@ -115,24 +97,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         自分のログインセッションリストを取得
-
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getMySessions(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[LoginSession], ErrorResponse>) -> Void)) -> RequestTask {
-            return getMySessionsWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -197,25 +161,6 @@ extension TraqAPI {
 
         /**
          外部ログインアカウントを紐付ける
-
-         - parameter postLinkExternalAccount: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         外部ログインアカウントを紐付ける
          - POST /users/me/ex-accounts/link
          - 自分に外部ログインアカウントを紐付けます。 指定した`providerName`がサーバー側で有効である必要があります。 リクエストが受理された場合、外部サービスの認証画面にリダイレクトされ、認証される必要があります。
          - OAuth:
@@ -272,26 +217,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         ログイン
-
-         - parameter redirect: (query) リダイレクト先 (optional)
-         - parameter postLoginRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func login(redirect: String? = nil, postLoginRequest: PostLoginRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return loginWithRequestBuilder(redirect: redirect, postLoginRequest: postLoginRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -362,26 +287,6 @@ extension TraqAPI {
 
         /**
          ログアウト
-
-         - parameter redirect: (query) リダイレクト先 (optional)
-         - parameter all: (query) 全てのセッションでログアウトするかどうか (optional, default to false)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func logout(redirect: String? = nil, all: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return logoutWithRequestBuilder(redirect: redirect, all: all).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ログアウト
          - POST /logout
          - ログアウトします。
          - OAuth:
@@ -447,25 +352,6 @@ extension TraqAPI {
 
         /**
          セッションを無効化
-
-         - parameter sessionId: (path) セッションUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func revokeMySession(sessionId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return revokeMySessionWithRequestBuilder(sessionId: sessionId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         セッションを無効化
          - DELETE /users/me/sessions/{sessionId}
          - 指定した自分のセッションを無効化(ログアウト)します。 既に存在しない・無効化されているセッションを指定した場合も`204`を返します。
          - OAuth:
@@ -524,25 +410,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         外部ログインアカウントの紐付けを解除
-
-         - parameter postUnlinkExternalAccount: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 

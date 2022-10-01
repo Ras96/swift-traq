@@ -45,25 +45,6 @@ extension TraqAPI {
 
         /**
          チャンネルをスターに追加
-
-         - parameter postStarRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func addMyStar(postStarRequest: PostStarRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return addMyStarWithRequestBuilder(postStarRequest: postStarRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         チャンネルをスターに追加
          - POST /users/me/stars
          - 指定したチャンネルをスターチャンネルに追加します。 スター済みのチャンネルIDを指定した場合、204を返します。 不正なチャンネルIDを指定した場合、400を返します。
          - OAuth:
@@ -123,24 +104,6 @@ extension TraqAPI {
 
         /**
          スターチャンネルリストを取得
-
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getMyStars(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UUID], ErrorResponse>) -> Void)) -> RequestTask {
-            return getMyStarsWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スターチャンネルリストを取得
          - GET /users/me/stars
          - 自分がスターしているチャンネルのUUIDの配列を取得します。
          - OAuth:
@@ -195,25 +158,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルをスターから削除します
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func removeMyStar(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return removeMyStarWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 

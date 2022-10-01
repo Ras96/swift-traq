@@ -3,5 +3,5 @@
 projectName: Traq
 swiftUseApiNamespace: true
 removeMigrationProjectNameClass: true
-responseAs: Result,AsyncAwait
+responseAs: AsyncAwait
 useSPMFileStructure: true

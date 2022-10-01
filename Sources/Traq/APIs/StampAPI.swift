@@ -47,27 +47,6 @@ extension TraqAPI {
 
         /**
          スタンプを押す
-
-         - parameter messageId: (path) メッセージUUID
-         - parameter stampId: (path) スタンプUUID
-         - parameter postMessageStampRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func addMessageStamp(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return addMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId, postMessageStampRequest: postMessageStampRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプを押す
          - POST /messages/{messageId}/stamps/{stampId}
          - 指定したメッセージに指定したスタンプを押します。
          - OAuth:
@@ -132,26 +111,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         スタンプ画像を変更
-
-         - parameter stampId: (path) スタンプUUID
-         - parameter file: (form) スタンプ画像(1MBまでのpng, jpeg, gif)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func changeStampImage(stampId: UUID, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return changeStampImageWithRequestBuilder(stampId: stampId, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -229,26 +188,6 @@ extension TraqAPI {
 
         /**
          スタンプを作成
-
-         - parameter name: (form) スタンプ名
-         - parameter file: (form) スタンプ画像(1MBまでのpng, jpeg, gif)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func createStamp(name: String, file: URL, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Stamp, ErrorResponse>) -> Void)) -> RequestTask {
-            return createStampWithRequestBuilder(name: name, file: file).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプを作成
          - POST /stamps
          - スタンプを新規作成します。
          - OAuth:
@@ -318,25 +257,6 @@ extension TraqAPI {
 
         /**
          スタンプパレットを作成
-
-         - parameter postStampPaletteRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func createStampPalette(postStampPaletteRequest: PostStampPaletteRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<StampPalette, ErrorResponse>) -> Void)) -> RequestTask {
-            return createStampPaletteWithRequestBuilder(postStampPaletteRequest: postStampPaletteRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプパレットを作成
          - POST /stamp-palettes
          - スタンプパレットを作成します。
          - OAuth:
@@ -392,25 +312,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         スタンプを削除
-
-         - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func deleteStamp(stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return deleteStampWithRequestBuilder(stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -479,25 +380,6 @@ extension TraqAPI {
 
         /**
          スタンプパレットを削除
-
-         - parameter paletteId: (path) スタンプパレットUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func deleteStampPalette(paletteId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return deleteStampPaletteWithRequestBuilder(paletteId: paletteId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプパレットを削除
          - DELETE /stamp-palettes/{paletteId}
          - 指定したスタンプパレットを削除します。 対象のスタンプパレットの管理権限が必要です。
          - OAuth:
@@ -557,26 +439,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         スタンプ情報を変更
-
-         - parameter stampId: (path) スタンプUUID
-         - parameter patchStampRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func editStamp(stampId: UUID, patchStampRequest: PatchStampRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return editStampWithRequestBuilder(stampId: stampId, patchStampRequest: patchStampRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -647,26 +509,6 @@ extension TraqAPI {
 
         /**
          スタンプパレットを編集
-
-         - parameter paletteId: (path) スタンプパレットUUID
-         - parameter patchStampPaletteRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func editStampPalette(paletteId: UUID, patchStampPaletteRequest: PatchStampPaletteRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return editStampPaletteWithRequestBuilder(paletteId: paletteId, patchStampPaletteRequest: patchStampPaletteRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプパレットを編集
          - PATCH /stamp-palettes/{paletteId}
          - 指定したスタンプパレットを編集します。 リクエストのスタンプの配列の順番は保存されて変更されます。 対象のスタンプパレットの管理権限が必要です。
          - OAuth:
@@ -726,25 +568,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         メッセージのスタンプリストを取得
-
-         - parameter messageId: (path) メッセージUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getMessageStamps(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[MessageStamp], ErrorResponse>) -> Void)) -> RequestTask {
-            return getMessageStampsWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -813,25 +636,6 @@ extension TraqAPI {
 
         /**
          スタンプ履歴を取得
-
-         - parameter limit: (query) 件数 (optional, default to 100)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getMyStampHistory(limit: Int? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[StampHistoryEntry], ErrorResponse>) -> Void)) -> RequestTask {
-            return getMyStampHistoryWithRequestBuilder(limit: limit).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプ履歴を取得
          - GET /users/me/stamp-history
          - 自分のスタンプ履歴を最大100件まで取得します。 結果は降順で返されます。  このAPIが返すスタンプ履歴は厳密な履歴ではありません。
          - OAuth:
@@ -890,25 +694,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         スタンプ情報を取得
-
-         - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getStamp(stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Stamp, ErrorResponse>) -> Void)) -> RequestTask {
-            return getStampWithRequestBuilder(stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -977,25 +762,6 @@ extension TraqAPI {
 
         /**
          スタンプ画像を取得
-
-         - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getStampImage(stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
-            return getStampImageWithRequestBuilder(stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプ画像を取得
          - GET /stamps/{stampId}/image
          - 指定したIDのスタンプ画像を返します。
          - OAuth:
@@ -1054,25 +820,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         スタンプパレットを取得
-
-         - parameter paletteId: (path) スタンプパレットUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getStampPalette(paletteId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<StampPalette, ErrorResponse>) -> Void)) -> RequestTask {
-            return getStampPaletteWithRequestBuilder(paletteId: paletteId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -1140,24 +887,6 @@ extension TraqAPI {
 
         /**
          スタンプパレットのリストを取得
-
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getStampPalettes(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[StampPalette], ErrorResponse>) -> Void)) -> RequestTask {
-            return getStampPalettesWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプパレットのリストを取得
          - GET /stamp-palettes
          - 自身が所有しているスタンプパレットのリストを取得します。
          - OAuth:
@@ -1212,25 +941,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         スタンプ統計情報を取得
-
-         - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getStampStats(stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<StampStats, ErrorResponse>) -> Void)) -> RequestTask {
-            return getStampStatsWithRequestBuilder(stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -1308,26 +1018,6 @@ extension TraqAPI {
 
         /**
          スタンプリストを取得
-
-         - parameter includeUnicode: (query) Unicode絵文字を含ませるかどうか Deprecated: typeクエリを指定しなければ全てのスタンプを取得できるため、そちらを利用してください  (optional, default to true)
-         - parameter type: (query) 取得するスタンプの種類 (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getStamps(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Stamp], ErrorResponse>) -> Void)) -> RequestTask {
-            return getStampsWithRequestBuilder(includeUnicode: includeUnicode, type: type).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         スタンプリストを取得
          - GET /stamps
          - スタンプのリストを取得します。
          - OAuth:
@@ -1389,26 +1079,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         スタンプを消す
-
-         - parameter messageId: (path) メッセージUUID
-         - parameter stampId: (path) スタンプUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func removeMessageStamp(messageId: UUID, stampId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return removeMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 

@@ -46,26 +46,6 @@ extension TraqAPI {
 
         /**
          メッセージをクリップフォルダに追加
-
-         - parameter folderId: (path) クリップフォルダUUID
-         - parameter postClipFolderMessageRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func clipMessage(folderId: UUID, postClipFolderMessageRequest: PostClipFolderMessageRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<ClippedMessage, ErrorResponse>) -> Void)) -> RequestTask {
-            return clipMessageWithRequestBuilder(folderId: folderId, postClipFolderMessageRequest: postClipFolderMessageRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         メッセージをクリップフォルダに追加
          - POST /clip-folders/{folderId}/messages
          - 指定したメッセージを指定したクリップフォルダに追加します。
          - OAuth:
@@ -130,25 +110,6 @@ extension TraqAPI {
 
         /**
          クリップフォルダを作成
-
-         - parameter postClipFolderRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func createClipFolder(postClipFolderRequest: PostClipFolderRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<ClipFolder, ErrorResponse>) -> Void)) -> RequestTask {
-            return createClipFolderWithRequestBuilder(postClipFolderRequest: postClipFolderRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         クリップフォルダを作成
          - POST /clip-folders
          - クリップフォルダを作成します。 既にあるフォルダと同名のフォルダを作成することは可能です。
          - OAuth:
@@ -204,25 +165,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         クリップフォルダを削除
-
-         - parameter folderId: (path) クリップフォルダUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func deleteClipFolder(folderId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return deleteClipFolderWithRequestBuilder(folderId: folderId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -292,26 +234,6 @@ extension TraqAPI {
 
         /**
          クリップフォルダ情報を編集
-
-         - parameter folderId: (path) クリップフォルダUUID
-         - parameter patchClipFolderRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func editClipFolder(folderId: UUID, patchClipFolderRequest: PatchClipFolderRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return editClipFolderWithRequestBuilder(folderId: folderId, patchClipFolderRequest: patchClipFolderRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         クリップフォルダ情報を編集
          - PATCH /clip-folders/{folderId}
          - 指定したクリップフォルダの情報を編集します。
          - OAuth:
@@ -376,25 +298,6 @@ extension TraqAPI {
 
         /**
          クリップフォルダ情報を取得
-
-         - parameter folderId: (path) クリップフォルダUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getClipFolder(folderId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<ClipFolder, ErrorResponse>) -> Void)) -> RequestTask {
-            return getClipFolderWithRequestBuilder(folderId: folderId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         クリップフォルダ情報を取得
          - GET /clip-folders/{folderId}
          - 指定したクリップフォルダの情報を取得します。
          - OAuth:
@@ -452,24 +355,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         クリップフォルダのリストを取得
-
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getClipFolders(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ClipFolder], ErrorResponse>) -> Void)) -> RequestTask {
-            return getClipFoldersWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -540,28 +425,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         フォルダ内のクリップのリストを取得
-
-         - parameter folderId: (path) クリップフォルダUUID
-         - parameter limit: (query) 取得する件数 (optional)
-         - parameter offset: (query) 取得するオフセット (optional, default to 0)
-         - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getClips(folderId: UUID, limit: Int? = nil, offset: Int? = nil, order: Order_getClips? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ClippedMessage], ErrorResponse>) -> Void)) -> RequestTask {
-            return getClipsWithRequestBuilder(folderId: folderId, limit: limit, offset: offset, order: order).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -638,25 +501,6 @@ extension TraqAPI {
 
         /**
          自分のクリップを取得
-
-         - parameter messageId: (path) メッセージUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getMessageClips(messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[MessageClip], ErrorResponse>) -> Void)) -> RequestTask {
-            return getMessageClipsWithRequestBuilder(messageId: messageId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         自分のクリップを取得
          - GET /messages/{messageId}/clips
          - 対象のメッセージの自分のクリップの一覧を返します。
          - OAuth:
@@ -716,26 +560,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         メッセージをクリップフォルダから除外
-
-         - parameter folderId: (path) クリップフォルダUUID
-         - parameter messageId: (path) メッセージUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func unclipMessage(folderId: UUID, messageId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return unclipMessageWithRequestBuilder(folderId: folderId, messageId: messageId).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 

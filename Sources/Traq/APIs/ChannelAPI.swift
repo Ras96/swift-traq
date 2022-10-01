@@ -45,25 +45,6 @@ extension TraqAPI {
 
         /**
          チャンネルを作成
-
-         - parameter postChannelRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func createChannel(postChannelRequest: PostChannelRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Channel, ErrorResponse>) -> Void)) -> RequestTask {
-            return createChannelWithRequestBuilder(postChannelRequest: postChannelRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         チャンネルを作成
          - POST /channels
          - チャンネルを作成します。 階層が6以上になるチャンネルは作成できません。
          - OAuth:
@@ -120,26 +101,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネル情報を変更
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter patchChannelRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func editChannel(channelId: UUID, patchChannelRequest: PatchChannelRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return editChannelWithRequestBuilder(channelId: channelId, patchChannelRequest: patchChannelRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -210,26 +171,6 @@ extension TraqAPI {
 
         /**
          チャンネルの通知購読者を編集
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter patchChannelSubscribersRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func editChannelSubscribers(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return editChannelSubscribersWithRequestBuilder(channelId: channelId, patchChannelSubscribersRequest: patchChannelSubscribersRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         チャンネルの通知購読者を編集
          - PATCH /channels/{channelId}/subscribers
          - 指定したチャンネルの通知購読者を編集します。 リクエストに含めなかったユーザーの通知購読状態は変更しません。 また、存在しないユーザーを指定した場合は無視されます。
          - OAuth:
@@ -290,26 +231,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルトピックを編集
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter putChannelTopicRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func editChannelTopic(channelId: UUID, putChannelTopicRequest: PutChannelTopicRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return editChannelTopicWithRequestBuilder(channelId: channelId, putChannelTopicRequest: putChannelTopicRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -379,25 +300,6 @@ extension TraqAPI {
 
         /**
          チャンネル情報を取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannel(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Channel, ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         チャンネル情報を取得
          - GET /channels/{channelId}
          - 指定したチャンネルの情報を取得します。
          - OAuth:
@@ -456,25 +358,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネル参加中のBOTのリストを取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannelBots(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[BotUser], ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelBotsWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -552,31 +435,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルイベントのリストを取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter limit: (query) 取得する件数 (optional)
-         - parameter offset: (query) 取得するオフセット (optional, default to 0)
-         - parameter since: (query) 取得する時間範囲の開始日時 (optional, default to Date(timeIntervalSince1970: -62167219200000000.0 / 1_000_000))
-         - parameter until: (query) 取得する時間範囲の終了日時 (optional)
-         - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
-         - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannelEvents(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getChannelEvents? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ChannelEvent], ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelEventsWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -660,25 +518,6 @@ extension TraqAPI {
 
         /**
          チャンネルピンのリストを取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannelPins(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Pin], ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelPinsWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         チャンネルピンのリストを取得
          - GET /channels/{channelId}/pins
          - 指定したチャンネルにピン留めされているピンメッセージのリストを取得します。
          - OAuth:
@@ -737,25 +576,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネル統計情報を取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannelStats(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<ChannelStats, ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelStatsWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -824,25 +644,6 @@ extension TraqAPI {
 
         /**
          チャンネルの通知購読者のリストを取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannelSubscribers(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[UUID], ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelSubscribersWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         チャンネルの通知購読者のリストを取得
          - GET /channels/{channelId}/subscribers
          - 指定したチャンネルを通知購読しているユーザーのUUIDのリストを取得します。
          - OAuth:
@@ -901,25 +702,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルトピックを取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannelTopic(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<ChannelTopic, ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelTopicWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -988,25 +770,6 @@ extension TraqAPI {
 
         /**
          チャンネル閲覧者リストを取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannelViewers(channelId: UUID, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[ChannelViewer], ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelViewersWithRequestBuilder(channelId: channelId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         チャンネル閲覧者リストを取得
          - GET /channels/{channelId}/viewers
          - 指定したチャンネルの閲覧者のリストを取得します。
          - OAuth:
@@ -1065,25 +828,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルリストを取得
-
-         - parameter includeDm: (query) ダイレクトメッセージチャンネルをレスポンスに含めるかどうか (optional, default to false)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getChannels(includeDm: Bool? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<ChannelList, ErrorResponse>) -> Void)) -> RequestTask {
-            return getChannelsWithRequestBuilder(includeDm: includeDm).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -1161,31 +905,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルメッセージのリストを取得
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter limit: (query) 取得する件数 (optional)
-         - parameter offset: (query) 取得するオフセット (optional, default to 0)
-         - parameter since: (query) 取得する時間範囲の開始日時 (optional, default to Date(timeIntervalSince1970: -62167219200000000.0 / 1_000_000))
-         - parameter until: (query) 取得する時間範囲の終了日時 (optional)
-         - parameter inclusive: (query) 範囲の端を含めるかどうか (optional, default to false)
-         - parameter order: (query) 昇順か降順か (optional, default to .desc)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getMessages(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<[Message], ErrorResponse>) -> Void)) -> RequestTask {
-            return getMessagesWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -1269,25 +988,6 @@ extension TraqAPI {
 
         /**
          DMチャンネル情報を取得
-
-         - parameter userId: (path)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getUserDMChannel(userId: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<DMChannel, ErrorResponse>) -> Void)) -> RequestTask {
-            return getUserDMChannelWithRequestBuilder(userId: userId).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         DMチャンネル情報を取得
          - GET /users/{userId}/dm-channel
          - 指定したユーザーとのダイレクトメッセージチャンネルの情報を返します。 ダイレクトメッセージチャンネルが存在しなかった場合、自動的に作成されます。
          - OAuth:
@@ -1347,26 +1047,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルにメッセージを投稿
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter postMessageRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func postMessage(channelId: UUID, postMessageRequest: PostMessageRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Message, ErrorResponse>) -> Void)) -> RequestTask {
-            return postMessageWithRequestBuilder(channelId: channelId, postMessageRequest: postMessageRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
@@ -1432,26 +1112,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         チャンネルの通知購読者を設定
-
-         - parameter channelId: (path) チャンネルUUID
-         - parameter putChannelSubscribersRequest: (body)  (optional)
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func setChannelSubscribers(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Void, ErrorResponse>) -> Void)) -> RequestTask {
-            return setChannelSubscribersWithRequestBuilder(channelId: channelId, putChannelSubscribersRequest: putChannelSubscribersRequest).execute(apiResponseQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 

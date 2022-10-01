@@ -45,25 +45,6 @@ extension TraqAPI {
 
         /**
          ユーザーのアイコン画像を取得
-
-         - parameter username: (path) ユーザー名
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getPublicUserIcon(username: String, apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<URL, ErrorResponse>) -> Void)) -> RequestTask {
-            return getPublicUserIconWithRequestBuilder(username: username).execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-
-        /**
-         ユーザーのアイコン画像を取得
          - GET /public/icon/{username}
          - ユーザーのアイコン画像を取得します。
          - OAuth:
@@ -121,24 +102,6 @@ extension TraqAPI {
                 }
             } onCancel: { [requestTask] in
                 requestTask?.cancel()
-            }
-        }
-
-        /**
-         バージョンを取得
-
-         - parameter apiResponseQueue: The queue on which api response is dispatched.
-         - parameter completion: completion handler to receive the result
-         */
-        @discardableResult
-        open class func getServerVersion(apiResponseQueue: DispatchQueue = TraqAPI.apiResponseQueue, completion: @escaping ((_ result: Swift.Result<Version, ErrorResponse>) -> Void)) -> RequestTask {
-            return getServerVersionWithRequestBuilder().execute(apiResponseQueue) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.body))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
             }
         }
 
