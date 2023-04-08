@@ -26,13 +26,16 @@ public extension TraqAPI {
         public var since: Date
         /** チャンネルの最新の未読メッセージの日時 */
         public var updatedAt: Date
+        /** そのチャンネルの未読の中で最も古いメッセージのid */
+        public var oldestMessageId: UUID
 
-        public init(channelId: UUID, count: Int, noticeable: Bool, since: Date, updatedAt: Date) {
+        public init(channelId: UUID, count: Int, noticeable: Bool, since: Date, updatedAt: Date, oldestMessageId: UUID) {
             self.channelId = channelId
             self.count = count
             self.noticeable = noticeable
             self.since = since
             self.updatedAt = updatedAt
+            self.oldestMessageId = oldestMessageId
         }
 
         public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -41,6 +44,7 @@ public extension TraqAPI {
             case noticeable
             case since
             case updatedAt
+            case oldestMessageId
         }
 
         // Encodable protocol methods
@@ -52,6 +56,7 @@ public extension TraqAPI {
             try container.encode(noticeable, forKey: .noticeable)
             try container.encode(since, forKey: .since)
             try container.encode(updatedAt, forKey: .updatedAt)
+            try container.encode(oldestMessageId, forKey: .oldestMessageId)
         }
     }
 }
