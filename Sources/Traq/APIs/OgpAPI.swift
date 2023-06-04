@@ -13,6 +13,69 @@ import Foundation
 extension TraqAPI {
     open class OgpAPI {
         /**
+         OGP情報のキャッシュを削除
+
+         - parameter url: (query) OGPのキャッシュを削除したいURL
+         - returns: Void
+         */
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func deleteOgpCache(url: String) async throws {
+            var requestTask: RequestTask?
+            return try await withTaskCancellationHandler {
+                try Task.checkCancellation()
+                return try await withCheckedThrowingContinuation { continuation in
+                    guard !Task.isCancelled else {
+                        continuation.resume(throwing: CancellationError())
+                        return
+                    }
+
+                    requestTask = deleteOgpCacheWithRequestBuilder(url: url).execute { result in
+                        switch result {
+                        case .success:
+                            continuation.resume(returning: ())
+                        case let .failure(error):
+                            continuation.resume(throwing: error)
+                        }
+                    }
+                }
+            } onCancel: { [requestTask] in
+                requestTask?.cancel()
+            }
+        }
+
+        /**
+         OGP情報のキャッシュを削除
+         - DELETE /ogp/cache
+         - 指定されたURLのOGP情報のキャッシュを削除します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - BASIC:
+           - type: http
+           - name: bearerAuth
+         - parameter url: (query) OGPのキャッシュを削除したいURL
+         - returns: RequestBuilder<Void>
+         */
+        open class func deleteOgpCacheWithRequestBuilder(url: String) -> RequestBuilder<Void> {
+            let localVariablePath = "/ogp/cache"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
+
+            var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+            localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+                "url": url.encodeToJSON(),
+            ])
+
+            let localVariableNillableHeaders: [String: Any?] = [:]
+
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        }
+
+        /**
          OGP情報を取得
 
          - parameter url: (query) OGPを取得したいURL
