@@ -109,7 +109,7 @@ extension TraqAPI {
         /**
          OGP情報を取得
          - GET /ogp
-         - OGP情報を取得します。
+         - 指定されたURLのOGP情報を取得します。 指定されたURLに対するOGP情報が見つからなかった場合、typeがemptyに設定された空のOGP情報を返します。
          - OAuth:
            - type: oauth2
            - name: OAuth2
