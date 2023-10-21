@@ -13,7 +13,7 @@ import Foundation
 public typealias Configuration = TraqAPI.Configuration
 
 extension TraqAPI {
-    open enum Configuration {
+    open class Configuration {
         /// Configures the range of HTTP status codes that will result in a successful response
         ///
         /// If a HTTP status code is outside of this range the response will be interpreted as failed.

@@ -34,5 +34,5 @@ let package = Package(
 
 // devdependencies
 package.dependencies.append(
-    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.17")
+    .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.52.8")
 )

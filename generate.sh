@@ -27,11 +27,14 @@ sed -i.bak -e 's/createdat = "-createdAt"/createdatAsc = "-createdAt"/' $MESSAGE
 sed -i.bak -e 's/updatedat = "-updatedAt"/updatedatAsc = "-updatedAt"/' $MESSAGEAPI_FILE
 rm ${MESSAGEAPI_FILE}.bak
 
+# SwiftFormatのルールを追加
+echo '--enumnamespaces structs-only' >> .swiftformat
+
 # SwiftFormatをPackage.swiftに追加し実行
 echo '
 // devdependencies
 package.dependencies.append(
-  .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.17")
+  .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.52.8")
 )
 ' >> ./Package.swift
 swift run swiftformat --config .swiftformat .
