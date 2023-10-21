@@ -16,6 +16,9 @@ public typealias PostBotRequest = TraqAPI.PostBotRequest
 public extension TraqAPI {
     /** BOT作成リクエスト */
     struct PostBotRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: nil, maxLength: 16, pattern: "/^[a-zA-Z0-9_-]{1,16}$/")
+        static let displayNameRule = StringRule(minLength: nil, maxLength: 32, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** BOTユーザーID 自動的に接頭辞\"BOT_\"が付与されます */
         public var name: String
         /** BOTユーザー表示名 */

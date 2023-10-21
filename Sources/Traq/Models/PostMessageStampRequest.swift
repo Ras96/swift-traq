@@ -16,6 +16,7 @@ public typealias PostMessageStampRequest = TraqAPI.PostMessageStampRequest
 public extension TraqAPI {
     /** スタンプを押すリクエスト */
     struct PostMessageStampRequest: Codable, JSONEncodable, Hashable {
+        static let countRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
         /** 押す数 */
         public var count: Int
 

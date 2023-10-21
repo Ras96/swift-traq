@@ -19,27 +19,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func getWebRTCState() async throws -> [WebRTCUserState] {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = getWebRTCStateWithRequestBuilder().execute { result in
-                        switch result {
-                        case let .success(response):
-                            continuation.resume(returning: response.body)
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await getWebRTCStateWithRequestBuilder().execute().body
         }
 
         /**
@@ -49,7 +29,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - returns: RequestBuilder<[WebRTCUserState]>
@@ -67,7 +47,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<[WebRTCUserState]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -78,27 +58,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func postWebRTCAuthenticate(postWebRTCAuthenticateRequest: PostWebRTCAuthenticateRequest? = nil) async throws -> WebRTCAuthenticateResult {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = postWebRTCAuthenticateWithRequestBuilder(postWebRTCAuthenticateRequest: postWebRTCAuthenticateRequest).execute { result in
-                        switch result {
-                        case let .success(response):
-                            continuation.resume(returning: response.body)
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await postWebRTCAuthenticateWithRequestBuilder(postWebRTCAuthenticateRequest: postWebRTCAuthenticateRequest).execute().body
         }
 
         /**
@@ -108,7 +68,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter postWebRTCAuthenticateRequest: (body)  (optional)
@@ -127,7 +87,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<WebRTCAuthenticateResult>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
     }
 }

@@ -16,6 +16,8 @@ public typealias PutMyPasswordRequest = TraqAPI.PutMyPasswordRequest
 public extension TraqAPI {
     /** パスワード変更リクエスト */
     struct PutMyPasswordRequest: Codable, JSONEncodable, Hashable {
+        static let passwordRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[\\x20-\\x7E]{10,32}$/")
+        static let newPasswordRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[\\x20-\\x7E]{10,32}$/")
         /** 現在のパスワード */
         public var password: String
         /** 新しいパスワード */

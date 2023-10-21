@@ -1,4 +1,5 @@
 .gitignore
+.swiftformat
 Cartfile
 Package.swift
 README.md
@@ -154,6 +155,7 @@ Sources/Traq/Models/Webhook.swift
 Sources/Traq/OpenISO8601DateFormatter.swift
 Sources/Traq/SynchronizedDictionary.swift
 Sources/Traq/URLSessionImplementations.swift
+Sources/Traq/Validation.swift
 Traq.podspec
 docs/ActiveOAuth2Token.md
 docs/ActivityAPI.md

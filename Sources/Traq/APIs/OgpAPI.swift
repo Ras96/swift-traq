@@ -20,27 +20,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func deleteOgpCache(url: String) async throws {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = deleteOgpCacheWithRequestBuilder(url: url).execute { result in
-                        switch result {
-                        case .success:
-                            continuation.resume(returning: ())
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await deleteOgpCacheWithRequestBuilder(url: url).execute().body
         }
 
         /**
@@ -50,7 +30,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter url: (query) OGPのキャッシュを削除したいURL
@@ -63,7 +43,7 @@ extension TraqAPI {
 
             var localVariableUrlComponents = URLComponents(string: localVariableURLString)
             localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-                "url": url.encodeToJSON(),
+                "url": (wrappedValue: url.encodeToJSON(), isExplode: true),
             ])
 
             let localVariableNillableHeaders: [String: Any?] = [:]
@@ -72,7 +52,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -83,27 +63,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func getOgp(url: String) async throws -> Ogp {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = getOgpWithRequestBuilder(url: url).execute { result in
-                        switch result {
-                        case let .success(response):
-                            continuation.resume(returning: response.body)
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await getOgpWithRequestBuilder(url: url).execute().body
         }
 
         /**
@@ -113,7 +73,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter url: (query) OGPを取得したいURL
@@ -126,7 +86,7 @@ extension TraqAPI {
 
             var localVariableUrlComponents = URLComponents(string: localVariableURLString)
             localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-                "url": url.encodeToJSON(),
+                "url": (wrappedValue: url.encodeToJSON(), isExplode: true),
             ])
 
             let localVariableNillableHeaders: [String: Any?] = [:]
@@ -135,7 +95,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<Ogp>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
     }
 }

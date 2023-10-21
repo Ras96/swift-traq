@@ -16,6 +16,7 @@ public typealias Channel = TraqAPI.Channel
 public extension TraqAPI {
     /** チャンネル */
     struct Channel: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9-_]{1,20}$/")
         /** チャンネルUUID */
         public var id: UUID
         /** 親チャンネルUUID */

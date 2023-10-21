@@ -16,6 +16,7 @@ public typealias PostUserGroupRequest = TraqAPI.PostUserGroupRequest
 public extension TraqAPI {
     /** ユーザーグループ作成リクエスト */
     struct PostUserGroupRequest: Codable, JSONEncodable, Hashable {
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
         /** グループ名 */
         public var name: String
         /** 説明 */

@@ -16,6 +16,7 @@ public typealias PostUserTagRequest = TraqAPI.PostUserTagRequest
 public extension TraqAPI {
     /** ユーザータグ追加リクエスト */
     struct PostUserTagRequest: Codable, JSONEncodable, Hashable {
+        static let tagRule = StringRule(minLength: 1, maxLength: 30, pattern: nil)
         /** タグ文字列 */
         public var tag: String
 

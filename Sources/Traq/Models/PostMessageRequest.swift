@@ -16,6 +16,7 @@ public typealias PostMessageRequest = TraqAPI.PostMessageRequest
 public extension TraqAPI {
     /** メッセージ投稿リクエスト */
     struct PostMessageRequest: Codable, JSONEncodable, Hashable {
+        static let contentRule = StringRule(minLength: 1, maxLength: 10000, pattern: nil)
         /** メッセージ本文 */
         public var content: String
         /** メンション・チャンネルリンクを自動埋め込みするか */

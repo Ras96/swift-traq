@@ -16,6 +16,8 @@ public typealias PostClipFolderRequest = TraqAPI.PostClipFolderRequest
 public extension TraqAPI {
     /** クリップフォルダ作成リクエスト */
     struct PostClipFolderRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: 1, maxLength: 30, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** フォルダ名 */
         public var name: String
         /** 説明 */

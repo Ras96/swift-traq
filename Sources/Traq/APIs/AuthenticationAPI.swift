@@ -19,27 +19,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func getMyExternalAccounts() async throws -> [ExternalProviderUser] {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = getMyExternalAccountsWithRequestBuilder().execute { result in
-                        switch result {
-                        case let .success(response):
-                            continuation.resume(returning: response.body)
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await getMyExternalAccountsWithRequestBuilder().execute().body
         }
 
         /**
@@ -49,7 +29,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - returns: RequestBuilder<[ExternalProviderUser]>
@@ -67,7 +47,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<[ExternalProviderUser]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -77,27 +57,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func getMySessions() async throws -> [LoginSession] {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = getMySessionsWithRequestBuilder().execute { result in
-                        switch result {
-                        case let .success(response):
-                            continuation.resume(returning: response.body)
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await getMySessionsWithRequestBuilder().execute().body
         }
 
         /**
@@ -107,7 +67,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - returns: RequestBuilder<[LoginSession]>
@@ -125,7 +85,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<[LoginSession]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -136,27 +96,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil) async throws {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute { result in
-                        switch result {
-                        case .success:
-                            continuation.resume(returning: ())
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute().body
         }
 
         /**
@@ -166,7 +106,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter postLinkExternalAccount: (body)  (optional)
@@ -185,7 +125,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -197,27 +137,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func login(redirect: String? = nil, postLoginRequest: PostLoginRequest? = nil) async throws {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = loginWithRequestBuilder(redirect: redirect, postLoginRequest: postLoginRequest).execute { result in
-                        switch result {
-                        case .success:
-                            continuation.resume(returning: ())
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await loginWithRequestBuilder(redirect: redirect, postLoginRequest: postLoginRequest).execute().body
         }
 
         /**
@@ -227,7 +147,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter redirect: (query) リダイレクト先 (optional)
@@ -241,7 +161,7 @@ extension TraqAPI {
 
             var localVariableUrlComponents = URLComponents(string: localVariableURLString)
             localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-                "redirect": redirect?.encodeToJSON(),
+                "redirect": (wrappedValue: redirect?.encodeToJSON(), isExplode: true),
             ])
 
             let localVariableNillableHeaders: [String: Any?] = [:]
@@ -250,7 +170,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -262,27 +182,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func logout(redirect: String? = nil, all: Bool? = nil) async throws {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = logoutWithRequestBuilder(redirect: redirect, all: all).execute { result in
-                        switch result {
-                        case .success:
-                            continuation.resume(returning: ())
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await logoutWithRequestBuilder(redirect: redirect, all: all).execute().body
         }
 
         /**
@@ -292,7 +192,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter redirect: (query) リダイレクト先 (optional)
@@ -306,8 +206,8 @@ extension TraqAPI {
 
             var localVariableUrlComponents = URLComponents(string: localVariableURLString)
             localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-                "redirect": redirect?.encodeToJSON(),
-                "all": all?.encodeToJSON(),
+                "redirect": (wrappedValue: redirect?.encodeToJSON(), isExplode: true),
+                "all": (wrappedValue: all?.encodeToJSON(), isExplode: true),
             ])
 
             let localVariableNillableHeaders: [String: Any?] = [:]
@@ -316,7 +216,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -327,27 +227,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func revokeMySession(sessionId: UUID) async throws {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = revokeMySessionWithRequestBuilder(sessionId: sessionId).execute { result in
-                        switch result {
-                        case .success:
-                            continuation.resume(returning: ())
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await revokeMySessionWithRequestBuilder(sessionId: sessionId).execute().body
         }
 
         /**
@@ -357,7 +237,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter sessionId: (path) セッションUUID
@@ -379,7 +259,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -390,27 +270,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil) async throws {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute { result in
-                        switch result {
-                        case .success:
-                            continuation.resume(returning: ())
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute().body
         }
 
         /**
@@ -420,7 +280,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter postUnlinkExternalAccount: (body)  (optional)
@@ -439,7 +299,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "POST", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
     }
 }

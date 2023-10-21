@@ -16,6 +16,8 @@ public typealias OAuth2ClientDetail = TraqAPI.OAuth2ClientDetail
 public extension TraqAPI {
     /** OAuth2クライアント詳細情報 */
     struct OAuth2ClientDetail: Codable, JSONEncodable, Hashable {
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
+        static let nameRule = StringRule(minLength: 1, maxLength: 32, pattern: nil)
         /** クライアントUUID */
         public var id: String
         /** クライアント開発者UUID */

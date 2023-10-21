@@ -16,6 +16,7 @@ public typealias BotDetail = TraqAPI.BotDetail
 public extension TraqAPI {
     /** BOT詳細情報 */
     struct BotDetail: Codable, JSONEncodable, Hashable {
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** BOT UUID */
         public var id: UUID
         /** 更新日時 */

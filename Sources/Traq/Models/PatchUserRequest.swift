@@ -16,6 +16,8 @@ public typealias PatchUserRequest = TraqAPI.PatchUserRequest
 public extension TraqAPI {
     /** ユーザー情報編集リクエスト */
     struct PatchUserRequest: Codable, JSONEncodable, Hashable {
+        static let displayNameRule = StringRule(minLength: nil, maxLength: 32, pattern: nil)
+        static let twitterIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9_]{1,15}$/")
         /** 新しい表示名 */
         public var displayName: String?
         /** TwitterID */

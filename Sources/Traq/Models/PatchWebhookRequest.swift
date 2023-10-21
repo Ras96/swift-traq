@@ -16,6 +16,9 @@ public typealias PatchWebhookRequest = TraqAPI.PatchWebhookRequest
 public extension TraqAPI {
     /** Webhook情報変更リクエスト */
     struct PatchWebhookRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: 1, maxLength: 32, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
+        static let secretRule = StringRule(minLength: nil, maxLength: 50, pattern: nil)
         /** Webhookユーザー表示名 */
         public var name: String?
         /** 説明 */

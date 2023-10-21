@@ -16,6 +16,7 @@ public typealias PatchUserGroupRequest = TraqAPI.PatchUserGroupRequest
 public extension TraqAPI {
     /** ユーザーグループ編集リクエスト */
     struct PatchUserGroupRequest: Codable, JSONEncodable, Hashable {
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
         /** グループ名 */
         public var name: String?
         /** グループ説明 */

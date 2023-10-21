@@ -16,6 +16,7 @@ public typealias UserGroupMember = TraqAPI.UserGroupMember
 public extension TraqAPI {
     /** ユーザーグループメンバー */
     struct UserGroupMember: Codable, JSONEncodable, Hashable {
+        static let roleRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
         /** ユーザーUUID */
         public var id: UUID
         /** ユーザーの役割 */

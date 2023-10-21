@@ -22,27 +22,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func getActivityTimeline(limit: Int? = nil, all: Bool? = nil, perChannel: Bool? = nil) async throws -> [ActivityTimelineMessage] {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = getActivityTimelineWithRequestBuilder(limit: limit, all: all, perChannel: perChannel).execute { result in
-                        switch result {
-                        case let .success(response):
-                            continuation.resume(returning: response.body)
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await getActivityTimelineWithRequestBuilder(limit: limit, all: all, perChannel: perChannel).execute().body
         }
 
         /**
@@ -52,7 +32,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - parameter limit: (query) 取得する件数 (optional, default to 50)
@@ -67,9 +47,9 @@ extension TraqAPI {
 
             var localVariableUrlComponents = URLComponents(string: localVariableURLString)
             localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-                "limit": limit?.encodeToJSON(),
-                "all": all?.encodeToJSON(),
-                "per_channel": perChannel?.encodeToJSON(),
+                "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
+                "all": (wrappedValue: all?.encodeToJSON(), isExplode: true),
+                "per_channel": (wrappedValue: perChannel?.encodeToJSON(), isExplode: true),
             ])
 
             let localVariableNillableHeaders: [String: Any?] = [:]
@@ -78,7 +58,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<[ActivityTimelineMessage]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
 
         /**
@@ -88,27 +68,7 @@ extension TraqAPI {
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
         open class func getOnlineUsers() async throws -> [String] {
-            var requestTask: RequestTask?
-            return try await withTaskCancellationHandler {
-                try Task.checkCancellation()
-                return try await withCheckedThrowingContinuation { continuation in
-                    guard !Task.isCancelled else {
-                        continuation.resume(throwing: CancellationError())
-                        return
-                    }
-
-                    requestTask = getOnlineUsersWithRequestBuilder().execute { result in
-                        switch result {
-                        case let .success(response):
-                            continuation.resume(returning: response.body)
-                        case let .failure(error):
-                            continuation.resume(throwing: error)
-                        }
-                    }
-                }
-            } onCancel: { [requestTask] in
-                requestTask?.cancel()
-            }
+            try await getOnlineUsersWithRequestBuilder().execute().body
         }
 
         /**
@@ -118,7 +78,7 @@ extension TraqAPI {
          - OAuth:
            - type: oauth2
            - name: OAuth2
-         - BASIC:
+         - Bearer Token:
            - type: http
            - name: bearerAuth
          - returns: RequestBuilder<[String]>
@@ -136,7 +96,7 @@ extension TraqAPI {
 
             let localVariableRequestBuilder: RequestBuilder<[String]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
-            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters)
+            return localVariableRequestBuilder.init(method: "GET", URLString: localVariableUrlComponents?.string ?? localVariableURLString, parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
     }
 }

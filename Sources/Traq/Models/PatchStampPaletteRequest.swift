@@ -16,6 +16,8 @@ public typealias PatchStampPaletteRequest = TraqAPI.PatchStampPaletteRequest
 public extension TraqAPI {
     /** スタンプパレット情報変更リクエスト */
     struct PatchStampPaletteRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: 1, maxLength: 30, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** パレット名 */
         public var name: String?
         /** 説明 */

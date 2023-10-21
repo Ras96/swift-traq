@@ -16,6 +16,10 @@ public typealias UserDetail = TraqAPI.UserDetail
 public extension TraqAPI {
     /** ユーザー詳細情報 */
     struct UserDetail: Codable, JSONEncodable, Hashable {
+        static let displayNameRule = StringRule(minLength: 0, maxLength: 32, pattern: nil)
+        static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9_-]{1,32}$/")
+        static let twitterIdRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9_]{0,15}$/")
+        static let bioRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** ユーザーUUID */
         public var id: UUID
         public var state: UserAccountState

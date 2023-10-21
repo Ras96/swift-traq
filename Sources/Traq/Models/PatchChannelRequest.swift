@@ -16,6 +16,7 @@ public typealias PatchChannelRequest = TraqAPI.PatchChannelRequest
 public extension TraqAPI {
     /** チャンネル情報変更リクエスト */
     struct PatchChannelRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9-_]{1,20}$/")
         /** チャンネル名 */
         public var name: String?
         /** アーカイブされているかどうか */

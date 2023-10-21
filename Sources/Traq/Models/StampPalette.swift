@@ -16,6 +16,8 @@ public typealias StampPalette = TraqAPI.StampPalette
 public extension TraqAPI {
     /** スタンプパレット情報 */
     struct StampPalette: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: nil, maxLength: 30, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** スタンプパレットUUID */
         public var id: UUID
         /** パレット名 */

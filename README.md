@@ -352,10 +352,20 @@ Class | Method | HTTP request | Description
  - [Webhook](docs/Webhook.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation For Authorization
 
 
-## OAuth2
+Authentication schemes defined for the API:
+<a id="cookieAuth"></a>
+### cookieAuth
+
+- **Type**: API key
+- **API key parameter name**: r_session
+- **Location**: 
+
+<a id="OAuth2"></a>
+### OAuth2
 
 - **Type**: OAuth
 - **Flow**: accessCode
@@ -365,15 +375,10 @@ Class | Method | HTTP request | Description
  - **write**: 書き込みスコープ
  - **manage_bot**: bot関連読み書きスコープ
 
-## bearerAuth
+<a id="bearerAuth"></a>
+### bearerAuth
 
-- **Type**: HTTP basic authentication
-
-## cookieAuth
-
-- **Type**: API key
-- **API key parameter name**: r_session
-- **Location**: 
+- **Type**: HTTP Bearer Token authentication
 
 
 ## Author

@@ -16,6 +16,7 @@ public typealias PostChannelRequest = TraqAPI.PostChannelRequest
 public extension TraqAPI {
     /** チャンネル作成リクエスト */
     struct PostChannelRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9-_]{1,20}$/")
         /** チャンネル名 */
         public var name: String
         /** 親チャンネルのUUID ルートに作成する場合はnullを指定 */

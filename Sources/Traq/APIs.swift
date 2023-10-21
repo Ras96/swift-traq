@@ -5,6 +5,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 open class TraqAPI {
     public static var basePath = "https://q.trap.jp/api/v3"
     public static var customHeaders: [String: String] = [:]
@@ -20,17 +23,17 @@ open class RequestBuilder<T> {
     public let method: String
     public let URLString: String
     public let requestTask: RequestTask = .init()
+    public let requiresAuthentication: Bool
 
     /// Optional block to obtain a reference to the request's progress instance when available.
-    /// With the URLSession http client the request's progress only works on iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0.
-    /// If you need to get the request's progress in older OS versions, please use Alamofire http client.
     public var onProgressReady: ((Progress) -> Void)?
 
-    public required init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
+    public required init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
+        self.requiresAuthentication = requiresAuthentication
 
         addHeaders(TraqAPI.customHeaders)
     }
@@ -43,7 +46,32 @@ open class RequestBuilder<T> {
 
     @discardableResult
     open func execute(_: DispatchQueue = TraqAPI.apiResponseQueue, _: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
-        return requestTask
+        requestTask
+    }
+
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    @discardableResult
+    open func execute() async throws -> Response<T> {
+        try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                guard !Task.isCancelled else {
+                    continuation.resume(throwing: CancellationError())
+                    return
+                }
+
+                self.execute { result in
+                    switch result {
+                    case let .success(response):
+                        continuation.resume(returning: response)
+                    case let .failure(error):
+                        continuation.resume(throwing: error)
+                    }
+                }
+            }
+        } onCancel: {
+            self.requestTask.cancel()
+        }
     }
 
     public func addHeader(name: String, value: String) -> Self {

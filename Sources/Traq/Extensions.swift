@@ -5,6 +5,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+    import FoundationNetworking
+#endif
 #if canImport(AnyCodable)
     import AnyCodable
 #endif
@@ -33,6 +36,10 @@ extension Double: JSONEncodable {
     func encodeToJSON() -> Any { self }
 }
 
+extension Decimal: JSONEncodable {
+    func encodeToJSON() -> Any { self }
+}
+
 extension String: JSONEncodable {
     func encodeToJSON() -> Any { self }
 }
@@ -46,7 +53,7 @@ extension UUID: JSONEncodable {
 }
 
 extension RawRepresentable where RawValue: JSONEncodable {
-    func encodeToJSON() -> Any { return rawValue }
+    func encodeToJSON() -> Any { rawValue }
 }
 
 private func encodeIfPossible<T>(_ object: T) -> Any {
@@ -59,13 +66,13 @@ private func encodeIfPossible<T>(_ object: T) -> Any {
 
 extension Array: JSONEncodable {
     func encodeToJSON() -> Any {
-        return map(encodeIfPossible)
+        map(encodeIfPossible)
     }
 }
 
 extension Set: JSONEncodable {
     func encodeToJSON() -> Any {
-        return Array(self).encodeToJSON()
+        Array(self).encodeToJSON()
     }
 }
 
@@ -81,13 +88,13 @@ extension Dictionary: JSONEncodable {
 
 extension Data: JSONEncodable {
     func encodeToJSON() -> Any {
-        return base64EncodedString(options: Data.Base64EncodingOptions())
+        base64EncodedString(options: Data.Base64EncodingOptions())
     }
 }
 
 extension Date: JSONEncodable {
     func encodeToJSON() -> Any {
-        return CodableHelper.dateFormatter.string(from: self)
+        CodableHelper.dateFormatter.string(from: self)
     }
 }
 
@@ -102,7 +109,7 @@ extension JSONEncodable where Self: Encodable {
 
 extension String: CodingKey {
     public var stringValue: String {
-        return self
+        self
     }
 
     public init?(stringValue: String) {
@@ -110,11 +117,11 @@ extension String: CodingKey {
     }
 
     public var intValue: Int? {
-        return nil
+        nil
     }
 
     public init?(intValue _: Int) {
-        return nil
+        nil
     }
 }
 
@@ -139,6 +146,18 @@ public extension KeyedEncodingContainerProtocol {
     mutating func encodeMapIfPresent<T>(_ pairs: [Self.Key: T]?) throws where T: Encodable {
         if let pairs = pairs {
             try encodeMap(pairs)
+        }
+    }
+
+    mutating func encode(_ value: Decimal, forKey key: Self.Key) throws {
+        var mutableValue = value
+        let stringValue = NSDecimalString(&mutableValue, Locale(identifier: "en_US"))
+        try encode(stringValue, forKey: key)
+    }
+
+    mutating func encodeIfPresent(_ value: Decimal?, forKey key: Self.Key) throws {
+        if let value = value {
+            try encode(value, forKey: key)
         }
     }
 }
@@ -178,10 +197,32 @@ public extension KeyedDecodingContainerProtocol {
 
         return map
     }
+
+    func decode(_ type: Decimal.Type, forKey key: Self.Key) throws -> Decimal {
+        let stringValue = try decode(String.self, forKey: key)
+        guard let decimalValue = Decimal(string: stringValue) else {
+            let context = DecodingError.Context(codingPath: [key], debugDescription: "The key \(key) couldn't be converted to a Decimal value")
+            throw DecodingError.typeMismatch(type, context)
+        }
+
+        return decimalValue
+    }
+
+    func decodeIfPresent(_ type: Decimal.Type, forKey key: Self.Key) throws -> Decimal? {
+        guard let stringValue = try decodeIfPresent(String.self, forKey: key) else {
+            return nil
+        }
+        guard let decimalValue = Decimal(string: stringValue) else {
+            let context = DecodingError.Context(codingPath: [key], debugDescription: "The key \(key) couldn't be converted to a Decimal value")
+            throw DecodingError.typeMismatch(type, context)
+        }
+
+        return decimalValue
+    }
 }
 
 extension HTTPURLResponse {
     var isStatusCodeSuccessful: Bool {
-        return (200 ..< 300).contains(statusCode)
+        Configuration.successfulStatusCodeRange.contains(statusCode)
     }
 }

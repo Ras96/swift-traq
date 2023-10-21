@@ -16,6 +16,7 @@ public typealias PutChannelTopicRequest = TraqAPI.PutChannelTopicRequest
 public extension TraqAPI {
     /** チャンネルトピック編集リクエスト */
     struct PutChannelTopicRequest: Codable, JSONEncodable, Hashable {
+        static let topicRule = StringRule(minLength: nil, maxLength: 200, pattern: nil)
         /** トピック */
         public var topic: String
 

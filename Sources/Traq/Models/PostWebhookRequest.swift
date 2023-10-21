@@ -16,6 +16,9 @@ public typealias PostWebhookRequest = TraqAPI.PostWebhookRequest
 public extension TraqAPI {
     /** Webhook作成リクエスト */
     struct PostWebhookRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: 1, maxLength: 32, pattern: nil)
+        static let descriptionRule = StringRule(minLength: 1, maxLength: 1000, pattern: nil)
+        static let secretRule = StringRule(minLength: nil, maxLength: 50, pattern: nil)
         /** Webhookユーザーの表示名 */
         public var name: String
         /** 説明 */

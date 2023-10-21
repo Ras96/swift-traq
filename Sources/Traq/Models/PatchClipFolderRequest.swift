@@ -16,6 +16,8 @@ public typealias PatchClipFolderRequest = TraqAPI.PatchClipFolderRequest
 public extension TraqAPI {
     /** クリップフォルダ情報編集リクエスト */
     struct PatchClipFolderRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: 1, maxLength: 30, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** フォルダ名 */
         public var name: String?
         /** 説明 */

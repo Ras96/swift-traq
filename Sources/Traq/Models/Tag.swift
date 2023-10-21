@@ -16,6 +16,7 @@ public typealias Tag = TraqAPI.Tag
 public extension TraqAPI {
     /** タグ情報 */
     struct Tag: Codable, JSONEncodable, Hashable {
+        static let tagRule = StringRule(minLength: 1, maxLength: 30, pattern: nil)
         /** タグUUID */
         public var id: UUID
         /** タグ文字列 */

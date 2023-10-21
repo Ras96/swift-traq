@@ -16,6 +16,8 @@ public typealias ClipFolder = TraqAPI.ClipFolder
 public extension TraqAPI {
     /** クリップフォルダ情報 */
     struct ClipFolder: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: 1, maxLength: 30, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** フォルダUUID */
         public var id: UUID
         /** フォルダ名 */

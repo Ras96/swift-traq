@@ -16,6 +16,7 @@ public typealias Stamp = TraqAPI.Stamp
 public extension TraqAPI {
     /** スタンプ情報 */
     struct Stamp: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9_-]{1,32}$/")
         /** スタンプUUID */
         public var id: UUID
         /** スタンプ名 */

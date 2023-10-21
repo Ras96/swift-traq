@@ -16,6 +16,8 @@ public typealias User = TraqAPI.User
 public extension TraqAPI {
     /** ユーザー情報 */
     struct User: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9_-]{1,32}$/")
+        static let displayNameRule = StringRule(minLength: 0, maxLength: 32, pattern: nil)
         /** ユーザーUUID */
         public var id: UUID
         /** ユーザー名 */

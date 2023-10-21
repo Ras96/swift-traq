@@ -16,6 +16,8 @@ public typealias PatchBotRequest = TraqAPI.PatchBotRequest
 public extension TraqAPI {
     /** BOT情報変更リクエスト */
     struct PatchBotRequest: Codable, JSONEncodable, Hashable {
+        static let displayNameRule = StringRule(minLength: nil, maxLength: 32, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** BOTユーザー表示名 */
         public var displayName: String?
         /** BOTの説明 */

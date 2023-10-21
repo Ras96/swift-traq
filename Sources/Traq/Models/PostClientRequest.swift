@@ -16,6 +16,8 @@ public typealias PostClientRequest = TraqAPI.PostClientRequest
 public extension TraqAPI {
     /** OAuth2クライアント作成リクエスト */
     struct PostClientRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: 1, maxLength: 32, pattern: nil)
+        static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** クライアント名 */
         public var name: String
         /** コールバックURL */

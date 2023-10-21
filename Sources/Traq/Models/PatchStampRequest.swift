@@ -16,6 +16,7 @@ public typealias PatchStampRequest = TraqAPI.PatchStampRequest
 public extension TraqAPI {
     /** スタンプ情報変更リクエスト */
     struct PatchStampRequest: Codable, JSONEncodable, Hashable {
+        static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9_-]{1,32}$/")
         /** スタンプ名 */
         public var name: String?
         /** 作成者UUID */
