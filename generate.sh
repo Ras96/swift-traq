@@ -1,25 +1,18 @@
-#!/bin/sh
+#!/bin/sh -eux
 
 OPENAPI_GENERATOR_VERSION=$(cat .openapi-generator/VERSION)
 
 # 前回ファイルを削除
 cat .openapi-generator/FILES | xargs rm -f
 
-# openapi-generatorをダウンロード
-NEEDS_FETCH='1'
-if [ -e 'openapi-generator-cli.jar' ]; then
-  VERSION_DOWNLOADED=`java -jar openapi-generator-cli.jar version`
-  NEEDS_FETCH=`test $OPENAPI_GENERATOR_VERSION != $VERSION_DOWNLOADED && echo '1' || echo '0'`
-fi
-if [ $NEEDS_FETCH = '1' ]; then
-  wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/$OPENAPI_GENERATOR_VERSION/openapi-generator-cli-$OPENAPI_GENERATOR_VERSION.jar -O openapi-generator-cli.jar
-fi
-
-# コード生成
-java -jar openapi-generator-cli.jar generate \
-  -g swift5 \
+# build
+docker run --rm -v "${PWD}:/local" -u $(id -u) openapitools/openapi-generator-cli:v$OPENAPI_GENERATOR_VERSION generate \
   -i https://raw.githubusercontent.com/traPtitech/traQ/master/docs/v3-api.yaml \
-  -c ./.openapi-generator.yml
+  -g swift5 \
+  -c /local/.openapi-generator.yml \
+  -o /local
+mv README.md client.md
+mv README.md.bak README.md
 
 # NOTE: enumの`-createdAt`と`createdAt`が共に`createdat`に変換されて衝突するため置換する
 MESSAGEAPI_FILE=./Sources/Traq/APIs/MessageAPI.swift
