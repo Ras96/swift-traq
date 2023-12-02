@@ -1,6 +1,5 @@
 .gitignore
 .swiftformat
-Cartfile
 Package.swift
 README.md
 Sources/Traq/APIHelper.swift
@@ -156,7 +155,6 @@ Sources/Traq/OpenISO8601DateFormatter.swift
 Sources/Traq/SynchronizedDictionary.swift
 Sources/Traq/URLSessionImplementations.swift
 Sources/Traq/Validation.swift
-Traq.podspec
 docs/ActiveOAuth2Token.md
 docs/ActivityAPI.md
 docs/ActivityTimelineMessage.md
@@ -298,5 +296,3 @@ docs/WebRTCUserStateSessionsInner.md
 docs/Webhook.md
 docs/WebhookAPI.md
 docs/WebrtcAPI.md
-git_push.sh
-project.yml
