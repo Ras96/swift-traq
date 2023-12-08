@@ -127,6 +127,7 @@ Sources/Traq/Models/Stamp.swift
 Sources/Traq/Models/StampHistoryEntry.swift
 Sources/Traq/Models/StampPalette.swift
 Sources/Traq/Models/StampStats.swift
+Sources/Traq/Models/StampWithThumbnail.swift
 Sources/Traq/Models/SubscribersChangedEvent.swift
 Sources/Traq/Models/Tag.swift
 Sources/Traq/Models/ThumbnailInfo.swift
@@ -267,6 +268,7 @@ docs/StampAPI.md
 docs/StampHistoryEntry.md
 docs/StampPalette.md
 docs/StampStats.md
+docs/StampWithThumbnail.md
 docs/StarAPI.md
 docs/SubscribersChangedEvent.md
 docs/Tag.md

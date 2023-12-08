@@ -783,7 +783,7 @@ Name | Type | Description  | Notes
 
 # **getStamps**
 ```swift
-    open class func getStamps(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil, completion: @escaping (_ data: [Stamp]?, _ error: Error?) -> Void)
+    open class func getStamps(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil, completion: @escaping (_ data: [StampWithThumbnail]?, _ error: Error?) -> Void)
 ```
 
 スタンプリストを取得
@@ -820,7 +820,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[Stamp]**](Stamp.md)
+[**[StampWithThumbnail]**](StampWithThumbnail.md)
 
 ### Authorization
 

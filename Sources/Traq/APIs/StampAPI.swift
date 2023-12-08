@@ -689,10 +689,10 @@ extension TraqAPI {
 
          - parameter includeUnicode: (query) Unicode絵文字を含ませるかどうか Deprecated: typeクエリを指定しなければ全てのスタンプを取得できるため、そちらを利用してください  (optional, default to true)
          - parameter type: (query) 取得するスタンプの種類 (optional)
-         - returns: [Stamp]
+         - returns: [StampWithThumbnail]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getStamps(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil) async throws -> [Stamp] {
+        open class func getStamps(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil) async throws -> [StampWithThumbnail] {
             try await getStampsWithRequestBuilder(includeUnicode: includeUnicode, type: type).execute().body
         }
 
@@ -708,9 +708,9 @@ extension TraqAPI {
            - name: bearerAuth
          - parameter includeUnicode: (query) Unicode絵文字を含ませるかどうか Deprecated: typeクエリを指定しなければ全てのスタンプを取得できるため、そちらを利用してください  (optional, default to true)
          - parameter type: (query) 取得するスタンプの種類 (optional)
-         - returns: RequestBuilder<[Stamp]>
+         - returns: RequestBuilder<[StampWithThumbnail]>
          */
-        open class func getStampsWithRequestBuilder(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil) -> RequestBuilder<[Stamp]> {
+        open class func getStampsWithRequestBuilder(includeUnicode: Bool? = nil, type: ModelType_getStamps? = nil) -> RequestBuilder<[StampWithThumbnail]> {
             let localVariablePath = "/stamps"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -725,7 +725,7 @@ extension TraqAPI {
 
             let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-            let localVariableRequestBuilder: RequestBuilder<[Stamp]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+            let localVariableRequestBuilder: RequestBuilder<[StampWithThumbnail]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
             return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
