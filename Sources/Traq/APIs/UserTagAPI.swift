@@ -43,7 +43,9 @@ extension TraqAPI {
 
             let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-            let localVariableNillableHeaders: [String: Any?] = [:]
+            let localVariableNillableHeaders: [String: Any?] = [
+                "Content-Type": "application/json",
+            ]
 
             let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
@@ -88,7 +90,9 @@ extension TraqAPI {
 
             let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-            let localVariableNillableHeaders: [String: Any?] = [:]
+            let localVariableNillableHeaders: [String: Any?] = [
+                "Content-Type": "application/json",
+            ]
 
             let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
@@ -133,7 +137,9 @@ extension TraqAPI {
 
             let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-            let localVariableNillableHeaders: [String: Any?] = [:]
+            let localVariableNillableHeaders: [String: Any?] = [
+                "Content-Type": "application/json",
+            ]
 
             let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
@@ -183,7 +189,9 @@ extension TraqAPI {
 
             let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-            let localVariableNillableHeaders: [String: Any?] = [:]
+            let localVariableNillableHeaders: [String: Any?] = [
+                "Content-Type": "application/json",
+            ]
 
             let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 

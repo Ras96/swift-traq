@@ -17,7 +17,7 @@ public extension TraqAPI {
     /** ログインリクエスト */
     struct PostLoginRequest: Codable, JSONEncodable, Hashable {
         static let nameRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-zA-Z0-9_-]{1,32}$/")
-        static let passwordRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[\\\\x20-\\\\x7E]{10,32}$/")
+        static let passwordRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[\\x20-\\x7E]{10,32}$/")
         /** ユーザー名 */
         public var name: String
         /** パスワード */
