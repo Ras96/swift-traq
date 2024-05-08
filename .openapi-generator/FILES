@@ -77,6 +77,8 @@ Sources/Traq/Models/OAuth2Prompt.swift
 Sources/Traq/Models/OAuth2ResponseType.swift
 Sources/Traq/Models/OAuth2Scope.swift
 Sources/Traq/Models/OAuth2Token.swift
+Sources/Traq/Models/OIDCTraqUserInfo.swift
+Sources/Traq/Models/OIDCUserInfo.swift
 Sources/Traq/Models/Ogp.swift
 Sources/Traq/Models/OgpMedia.swift
 Sources/Traq/Models/ParentChangedEvent.swift
@@ -213,6 +215,8 @@ docs/OAuth2Prompt.md
 docs/OAuth2ResponseType.md
 docs/OAuth2Scope.md
 docs/OAuth2Token.md
+docs/OIDCTraqUserInfo.md
+docs/OIDCUserInfo.md
 docs/Oauth2API.md
 docs/Ogp.md
 docs/OgpAPI.md

@@ -24,6 +24,7 @@ Method | HTTP request | Description
 [**getMyUnreadChannels**](MeAPI.md#getmyunreadchannels) | **GET** /users/me/unread | 未読チャンネルを取得
 [**getMyUserTags**](MeAPI.md#getmyusertags) | **GET** /users/me/tags | 自分のタグリストを取得
 [**getMyViewStates**](MeAPI.md#getmyviewstates) | **GET** /users/me/view-states | 自身のチャンネル閲覧状態一覧を取得
+[**getOIDCUserInfo**](MeAPI.md#getoidcuserinfo) | **GET** /users/me/oidc | 自分のユーザー詳細を取得 (OIDC UserInfo)
 [**getUserSettings**](MeAPI.md#getusersettings) | **GET** /users/me/settings | ユーザー設定を取得
 [**linkExternalAccount**](MeAPI.md#linkexternalaccount) | **POST** /users/me/ex-accounts/link | 外部ログインアカウントを紐付ける
 [**readChannel**](MeAPI.md#readchannel) | **DELETE** /users/me/unread/{channelId} | チャンネルを既読にする
@@ -982,6 +983,52 @@ This endpoint does not need any parameter.
 ### Return type
 
 [**[MyChannelViewState]**](MyChannelViewState.md)
+
+### Authorization
+
+[OAuth2](../README.md#OAuth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getOIDCUserInfo**
+```swift
+    open class func getOIDCUserInfo(completion: @escaping (_ data: OIDCUserInfo?, _ error: Error?) -> Void)
+```
+
+自分のユーザー詳細を取得 (OIDC UserInfo)
+
+OIDCトークンを用いてユーザー詳細を取得します。 OIDC UserInfo Endpointです。 
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import Traq
+
+
+// 自分のユーザー詳細を取得 (OIDC UserInfo)
+MeAPI.getOIDCUserInfo() { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**OIDCUserInfo**](OIDCUserInfo.md)
 
 ### Authorization
 

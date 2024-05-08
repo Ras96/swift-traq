@@ -821,6 +821,44 @@ extension TraqAPI {
         }
 
         /**
+         自分のユーザー詳細を取得 (OIDC UserInfo)
+
+         - returns: OIDCUserInfo
+         */
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getOIDCUserInfo() async throws -> OIDCUserInfo {
+            try await getOIDCUserInfoWithRequestBuilder().execute().body
+        }
+
+        /**
+         自分のユーザー詳細を取得 (OIDC UserInfo)
+         - GET /users/me/oidc
+         - OIDCトークンを用いてユーザー詳細を取得します。 OIDC UserInfo Endpointです。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - Bearer Token:
+           - type: http
+           - name: bearerAuth
+         - returns: RequestBuilder<OIDCUserInfo>
+         */
+        open class func getOIDCUserInfoWithRequestBuilder() -> RequestBuilder<OIDCUserInfo> {
+            let localVariablePath = "/users/me/oidc"
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
+
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+            let localVariableNillableHeaders: [String: Any?] = [:]
+
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+            let localVariableRequestBuilder: RequestBuilder<OIDCUserInfo>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+
+            return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        }
+
+        /**
          ユーザー設定を取得
 
          - returns: UserSettings
