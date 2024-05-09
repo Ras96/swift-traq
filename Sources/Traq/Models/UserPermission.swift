@@ -73,6 +73,7 @@ public extension TraqAPI {
         case GetUser = "get_user"
         case RegisterUser = "register_user"
         case GetMe = "get_me"
+        case GetOIDCUserInfo = "get_oidc_userinfo"
         case EditMe = "edit_me"
         case ChangeMyIcon = "change_my_icon"
         case ChangeMyPassword = "change_my_password"
