@@ -125,6 +125,7 @@ Sources/Traq/Models/PutChannelTopicRequest.swift
 Sources/Traq/Models/PutMyPasswordRequest.swift
 Sources/Traq/Models/PutNotifyCitationRequest.swift
 Sources/Traq/Models/PutUserPasswordRequest.swift
+Sources/Traq/Models/Session.swift
 Sources/Traq/Models/Stamp.swift
 Sources/Traq/Models/StampHistoryEntry.swift
 Sources/Traq/Models/StampPalette.swift
@@ -152,7 +153,6 @@ Sources/Traq/Models/VersionFlags.swift
 Sources/Traq/Models/VisibilityChangedEvent.swift
 Sources/Traq/Models/WebRTCAuthenticateResult.swift
 Sources/Traq/Models/WebRTCUserState.swift
-Sources/Traq/Models/WebRTCUserStateSessionsInner.swift
 Sources/Traq/Models/Webhook.swift
 Sources/Traq/OpenISO8601DateFormatter.swift
 Sources/Traq/SynchronizedDictionary.swift
@@ -267,6 +267,7 @@ docs/PutChannelTopicRequest.md
 docs/PutMyPasswordRequest.md
 docs/PutNotifyCitationRequest.md
 docs/PutUserPasswordRequest.md
+docs/Session.md
 docs/Stamp.md
 docs/StampAPI.md
 docs/StampHistoryEntry.md
@@ -298,7 +299,6 @@ docs/VersionFlags.md
 docs/VisibilityChangedEvent.md
 docs/WebRTCAuthenticateResult.md
 docs/WebRTCUserState.md
-docs/WebRTCUserStateSessionsInner.md
 docs/Webhook.md
 docs/WebhookAPI.md
 docs/WebrtcAPI.md

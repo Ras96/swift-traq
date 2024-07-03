@@ -21,9 +21,9 @@ public extension TraqAPI {
         /** チャンネルUUID */
         public var channelId: UUID
         /** セッションの配列 */
-        public var sessions: [WebRTCUserStateSessionsInner]
+        public var sessions: [Session]
 
-        public init(userId: UUID, channelId: UUID, sessions: [WebRTCUserStateSessionsInner]) {
+        public init(userId: UUID, channelId: UUID, sessions: [Session]) {
             self.userId = userId
             self.channelId = channelId
             self.sessions = sessions
