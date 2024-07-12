@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**postOAuth2Authorize**](Oauth2API.md#postoauth2authorize) | **POST** /oauth2/authorize | OAuth2 認可エンドポイント
 [**postOAuth2AuthorizeDecide**](Oauth2API.md#postoauth2authorizedecide) | **POST** /oauth2/authorize/decide | OAuth2 認可承諾API
 [**postOAuth2Token**](Oauth2API.md#postoauth2token) | **POST** /oauth2/token | OAuth2 トークンエンドポイント
+[**revokeClientTokens**](Oauth2API.md#revokeclienttokens) | **DELETE** /clients/{clientId}/tokens | OAuthクライアントのトークンを削除
 [**revokeMyToken**](Oauth2API.md#revokemytoken) | **DELETE** /users/me/tokens/{tokenId} | トークンの認可を取り消す
 [**revokeOAuth2Token**](Oauth2API.md#revokeoauth2token) | **POST** /oauth2/revoke | OAuth2 トークン無効化エンドポイント
 
@@ -565,6 +566,56 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **revokeClientTokens**
+```swift
+    open class func revokeClientTokens(clientId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+```
+
+OAuthクライアントのトークンを削除
+
+自分が許可している指定したOAuthクライアントのアクセストークンを全てRevokeします。
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import Traq
+
+let clientId = "clientId_example" // String | OAuth2クライアントUUID
+
+// OAuthクライアントのトークンを削除
+Oauth2API.revokeClientTokens(clientId: clientId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **clientId** | **String** | OAuth2クライアントUUID | 
+
+### Return type
+
+Void (empty response body)
+
+### Authorization
+
+[OAuth2](../README.md#OAuth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -162,6 +162,7 @@ Class | Method | HTTP request | Description
 *Oauth2API* | [**postOAuth2Authorize**](docs/Oauth2API.md#postoauth2authorize) | **POST** /oauth2/authorize | OAuth2 認可エンドポイント
 *Oauth2API* | [**postOAuth2AuthorizeDecide**](docs/Oauth2API.md#postoauth2authorizedecide) | **POST** /oauth2/authorize/decide | OAuth2 認可承諾API
 *Oauth2API* | [**postOAuth2Token**](docs/Oauth2API.md#postoauth2token) | **POST** /oauth2/token | OAuth2 トークンエンドポイント
+*Oauth2API* | [**revokeClientTokens**](docs/Oauth2API.md#revokeclienttokens) | **DELETE** /clients/{clientId}/tokens | OAuthクライアントのトークンを削除
 *Oauth2API* | [**revokeMyToken**](docs/Oauth2API.md#revokemytoken) | **DELETE** /users/me/tokens/{tokenId} | トークンの認可を取り消す
 *Oauth2API* | [**revokeOAuth2Token**](docs/Oauth2API.md#revokeoauth2token) | **POST** /oauth2/revoke | OAuth2 トークン無効化エンドポイント
 *OgpAPI* | [**deleteOgpCache**](docs/OgpAPI.md#deleteogpcache) | **DELETE** /ogp/cache | OGP情報のキャッシュを削除

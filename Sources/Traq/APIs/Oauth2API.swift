@@ -533,6 +533,49 @@ extension TraqAPI {
         }
 
         /**
+         OAuthクライアントのトークンを削除
+
+         - parameter clientId: (path) OAuth2クライアントUUID
+         - returns: Void
+         */
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func revokeClientTokens(clientId: String) async throws {
+            try await revokeClientTokensWithRequestBuilder(clientId: clientId).execute().body
+        }
+
+        /**
+         OAuthクライアントのトークンを削除
+         - DELETE /clients/{clientId}/tokens
+         - 自分が許可している指定したOAuthクライアントのアクセストークンを全てRevokeします。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - Bearer Token:
+           - type: http
+           - name: bearerAuth
+         - parameter clientId: (path) OAuth2クライアントUUID
+         - returns: RequestBuilder<Void>
+         */
+        open class func revokeClientTokensWithRequestBuilder(clientId: String) -> RequestBuilder<Void> {
+            var localVariablePath = "/clients/{clientId}/tokens"
+            let clientIdPreEscape = "\(APIHelper.mapValueToPathItem(clientId))"
+            let clientIdPostEscape = clientIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{clientId}", with: clientIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
+
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+            let localVariableNillableHeaders: [String: Any?] = [:]
+
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        }
+
+        /**
          トークンの認可を取り消す
 
          - parameter tokenId: (path) OAuth2トークンUUID
