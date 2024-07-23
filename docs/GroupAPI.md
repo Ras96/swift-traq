@@ -138,7 +138,7 @@ Void (empty response body)
 import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
-let file = URL(string: "https://example.com")! // URL | アイコン画像(1MBまでのpng, jpeg, gif)
+let file = URL(string: "https://example.com")! // URL | アイコン画像(2MBまでのpng, jpeg, gif)
 
 // ユーザーグループのアイコンを変更
 GroupAPI.changeUserGroupIcon(groupId: groupId, file: file) { (response, error) in
@@ -158,7 +158,7 @@ GroupAPI.changeUserGroupIcon(groupId: groupId, file: file) { (response, error) i
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **groupId** | **UUID** | ユーザーグループUUID | 
- **file** | **URL** | アイコン画像(1MBまでのpng, jpeg, gif) | 
+ **file** | **URL** | アイコン画像(2MBまでのpng, jpeg, gif) | 
 
 ### Return type
 

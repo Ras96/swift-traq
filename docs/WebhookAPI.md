@@ -30,7 +30,7 @@ Webhookのアイコンを変更
 import Traq
 
 let webhookId = 987 // UUID | WebhookUUID
-let file = URL(string: "https://example.com")! // URL | アイコン画像(1MBまでのpng, jpeg, gif)
+let file = URL(string: "https://example.com")! // URL | アイコン画像(2MBまでのpng, jpeg, gif)
 
 // Webhookのアイコンを変更
 WebhookAPI.changeWebhookIcon(webhookId: webhookId, file: file) { (response, error) in
@@ -50,7 +50,7 @@ WebhookAPI.changeWebhookIcon(webhookId: webhookId, file: file) { (response, erro
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **webhookId** | **UUID** | WebhookUUID | 
- **file** | **URL** | アイコン画像(1MBまでのpng, jpeg, gif) | 
+ **file** | **URL** | アイコン画像(2MBまでのpng, jpeg, gif) | 
 
 ### Return type
 

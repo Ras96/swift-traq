@@ -99,7 +99,7 @@ extension TraqAPI {
         /**
          自分のアイコン画像を変更
 
-         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter file: (form) アイコン画像(2MBまでのpng, jpeg, gif)
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -117,7 +117,7 @@ extension TraqAPI {
          - Bearer Token:
            - type: http
            - name: bearerAuth
-         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter file: (form) アイコン画像(2MBまでのpng, jpeg, gif)
          - returns: RequestBuilder<Void>
          */
         open class func changeMyIconWithRequestBuilder(file: URL) -> RequestBuilder<Void> {

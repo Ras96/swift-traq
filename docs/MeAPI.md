@@ -151,7 +151,7 @@ Name | Type | Description  | Notes
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import Traq
 
-let file = URL(string: "https://example.com")! // URL | アイコン画像(1MBまでのpng, jpeg, gif)
+let file = URL(string: "https://example.com")! // URL | アイコン画像(2MBまでのpng, jpeg, gif)
 
 // 自分のアイコン画像を変更
 MeAPI.changeMyIcon(file: file) { (response, error) in
@@ -170,7 +170,7 @@ MeAPI.changeMyIcon(file: file) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file** | **URL** | アイコン画像(1MBまでのpng, jpeg, gif) | 
+ **file** | **URL** | アイコン画像(2MBまでのpng, jpeg, gif) | 
 
 ### Return type
 

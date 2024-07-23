@@ -88,7 +88,7 @@ Name | Type | Description  | Notes
 import Traq
 
 let userId = 987 // UUID | ユーザーUUID
-let file = URL(string: "https://example.com")! // URL | アイコン画像(1MBまでのpng, jpeg, gif)
+let file = URL(string: "https://example.com")! // URL | アイコン画像(2MBまでのpng, jpeg, gif)
 
 // ユーザーのアイコン画像を変更します
 UserAPI.changeUserIcon(userId: userId, file: file) { (response, error) in
@@ -108,7 +108,7 @@ UserAPI.changeUserIcon(userId: userId, file: file) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **userId** | **UUID** | ユーザーUUID | 
- **file** | **URL** | アイコン画像(1MBまでのpng, jpeg, gif) | 
+ **file** | **URL** | アイコン画像(2MBまでのpng, jpeg, gif) | 
 
 ### Return type
 

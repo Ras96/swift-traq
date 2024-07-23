@@ -110,7 +110,7 @@ extension TraqAPI {
          ユーザーグループのアイコンを変更
 
          - parameter groupId: (path) ユーザーグループUUID
-         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter file: (form) アイコン画像(2MBまでのpng, jpeg, gif)
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -129,7 +129,7 @@ extension TraqAPI {
            - type: http
            - name: bearerAuth
          - parameter groupId: (path) ユーザーグループUUID
-         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter file: (form) アイコン画像(2MBまでのpng, jpeg, gif)
          - returns: RequestBuilder<Void>
          */
         open class func changeUserGroupIconWithRequestBuilder(groupId: UUID, file: URL) -> RequestBuilder<Void> {

@@ -86,7 +86,7 @@ BOTのアイコン画像を変更
 import Traq
 
 let botId = 987 // UUID | BOTUUID
-let file = URL(string: "https://example.com")! // URL | アイコン画像(1MBまでのpng, jpeg, gif)
+let file = URL(string: "https://example.com")! // URL | アイコン画像(2MBまでのpng, jpeg, gif)
 
 // BOTのアイコン画像を変更
 BotAPI.changeBotIcon(botId: botId, file: file) { (response, error) in
@@ -106,7 +106,7 @@ BotAPI.changeBotIcon(botId: botId, file: file) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **botId** | **UUID** | BOTUUID | 
- **file** | **URL** | アイコン画像(1MBまでのpng, jpeg, gif) | 
+ **file** | **URL** | アイコン画像(2MBまでのpng, jpeg, gif) | 
 
 ### Return type
 

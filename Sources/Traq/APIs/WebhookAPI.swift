@@ -16,7 +16,7 @@ extension TraqAPI {
          Webhookのアイコンを変更
 
          - parameter webhookId: (path) WebhookUUID
-         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter file: (form) アイコン画像(2MBまでのpng, jpeg, gif)
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -35,7 +35,7 @@ extension TraqAPI {
            - type: http
            - name: bearerAuth
          - parameter webhookId: (path) WebhookUUID
-         - parameter file: (form) アイコン画像(1MBまでのpng, jpeg, gif)
+         - parameter file: (form) アイコン画像(2MBまでのpng, jpeg, gif)
          - returns: RequestBuilder<Void>
          */
         open class func changeWebhookIconWithRequestBuilder(webhookId: UUID, file: URL) -> RequestBuilder<Void> {
