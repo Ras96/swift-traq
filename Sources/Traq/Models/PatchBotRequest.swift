@@ -18,6 +18,7 @@ public extension TraqAPI {
     struct PatchBotRequest: Codable, JSONEncodable, Hashable {
         static let displayNameRule = StringRule(minLength: nil, maxLength: 32, pattern: nil)
         static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
+        static let bioRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** BOTユーザー表示名 */
         public var displayName: String?
         /** BOTの説明 */
@@ -31,8 +32,10 @@ public extension TraqAPI {
         public var developerId: UUID?
         /** 購読するイベント */
         public var subscribeEvents: [String]?
+        /** 自己紹介(biography) */
+        public var bio: String?
 
-        public init(displayName: String? = nil, description: String? = nil, privileged: Bool? = nil, mode: BotMode? = nil, endpoint: String? = nil, developerId: UUID? = nil, subscribeEvents: [String]? = nil) {
+        public init(displayName: String? = nil, description: String? = nil, privileged: Bool? = nil, mode: BotMode? = nil, endpoint: String? = nil, developerId: UUID? = nil, subscribeEvents: [String]? = nil, bio: String? = nil) {
             self.displayName = displayName
             self.description = description
             self.privileged = privileged
@@ -40,6 +43,7 @@ public extension TraqAPI {
             self.endpoint = endpoint
             self.developerId = developerId
             self.subscribeEvents = subscribeEvents
+            self.bio = bio
         }
 
         public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -50,6 +54,7 @@ public extension TraqAPI {
             case endpoint
             case developerId
             case subscribeEvents
+            case bio
         }
 
         // Encodable protocol methods
@@ -63,6 +68,7 @@ public extension TraqAPI {
             try container.encodeIfPresent(endpoint, forKey: .endpoint)
             try container.encodeIfPresent(developerId, forKey: .developerId)
             try container.encodeIfPresent(subscribeEvents, forKey: .subscribeEvents)
+            try container.encodeIfPresent(bio, forKey: .bio)
         }
     }
 }

@@ -284,7 +284,7 @@ BOT情報を変更
 import Traq
 
 let botId = 987 // UUID | BOTUUID
-let patchBotRequest = PatchBotRequest(displayName: "displayName_example", description: "description_example", privileged: false, mode: BotMode(), endpoint: "endpoint_example", developerId: 123, subscribeEvents: ["subscribeEvents_example"]) // PatchBotRequest |  (optional)
+let patchBotRequest = PatchBotRequest(displayName: "displayName_example", description: "description_example", privileged: false, mode: BotMode(), endpoint: "endpoint_example", developerId: 123, subscribeEvents: ["subscribeEvents_example"], bio: "bio_example") // PatchBotRequest |  (optional)
 
 // BOT情報を変更
 BotAPI.editBot(botId: botId, patchBotRequest: patchBotRequest) { (response, error) in
