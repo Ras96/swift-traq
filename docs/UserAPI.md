@@ -447,7 +447,7 @@ Name | Type | Description  | Notes
 
 # **getUserDMChannel**
 ```swift
-    open class func getUserDMChannel(userId: String, completion: @escaping (_ data: DMChannel?, _ error: Error?) -> Void)
+    open class func getUserDMChannel(userId: UUID, completion: @escaping (_ data: DMChannel?, _ error: Error?) -> Void)
 ```
 
 DMチャンネル情報を取得
@@ -459,7 +459,7 @@ DMチャンネル情報を取得
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import Traq
 
-let userId = "userId_example" // String | 
+let userId = 987 // UUID | 
 
 // DMチャンネル情報を取得
 UserAPI.getUserDMChannel(userId: userId) { (response, error) in
@@ -478,7 +478,7 @@ UserAPI.getUserDMChannel(userId: userId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **String** |  | 
+ **userId** | **UUID** |  | 
 
 ### Return type
 

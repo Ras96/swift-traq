@@ -690,7 +690,7 @@ extension TraqAPI {
          - returns: DMChannel
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getUserDMChannel(userId: String) async throws -> DMChannel {
+        open class func getUserDMChannel(userId: UUID) async throws -> DMChannel {
             try await getUserDMChannelWithRequestBuilder(userId: userId).execute().body
         }
 
@@ -707,7 +707,7 @@ extension TraqAPI {
          - parameter userId: (path)
          - returns: RequestBuilder<DMChannel>
          */
-        open class func getUserDMChannelWithRequestBuilder(userId: String) -> RequestBuilder<DMChannel> {
+        open class func getUserDMChannelWithRequestBuilder(userId: UUID) -> RequestBuilder<DMChannel> {
             var localVariablePath = "/users/{userId}/dm-channel"
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
