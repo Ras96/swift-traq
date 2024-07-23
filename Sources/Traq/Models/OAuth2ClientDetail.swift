@@ -32,8 +32,10 @@ public extension TraqAPI {
         public var callbackUrl: String
         /** クライアントシークレット */
         public var secret: String
+        /** confidential client なら true, public client なら false */
+        public var confidential: Bool
 
-        public init(id: String, developerId: UUID, description: String, name: String, scopes: [OAuth2Scope], callbackUrl: String, secret: String) {
+        public init(id: String, developerId: UUID, description: String, name: String, scopes: [OAuth2Scope], callbackUrl: String, secret: String, confidential: Bool) {
             self.id = id
             self.developerId = developerId
             self.description = description
@@ -41,6 +43,7 @@ public extension TraqAPI {
             self.scopes = scopes
             self.callbackUrl = callbackUrl
             self.secret = secret
+            self.confidential = confidential
         }
 
         public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -51,6 +54,7 @@ public extension TraqAPI {
             case scopes
             case callbackUrl
             case secret
+            case confidential
         }
 
         // Encodable protocol methods
@@ -64,6 +68,7 @@ public extension TraqAPI {
             try container.encode(scopes, forKey: .scopes)
             try container.encode(callbackUrl, forKey: .callbackUrl)
             try container.encode(secret, forKey: .secret)
+            try container.encode(confidential, forKey: .confidential)
         }
     }
 }

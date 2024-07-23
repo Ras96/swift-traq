@@ -33,7 +33,7 @@ OAuth2クライアントを作成します。
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import Traq
 
-let postClientRequest = PostClientRequest(name: "name_example", callbackUrl: "callbackUrl_example", scopes: [OAuth2Scope()], description: "description_example") // PostClientRequest |  (optional)
+let postClientRequest = PostClientRequest(name: "name_example", callbackUrl: "callbackUrl_example", scopes: [OAuth2Scope()], description: "description_example", confidential: false) // PostClientRequest |  (optional)
 
 // OAuth2クライアントを作成
 Oauth2API.createClient(postClientRequest: postClientRequest) { (response, error) in
@@ -134,7 +134,7 @@ OAuth2クライアント情報を変更
 import Traq
 
 let clientId = "clientId_example" // String | OAuth2クライアントUUID
-let patchClientRequest = PatchClientRequest(name: "name_example", description: "description_example", callbackUrl: "callbackUrl_example", developerId: 123) // PatchClientRequest |  (optional)
+let patchClientRequest = PatchClientRequest(name: "name_example", description: "description_example", callbackUrl: "callbackUrl_example", developerId: 123, confidential: false) // PatchClientRequest |  (optional)
 
 // OAuth2クライアント情報を変更
 Oauth2API.editClient(clientId: clientId, patchClientRequest: patchClientRequest) { (response, error) in

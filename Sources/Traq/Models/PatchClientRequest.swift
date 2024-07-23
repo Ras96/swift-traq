@@ -26,12 +26,15 @@ public extension TraqAPI {
         public var callbackUrl: String?
         /** クライアント開発者UUID */
         public var developerId: UUID?
+        /** confidential client なら true, public client なら false */
+        public var confidential: Bool?
 
-        public init(name: String? = nil, description: String? = nil, callbackUrl: String? = nil, developerId: UUID? = nil) {
+        public init(name: String? = nil, description: String? = nil, callbackUrl: String? = nil, developerId: UUID? = nil, confidential: Bool? = nil) {
             self.name = name
             self.description = description
             self.callbackUrl = callbackUrl
             self.developerId = developerId
+            self.confidential = confidential
         }
 
         public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -39,6 +42,7 @@ public extension TraqAPI {
             case description
             case callbackUrl
             case developerId
+            case confidential
         }
 
         // Encodable protocol methods
@@ -49,6 +53,7 @@ public extension TraqAPI {
             try container.encodeIfPresent(description, forKey: .description)
             try container.encodeIfPresent(callbackUrl, forKey: .callbackUrl)
             try container.encodeIfPresent(developerId, forKey: .developerId)
+            try container.encodeIfPresent(confidential, forKey: .confidential)
         }
     }
 }

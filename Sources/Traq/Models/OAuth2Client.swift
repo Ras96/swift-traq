@@ -28,13 +28,16 @@ public extension TraqAPI {
         public var developerId: UUID
         /** 要求スコープの配列 */
         public var scopes: [OAuth2Scope]
+        /** confidential client なら true, public client なら false */
+        public var confidential: Bool
 
-        public init(id: String, name: String, description: String, developerId: UUID, scopes: [OAuth2Scope]) {
+        public init(id: String, name: String, description: String, developerId: UUID, scopes: [OAuth2Scope], confidential: Bool) {
             self.id = id
             self.name = name
             self.description = description
             self.developerId = developerId
             self.scopes = scopes
+            self.confidential = confidential
         }
 
         public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -43,6 +46,7 @@ public extension TraqAPI {
             case description
             case developerId
             case scopes
+            case confidential
         }
 
         // Encodable protocol methods
@@ -54,6 +58,7 @@ public extension TraqAPI {
             try container.encode(description, forKey: .description)
             try container.encode(developerId, forKey: .developerId)
             try container.encode(scopes, forKey: .scopes)
+            try container.encode(confidential, forKey: .confidential)
         }
     }
 }
