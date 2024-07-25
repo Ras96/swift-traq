@@ -63,6 +63,7 @@ public extension TraqAPI {
         case EditStamp = "edit_stamp"
         case EditStampCreatedByOthers = "edit_stamp_created_by_others"
         case DeleteStamp = "delete_stamp"
+        case DeleteMyStamp = "delete_my_stamp"
         case AddMessageStamp = "add_message_stamp"
         case RemoveMessageStamp = "remove_message_stamp"
         case GetMyStampHistory = "get_my_stamp_history"
