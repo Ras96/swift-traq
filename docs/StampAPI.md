@@ -4,7 +4,7 @@ All URIs are relative to *https://q.trap.jp/api/v3*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addMessageStamp**](StampAPI.md#addmessagestamp) | **POST** /messages/{messageId}/stamps/{stampId} | スタンプを押す
+[**addMessageStamp_0**](StampAPI.md#addmessagestamp_0) | **POST** /messages/{messageId}/stamps/{stampId} | スタンプを押す
 [**changeStampImage**](StampAPI.md#changestampimage) | **PUT** /stamps/{stampId}/image | スタンプ画像を変更
 [**createStamp**](StampAPI.md#createstamp) | **POST** /stamps | スタンプを作成
 [**createStampPalette**](StampAPI.md#createstamppalette) | **POST** /stamp-palettes | スタンプパレットを作成
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**deleteStampPalette**](StampAPI.md#deletestamppalette) | **DELETE** /stamp-palettes/{paletteId} | スタンプパレットを削除
 [**editStamp**](StampAPI.md#editstamp) | **PATCH** /stamps/{stampId} | スタンプ情報を変更
 [**editStampPalette**](StampAPI.md#editstamppalette) | **PATCH** /stamp-palettes/{paletteId} | スタンプパレットを編集
-[**getMessageStamps**](StampAPI.md#getmessagestamps) | **GET** /messages/{messageId}/stamps | メッセージのスタンプリストを取得
+[**getMessageStamps_0**](StampAPI.md#getmessagestamps_0) | **GET** /messages/{messageId}/stamps | メッセージのスタンプリストを取得
 [**getMyStampHistory**](StampAPI.md#getmystamphistory) | **GET** /users/me/stamp-history | スタンプ履歴を取得
 [**getStamp**](StampAPI.md#getstamp) | **GET** /stamps/{stampId} | スタンプ情報を取得
 [**getStampImage**](StampAPI.md#getstampimage) | **GET** /stamps/{stampId}/image | スタンプ画像を取得
@@ -20,12 +20,12 @@ Method | HTTP request | Description
 [**getStampPalettes**](StampAPI.md#getstamppalettes) | **GET** /stamp-palettes | スタンプパレットのリストを取得
 [**getStampStats**](StampAPI.md#getstampstats) | **GET** /stamps/{stampId}/stats | スタンプ統計情報を取得
 [**getStamps**](StampAPI.md#getstamps) | **GET** /stamps | スタンプリストを取得
-[**removeMessageStamp**](StampAPI.md#removemessagestamp) | **DELETE** /messages/{messageId}/stamps/{stampId} | スタンプを消す
+[**removeMessageStamp_0**](StampAPI.md#removemessagestamp_0) | **DELETE** /messages/{messageId}/stamps/{stampId} | スタンプを消す
 
 
-# **addMessageStamp**
+# **addMessageStamp_0**
 ```swift
-    open class func addMessageStamp(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func addMessageStamp_0(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 スタンプを押す
@@ -42,7 +42,7 @@ let stampId = 987 // UUID | スタンプUUID
 let postMessageStampRequest = PostMessageStampRequest(count: 123) // PostMessageStampRequest |  (optional)
 
 // スタンプを押す
-StampAPI.addMessageStamp(messageId: messageId, stampId: stampId, postMessageStampRequest: postMessageStampRequest) { (response, error) in
+StampAPI.addMessageStamp_0(messageId: messageId, stampId: stampId, postMessageStampRequest: postMessageStampRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -435,9 +435,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMessageStamps**
+# **getMessageStamps_0**
 ```swift
-    open class func getMessageStamps(messageId: UUID, completion: @escaping (_ data: [MessageStamp]?, _ error: Error?) -> Void)
+    open class func getMessageStamps_0(messageId: UUID, completion: @escaping (_ data: [MessageStamp]?, _ error: Error?) -> Void)
 ```
 
 メッセージのスタンプリストを取得
@@ -452,7 +452,7 @@ import Traq
 let messageId = 987 // UUID | メッセージUUID
 
 // メッセージのスタンプリストを取得
-StampAPI.getMessageStamps(messageId: messageId) { (response, error) in
+StampAPI.getMessageStamps_0(messageId: messageId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -833,9 +833,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **removeMessageStamp**
+# **removeMessageStamp_0**
 ```swift
-    open class func removeMessageStamp(messageId: UUID, stampId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func removeMessageStamp_0(messageId: UUID, stampId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 スタンプを消す
@@ -851,7 +851,7 @@ let messageId = 987 // UUID | メッセージUUID
 let stampId = 987 // UUID | スタンプUUID
 
 // スタンプを消す
-StampAPI.removeMessageStamp(messageId: messageId, stampId: stampId) { (response, error) in
+StampAPI.removeMessageStamp_0(messageId: messageId, stampId: stampId) { (response, error) in
     guard error == nil else {
         print(error)
         return

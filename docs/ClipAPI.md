@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**getClipFolder**](ClipAPI.md#getclipfolder) | **GET** /clip-folders/{folderId} | クリップフォルダ情報を取得
 [**getClipFolders**](ClipAPI.md#getclipfolders) | **GET** /clip-folders | クリップフォルダのリストを取得
 [**getClips**](ClipAPI.md#getclips) | **GET** /clip-folders/{folderId}/messages | フォルダ内のクリップのリストを取得
-[**getMessageClips**](ClipAPI.md#getmessageclips) | **GET** /messages/{messageId}/clips | 自分のクリップを取得
+[**getMessageClips_0**](ClipAPI.md#getmessageclips_0) | **GET** /messages/{messageId}/clips | 自分のクリップを取得
 [**unclipMessage**](ClipAPI.md#unclipmessage) | **DELETE** /clip-folders/{folderId}/messages/{messageId} | メッセージをクリップフォルダから除外
 
 
@@ -371,9 +371,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMessageClips**
+# **getMessageClips_0**
 ```swift
-    open class func getMessageClips(messageId: UUID, completion: @escaping (_ data: [MessageClip]?, _ error: Error?) -> Void)
+    open class func getMessageClips_0(messageId: UUID, completion: @escaping (_ data: [MessageClip]?, _ error: Error?) -> Void)
 ```
 
 自分のクリップを取得
@@ -388,7 +388,7 @@ import Traq
 let messageId = 987 // UUID | メッセージUUID
 
 // 自分のクリップを取得
-ClipAPI.getMessageClips(messageId: messageId) { (response, error) in
+ClipAPI.getMessageClips_0(messageId: messageId) { (response, error) in
     guard error == nil else {
         print(error)
         return

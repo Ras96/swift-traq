@@ -4,21 +4,21 @@ All URIs are relative to *https://q.trap.jp/api/v3*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**editChannelSubscribers**](NotificationAPI.md#editchannelsubscribers) | **PATCH** /channels/{channelId}/subscribers | チャンネルの通知購読者を編集
-[**getChannelSubscribers**](NotificationAPI.md#getchannelsubscribers) | **GET** /channels/{channelId}/subscribers | チャンネルの通知購読者のリストを取得
-[**getMyChannelSubscriptions**](NotificationAPI.md#getmychannelsubscriptions) | **GET** /users/me/subscriptions | 自分のチャンネル購読状態を取得
-[**getMyUnreadChannels**](NotificationAPI.md#getmyunreadchannels) | **GET** /users/me/unread | 未読チャンネルを取得
-[**getMyViewStates**](NotificationAPI.md#getmyviewstates) | **GET** /users/me/view-states | 自身のチャンネル閲覧状態一覧を取得
-[**readChannel**](NotificationAPI.md#readchannel) | **DELETE** /users/me/unread/{channelId} | チャンネルを既読にする
-[**registerFCMDevice**](NotificationAPI.md#registerfcmdevice) | **POST** /users/me/fcm-device | FCMデバイスを登録
-[**setChannelSubscribeLevel**](NotificationAPI.md#setchannelsubscribelevel) | **PUT** /users/me/subscriptions/{channelId} | チャンネル購読レベルを設定
-[**setChannelSubscribers**](NotificationAPI.md#setchannelsubscribers) | **PUT** /channels/{channelId}/subscribers | チャンネルの通知購読者を設定
+[**editChannelSubscribers_0**](NotificationAPI.md#editchannelsubscribers_0) | **PATCH** /channels/{channelId}/subscribers | チャンネルの通知購読者を編集
+[**getChannelSubscribers_0**](NotificationAPI.md#getchannelsubscribers_0) | **GET** /channels/{channelId}/subscribers | チャンネルの通知購読者のリストを取得
+[**getMyChannelSubscriptions_0**](NotificationAPI.md#getmychannelsubscriptions_0) | **GET** /users/me/subscriptions | 自分のチャンネル購読状態を取得
+[**getMyUnreadChannels_0**](NotificationAPI.md#getmyunreadchannels_0) | **GET** /users/me/unread | 未読チャンネルを取得
+[**getMyViewStates_0**](NotificationAPI.md#getmyviewstates_0) | **GET** /users/me/view-states | 自身のチャンネル閲覧状態一覧を取得
+[**readChannel_0**](NotificationAPI.md#readchannel_0) | **DELETE** /users/me/unread/{channelId} | チャンネルを既読にする
+[**registerFCMDevice_0**](NotificationAPI.md#registerfcmdevice_0) | **POST** /users/me/fcm-device | FCMデバイスを登録
+[**setChannelSubscribeLevel_0**](NotificationAPI.md#setchannelsubscribelevel_0) | **PUT** /users/me/subscriptions/{channelId} | チャンネル購読レベルを設定
+[**setChannelSubscribers_0**](NotificationAPI.md#setchannelsubscribers_0) | **PUT** /channels/{channelId}/subscribers | チャンネルの通知購読者を設定
 [**ws**](NotificationAPI.md#ws) | **GET** /ws | WebSocket通知ストリームに接続します
 
 
-# **editChannelSubscribers**
+# **editChannelSubscribers_0**
 ```swift
-    open class func editChannelSubscribers(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func editChannelSubscribers_0(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 チャンネルの通知購読者を編集
@@ -34,7 +34,7 @@ let channelId = 987 // UUID | チャンネルUUID
 let patchChannelSubscribersRequest = PatchChannelSubscribersRequest(on: [123], off: [123]) // PatchChannelSubscribersRequest |  (optional)
 
 // チャンネルの通知購読者を編集
-NotificationAPI.editChannelSubscribers(channelId: channelId, patchChannelSubscribersRequest: patchChannelSubscribersRequest) { (response, error) in
+NotificationAPI.editChannelSubscribers_0(channelId: channelId, patchChannelSubscribersRequest: patchChannelSubscribersRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -68,9 +68,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getChannelSubscribers**
+# **getChannelSubscribers_0**
 ```swift
-    open class func getChannelSubscribers(channelId: UUID, completion: @escaping (_ data: [UUID]?, _ error: Error?) -> Void)
+    open class func getChannelSubscribers_0(channelId: UUID, completion: @escaping (_ data: [UUID]?, _ error: Error?) -> Void)
 ```
 
 チャンネルの通知購読者のリストを取得
@@ -85,7 +85,7 @@ import Traq
 let channelId = 987 // UUID | チャンネルUUID
 
 // チャンネルの通知購読者のリストを取得
-NotificationAPI.getChannelSubscribers(channelId: channelId) { (response, error) in
+NotificationAPI.getChannelSubscribers_0(channelId: channelId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -118,9 +118,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMyChannelSubscriptions**
+# **getMyChannelSubscriptions_0**
 ```swift
-    open class func getMyChannelSubscriptions(completion: @escaping (_ data: [UserSubscribeState]?, _ error: Error?) -> Void)
+    open class func getMyChannelSubscriptions_0(completion: @escaping (_ data: [UserSubscribeState]?, _ error: Error?) -> Void)
 ```
 
 自分のチャンネル購読状態を取得
@@ -134,7 +134,7 @@ import Traq
 
 
 // 自分のチャンネル購読状態を取得
-NotificationAPI.getMyChannelSubscriptions() { (response, error) in
+NotificationAPI.getMyChannelSubscriptions_0() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -164,9 +164,9 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMyUnreadChannels**
+# **getMyUnreadChannels_0**
 ```swift
-    open class func getMyUnreadChannels(completion: @escaping (_ data: [UnreadChannel]?, _ error: Error?) -> Void)
+    open class func getMyUnreadChannels_0(completion: @escaping (_ data: [UnreadChannel]?, _ error: Error?) -> Void)
 ```
 
 未読チャンネルを取得
@@ -180,7 +180,7 @@ import Traq
 
 
 // 未読チャンネルを取得
-NotificationAPI.getMyUnreadChannels() { (response, error) in
+NotificationAPI.getMyUnreadChannels_0() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -210,9 +210,9 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMyViewStates**
+# **getMyViewStates_0**
 ```swift
-    open class func getMyViewStates(completion: @escaping (_ data: [MyChannelViewState]?, _ error: Error?) -> Void)
+    open class func getMyViewStates_0(completion: @escaping (_ data: [MyChannelViewState]?, _ error: Error?) -> Void)
 ```
 
 自身のチャンネル閲覧状態一覧を取得
@@ -226,7 +226,7 @@ import Traq
 
 
 // 自身のチャンネル閲覧状態一覧を取得
-NotificationAPI.getMyViewStates() { (response, error) in
+NotificationAPI.getMyViewStates_0() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -256,9 +256,9 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **readChannel**
+# **readChannel_0**
 ```swift
-    open class func readChannel(channelId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func readChannel_0(channelId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 チャンネルを既読にする
@@ -273,7 +273,7 @@ import Traq
 let channelId = 987 // UUID | チャンネルUUID
 
 // チャンネルを既読にする
-NotificationAPI.readChannel(channelId: channelId) { (response, error) in
+NotificationAPI.readChannel_0(channelId: channelId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -306,9 +306,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **registerFCMDevice**
+# **registerFCMDevice_0**
 ```swift
-    open class func registerFCMDevice(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func registerFCMDevice_0(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 FCMデバイスを登録
@@ -323,7 +323,7 @@ import Traq
 let postMyFCMDeviceRequest = PostMyFCMDeviceRequest(token: "token_example") // PostMyFCMDeviceRequest |  (optional)
 
 // FCMデバイスを登録
-NotificationAPI.registerFCMDevice(postMyFCMDeviceRequest: postMyFCMDeviceRequest) { (response, error) in
+NotificationAPI.registerFCMDevice_0(postMyFCMDeviceRequest: postMyFCMDeviceRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -356,9 +356,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **setChannelSubscribeLevel**
+# **setChannelSubscribeLevel_0**
 ```swift
-    open class func setChannelSubscribeLevel(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func setChannelSubscribeLevel_0(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 チャンネル購読レベルを設定
@@ -374,7 +374,7 @@ let channelId = 987 // UUID | チャンネルUUID
 let putChannelSubscribeLevelRequest = PutChannelSubscribeLevelRequest(level: ChannelSubscribeLevel()) // PutChannelSubscribeLevelRequest |  (optional)
 
 // チャンネル購読レベルを設定
-NotificationAPI.setChannelSubscribeLevel(channelId: channelId, putChannelSubscribeLevelRequest: putChannelSubscribeLevelRequest) { (response, error) in
+NotificationAPI.setChannelSubscribeLevel_0(channelId: channelId, putChannelSubscribeLevelRequest: putChannelSubscribeLevelRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -408,9 +408,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **setChannelSubscribers**
+# **setChannelSubscribers_0**
 ```swift
-    open class func setChannelSubscribers(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func setChannelSubscribers_0(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 チャンネルの通知購読者を設定
@@ -426,7 +426,7 @@ let channelId = 987 // UUID | チャンネルUUID
 let putChannelSubscribersRequest = PutChannelSubscribersRequest(on: [123]) // PutChannelSubscribersRequest |  (optional)
 
 // チャンネルの通知購読者を設定
-NotificationAPI.setChannelSubscribers(channelId: channelId, putChannelSubscribersRequest: putChannelSubscribersRequest) { (response, error) in
+NotificationAPI.setChannelSubscribers_0(channelId: channelId, putChannelSubscribersRequest: putChannelSubscribersRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return

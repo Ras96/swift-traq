@@ -9,8 +9,9 @@ Method | HTTP request | Description
 [**editChannelSubscribers**](ChannelAPI.md#editchannelsubscribers) | **PATCH** /channels/{channelId}/subscribers | チャンネルの通知購読者を編集
 [**editChannelTopic**](ChannelAPI.md#editchanneltopic) | **PUT** /channels/{channelId}/topic | チャンネルトピックを編集
 [**getChannel**](ChannelAPI.md#getchannel) | **GET** /channels/{channelId} | チャンネル情報を取得
-[**getChannelBots**](ChannelAPI.md#getchannelbots) | **GET** /channels/{channelId}/bots | チャンネル参加中のBOTのリストを取得
+[**getChannelBots_0**](ChannelAPI.md#getchannelbots_0) | **GET** /channels/{channelId}/bots | チャンネル参加中のBOTのリストを取得
 [**getChannelEvents**](ChannelAPI.md#getchannelevents) | **GET** /channels/{channelId}/events | チャンネルイベントのリストを取得
+[**getChannelPath**](ChannelAPI.md#getchannelpath) | **GET** /channels/{channelId}/path | 指定したチャンネルパスを取得
 [**getChannelPins**](ChannelAPI.md#getchannelpins) | **GET** /channels/{channelId}/pins | チャンネルピンのリストを取得
 [**getChannelStats**](ChannelAPI.md#getchannelstats) | **GET** /channels/{channelId}/stats | チャンネル統計情報を取得
 [**getChannelSubscribers**](ChannelAPI.md#getchannelsubscribers) | **GET** /channels/{channelId}/subscribers | チャンネルの通知購読者のリストを取得
@@ -18,8 +19,8 @@ Method | HTTP request | Description
 [**getChannelViewers**](ChannelAPI.md#getchannelviewers) | **GET** /channels/{channelId}/viewers | チャンネル閲覧者リストを取得
 [**getChannels**](ChannelAPI.md#getchannels) | **GET** /channels | チャンネルリストを取得
 [**getMessages**](ChannelAPI.md#getmessages) | **GET** /channels/{channelId}/messages | チャンネルメッセージのリストを取得
-[**getUserDMChannel**](ChannelAPI.md#getuserdmchannel) | **GET** /users/{userId}/dm-channel | DMチャンネル情報を取得
-[**postMessage**](ChannelAPI.md#postmessage) | **POST** /channels/{channelId}/messages | チャンネルにメッセージを投稿
+[**getUserDMChannel_0**](ChannelAPI.md#getuserdmchannel_0) | **GET** /users/{userId}/dm-channel | DMチャンネル情報を取得
+[**postMessage_0**](ChannelAPI.md#postmessage_0) | **POST** /channels/{channelId}/messages | チャンネルにメッセージを投稿
 [**setChannelSubscribers**](ChannelAPI.md#setchannelsubscribers) | **PUT** /channels/{channelId}/subscribers | チャンネルの通知購読者を設定
 
 
@@ -279,9 +280,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getChannelBots**
+# **getChannelBots_0**
 ```swift
-    open class func getChannelBots(channelId: UUID, completion: @escaping (_ data: [BotUser]?, _ error: Error?) -> Void)
+    open class func getChannelBots_0(channelId: UUID, completion: @escaping (_ data: [BotUser]?, _ error: Error?) -> Void)
 ```
 
 チャンネル参加中のBOTのリストを取得
@@ -296,7 +297,7 @@ import Traq
 let channelId = 987 // UUID | チャンネルUUID
 
 // チャンネル参加中のBOTのリストを取得
-ChannelAPI.getChannelBots(channelId: channelId) { (response, error) in
+ChannelAPI.getChannelBots_0(channelId: channelId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -379,6 +380,56 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**[ChannelEvent]**](ChannelEvent.md)
+
+### Authorization
+
+[OAuth2](../README.md#OAuth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getChannelPath**
+```swift
+    open class func getChannelPath(channelId: UUID, completion: @escaping (_ data: ChannelPath?, _ error: Error?) -> Void)
+```
+
+指定したチャンネルパスを取得
+
+指定したチャンネルのパスを取得します。
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import Traq
+
+let channelId = 987 // UUID | チャンネルUUID
+
+// 指定したチャンネルパスを取得
+ChannelAPI.getChannelPath(channelId: channelId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **channelId** | **UUID** | チャンネルUUID | 
+
+### Return type
+
+[**ChannelPath**](ChannelPath.md)
 
 ### Authorization
 
@@ -643,7 +694,7 @@ Name | Type | Description  | Notes
 
 # **getChannels**
 ```swift
-    open class func getChannels(includeDm: Bool? = nil, completion: @escaping (_ data: ChannelList?, _ error: Error?) -> Void)
+    open class func getChannels(includeDm: Bool? = nil, path: String? = nil, completion: @escaping (_ data: ChannelList?, _ error: Error?) -> Void)
 ```
 
 チャンネルリストを取得
@@ -656,9 +707,10 @@ Name | Type | Description  | Notes
 import Traq
 
 let includeDm = true // Bool | ダイレクトメッセージチャンネルをレスポンスに含めるかどうか (optional) (default to false)
+let path = "path_example" // String | パスが一致するチャンネルのみを取得する (optional)
 
 // チャンネルリストを取得
-ChannelAPI.getChannels(includeDm: includeDm) { (response, error) in
+ChannelAPI.getChannels(includeDm: includeDm, path: path) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -675,6 +727,7 @@ ChannelAPI.getChannels(includeDm: includeDm) { (response, error) in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **includeDm** | **Bool** | ダイレクトメッセージチャンネルをレスポンスに含めるかどうか | [optional] [default to false]
+ **path** | **String** | パスが一致するチャンネルのみを取得する | [optional] 
 
 ### Return type
 
@@ -753,9 +806,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getUserDMChannel**
+# **getUserDMChannel_0**
 ```swift
-    open class func getUserDMChannel(userId: UUID, completion: @escaping (_ data: DMChannel?, _ error: Error?) -> Void)
+    open class func getUserDMChannel_0(userId: UUID, completion: @escaping (_ data: DMChannel?, _ error: Error?) -> Void)
 ```
 
 DMチャンネル情報を取得
@@ -770,7 +823,7 @@ import Traq
 let userId = 987 // UUID | 
 
 // DMチャンネル情報を取得
-ChannelAPI.getUserDMChannel(userId: userId) { (response, error) in
+ChannelAPI.getUserDMChannel_0(userId: userId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -803,9 +856,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **postMessage**
+# **postMessage_0**
 ```swift
-    open class func postMessage(channelId: UUID, postMessageRequest: PostMessageRequest? = nil, completion: @escaping (_ data: Message?, _ error: Error?) -> Void)
+    open class func postMessage_0(channelId: UUID, postMessageRequest: PostMessageRequest? = nil, completion: @escaping (_ data: Message?, _ error: Error?) -> Void)
 ```
 
 チャンネルにメッセージを投稿
@@ -821,7 +874,7 @@ let channelId = 987 // UUID | チャンネルUUID
 let postMessageRequest = PostMessageRequest(content: "content_example", embed: false) // PostMessageRequest |  (optional)
 
 // チャンネルにメッセージを投稿
-ChannelAPI.postMessage(channelId: channelId, postMessageRequest: postMessageRequest) { (response, error) in
+ChannelAPI.postMessage_0(channelId: channelId, postMessageRequest: postMessageRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return

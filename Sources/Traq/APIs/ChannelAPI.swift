@@ -245,8 +245,8 @@ extension TraqAPI {
          - returns: [BotUser]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getChannelBots(channelId: UUID) async throws -> [BotUser] {
-            try await getChannelBotsWithRequestBuilder(channelId: channelId).execute().body
+        open class func getChannelBots_0(channelId: UUID) async throws -> [BotUser] {
+            try await getChannelBots_0WithRequestBuilder(channelId: channelId).execute().body
         }
 
         /**
@@ -262,7 +262,7 @@ extension TraqAPI {
          - parameter channelId: (path) チャンネルUUID
          - returns: RequestBuilder<[BotUser]>
          */
-        open class func getChannelBotsWithRequestBuilder(channelId: UUID) -> RequestBuilder<[BotUser]> {
+        open class func getChannelBots_0WithRequestBuilder(channelId: UUID) -> RequestBuilder<[BotUser]> {
             var localVariablePath = "/channels/{channelId}/bots"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -349,6 +349,49 @@ extension TraqAPI {
             let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
             let localVariableRequestBuilder: RequestBuilder<[ChannelEvent]>.Type = TraqAPI.requestBuilderFactory.getBuilder()
+
+            return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        }
+
+        /**
+         指定したチャンネルパスを取得
+
+         - parameter channelId: (path) チャンネルUUID
+         - returns: ChannelPath
+         */
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func getChannelPath(channelId: UUID) async throws -> ChannelPath {
+            try await getChannelPathWithRequestBuilder(channelId: channelId).execute().body
+        }
+
+        /**
+         指定したチャンネルパスを取得
+         - GET /channels/{channelId}/path
+         - 指定したチャンネルのパスを取得します。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - Bearer Token:
+           - type: http
+           - name: bearerAuth
+         - parameter channelId: (path) チャンネルUUID
+         - returns: RequestBuilder<ChannelPath>
+         */
+        open class func getChannelPathWithRequestBuilder(channelId: UUID) -> RequestBuilder<ChannelPath> {
+            var localVariablePath = "/channels/{channelId}/path"
+            let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
+            let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{channelId}", with: channelIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
+
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+            let localVariableNillableHeaders: [String: Any?] = [:]
+
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+            let localVariableRequestBuilder: RequestBuilder<ChannelPath>.Type = TraqAPI.requestBuilderFactory.getBuilder()
 
             return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
         }
@@ -572,11 +615,12 @@ extension TraqAPI {
          チャンネルリストを取得
 
          - parameter includeDm: (query) ダイレクトメッセージチャンネルをレスポンスに含めるかどうか (optional, default to false)
+         - parameter path: (query) パスが一致するチャンネルのみを取得する (optional)
          - returns: ChannelList
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getChannels(includeDm: Bool? = nil) async throws -> ChannelList {
-            try await getChannelsWithRequestBuilder(includeDm: includeDm).execute().body
+        open class func getChannels(includeDm: Bool? = nil, path: String? = nil) async throws -> ChannelList {
+            try await getChannelsWithRequestBuilder(includeDm: includeDm, path: path).execute().body
         }
 
         /**
@@ -590,9 +634,10 @@ extension TraqAPI {
            - type: http
            - name: bearerAuth
          - parameter includeDm: (query) ダイレクトメッセージチャンネルをレスポンスに含めるかどうか (optional, default to false)
+         - parameter path: (query) パスが一致するチャンネルのみを取得する (optional)
          - returns: RequestBuilder<ChannelList>
          */
-        open class func getChannelsWithRequestBuilder(includeDm: Bool? = nil) -> RequestBuilder<ChannelList> {
+        open class func getChannelsWithRequestBuilder(includeDm: Bool? = nil, path: String? = nil) -> RequestBuilder<ChannelList> {
             let localVariablePath = "/channels"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -600,6 +645,7 @@ extension TraqAPI {
             var localVariableUrlComponents = URLComponents(string: localVariableURLString)
             localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
                 "include-dm": (wrappedValue: includeDm?.encodeToJSON(), isExplode: true),
+                "path": (wrappedValue: path?.encodeToJSON(), isExplode: true),
             ])
 
             let localVariableNillableHeaders: [String: Any?] = [:]
@@ -690,8 +736,8 @@ extension TraqAPI {
          - returns: DMChannel
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getUserDMChannel(userId: UUID) async throws -> DMChannel {
-            try await getUserDMChannelWithRequestBuilder(userId: userId).execute().body
+        open class func getUserDMChannel_0(userId: UUID) async throws -> DMChannel {
+            try await getUserDMChannel_0WithRequestBuilder(userId: userId).execute().body
         }
 
         /**
@@ -707,7 +753,7 @@ extension TraqAPI {
          - parameter userId: (path)
          - returns: RequestBuilder<DMChannel>
          */
-        open class func getUserDMChannelWithRequestBuilder(userId: UUID) -> RequestBuilder<DMChannel> {
+        open class func getUserDMChannel_0WithRequestBuilder(userId: UUID) -> RequestBuilder<DMChannel> {
             var localVariablePath = "/users/{userId}/dm-channel"
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -734,8 +780,8 @@ extension TraqAPI {
          - returns: Message
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func postMessage(channelId: UUID, postMessageRequest: PostMessageRequest? = nil) async throws -> Message {
-            try await postMessageWithRequestBuilder(channelId: channelId, postMessageRequest: postMessageRequest).execute().body
+        open class func postMessage_0(channelId: UUID, postMessageRequest: PostMessageRequest? = nil) async throws -> Message {
+            try await postMessage_0WithRequestBuilder(channelId: channelId, postMessageRequest: postMessageRequest).execute().body
         }
 
         /**
@@ -752,7 +798,7 @@ extension TraqAPI {
          - parameter postMessageRequest: (body)  (optional)
          - returns: RequestBuilder<Message>
          */
-        open class func postMessageWithRequestBuilder(channelId: UUID, postMessageRequest: PostMessageRequest? = nil) -> RequestBuilder<Message> {
+        open class func postMessage_0WithRequestBuilder(channelId: UUID, postMessageRequest: PostMessageRequest? = nil) -> RequestBuilder<Message> {
             var localVariablePath = "/channels/{channelId}/messages"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

@@ -10,31 +10,31 @@ Method | HTTP request | Description
 [**changeMyNotifyCitation**](MeAPI.md#changemynotifycitation) | **PUT** /users/me/settings/notify-citation | メッセージ引用通知の設定情報を変更
 [**changeMyPassword**](MeAPI.md#changemypassword) | **PUT** /users/me/password | 自分のパスワードを変更
 [**editMe**](MeAPI.md#editme) | **PATCH** /users/me | 自分のユーザー情報を変更
-[**editMyUserTag**](MeAPI.md#editmyusertag) | **PATCH** /users/me/tags/{tagId} | 自分のタグを編集
+[**editMyUserTag_0**](MeAPI.md#editmyusertag_0) | **PATCH** /users/me/tags/{tagId} | 自分のタグを編集
 [**getMe**](MeAPI.md#getme) | **GET** /users/me | 自分のユーザー詳細を取得
 [**getMyChannelSubscriptions**](MeAPI.md#getmychannelsubscriptions) | **GET** /users/me/subscriptions | 自分のチャンネル購読状態を取得
-[**getMyExternalAccounts**](MeAPI.md#getmyexternalaccounts) | **GET** /users/me/ex-accounts | 外部ログインアカウント一覧を取得
+[**getMyExternalAccounts_0**](MeAPI.md#getmyexternalaccounts_0) | **GET** /users/me/ex-accounts | 外部ログインアカウント一覧を取得
 [**getMyIcon**](MeAPI.md#getmyicon) | **GET** /users/me/icon | 自分のアイコン画像を取得
 [**getMyNotifyCitation**](MeAPI.md#getmynotifycitation) | **GET** /users/me/settings/notify-citation | メッセージ引用通知の設定情報を取得
 [**getMyQRCode**](MeAPI.md#getmyqrcode) | **GET** /users/me/qr-code | QRコードを取得
-[**getMySessions**](MeAPI.md#getmysessions) | **GET** /users/me/sessions | 自分のログインセッションリストを取得
-[**getMyStampHistory**](MeAPI.md#getmystamphistory) | **GET** /users/me/stamp-history | スタンプ履歴を取得
+[**getMySessions_0**](MeAPI.md#getmysessions_0) | **GET** /users/me/sessions | 自分のログインセッションリストを取得
+[**getMyStampHistory_0**](MeAPI.md#getmystamphistory_0) | **GET** /users/me/stamp-history | スタンプ履歴を取得
 [**getMyStars**](MeAPI.md#getmystars) | **GET** /users/me/stars | スターチャンネルリストを取得
-[**getMyTokens**](MeAPI.md#getmytokens) | **GET** /users/me/tokens | 有効トークンのリストを取得
+[**getMyTokens_0**](MeAPI.md#getmytokens_0) | **GET** /users/me/tokens | 有効トークンのリストを取得
 [**getMyUnreadChannels**](MeAPI.md#getmyunreadchannels) | **GET** /users/me/unread | 未読チャンネルを取得
 [**getMyUserTags**](MeAPI.md#getmyusertags) | **GET** /users/me/tags | 自分のタグリストを取得
 [**getMyViewStates**](MeAPI.md#getmyviewstates) | **GET** /users/me/view-states | 自身のチャンネル閲覧状態一覧を取得
 [**getOIDCUserInfo**](MeAPI.md#getoidcuserinfo) | **GET** /users/me/oidc | 自分のユーザー詳細を取得 (OIDC UserInfo)
 [**getUserSettings**](MeAPI.md#getusersettings) | **GET** /users/me/settings | ユーザー設定を取得
-[**linkExternalAccount**](MeAPI.md#linkexternalaccount) | **POST** /users/me/ex-accounts/link | 外部ログインアカウントを紐付ける
+[**linkExternalAccount_0**](MeAPI.md#linkexternalaccount_0) | **POST** /users/me/ex-accounts/link | 外部ログインアカウントを紐付ける
 [**readChannel**](MeAPI.md#readchannel) | **DELETE** /users/me/unread/{channelId} | チャンネルを既読にする
 [**registerFCMDevice**](MeAPI.md#registerfcmdevice) | **POST** /users/me/fcm-device | FCMデバイスを登録
 [**removeMyStar**](MeAPI.md#removemystar) | **DELETE** /users/me/stars/{channelId} | チャンネルをスターから削除します
-[**removeMyUserTag**](MeAPI.md#removemyusertag) | **DELETE** /users/me/tags/{tagId} | 自分からタグを削除します
-[**revokeMySession**](MeAPI.md#revokemysession) | **DELETE** /users/me/sessions/{sessionId} | セッションを無効化
-[**revokeMyToken**](MeAPI.md#revokemytoken) | **DELETE** /users/me/tokens/{tokenId} | トークンの認可を取り消す
+[**removeMyUserTag_0**](MeAPI.md#removemyusertag_0) | **DELETE** /users/me/tags/{tagId} | 自分からタグを削除します
+[**revokeMySession_0**](MeAPI.md#revokemysession_0) | **DELETE** /users/me/sessions/{sessionId} | セッションを無効化
+[**revokeMyToken_0**](MeAPI.md#revokemytoken_0) | **DELETE** /users/me/tokens/{tokenId} | トークンの認可を取り消す
 [**setChannelSubscribeLevel**](MeAPI.md#setchannelsubscribelevel) | **PUT** /users/me/subscriptions/{channelId} | チャンネル購読レベルを設定
-[**unlinkExternalAccount**](MeAPI.md#unlinkexternalaccount) | **POST** /users/me/ex-accounts/unlink | 外部ログインアカウントの紐付けを解除
+[**unlinkExternalAccount_0**](MeAPI.md#unlinkexternalaccount_0) | **POST** /users/me/ex-accounts/unlink | 外部ログインアカウントの紐付けを解除
 
 
 # **addMyStar**
@@ -337,9 +337,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **editMyUserTag**
+# **editMyUserTag_0**
 ```swift
-    open class func editMyUserTag(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func editMyUserTag_0(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 自分のタグを編集
@@ -355,7 +355,7 @@ let tagId = 987 // UUID | タグUUID
 let patchUserTagRequest = PatchUserTagRequest(isLocked: false) // PatchUserTagRequest |  (optional)
 
 // 自分のタグを編集
-MeAPI.editMyUserTag(tagId: tagId, patchUserTagRequest: patchUserTagRequest) { (response, error) in
+MeAPI.editMyUserTag_0(tagId: tagId, patchUserTagRequest: patchUserTagRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -481,9 +481,9 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMyExternalAccounts**
+# **getMyExternalAccounts_0**
 ```swift
-    open class func getMyExternalAccounts(completion: @escaping (_ data: [ExternalProviderUser]?, _ error: Error?) -> Void)
+    open class func getMyExternalAccounts_0(completion: @escaping (_ data: [ExternalProviderUser]?, _ error: Error?) -> Void)
 ```
 
 外部ログインアカウント一覧を取得
@@ -497,7 +497,7 @@ import Traq
 
 
 // 外部ログインアカウント一覧を取得
-MeAPI.getMyExternalAccounts() { (response, error) in
+MeAPI.getMyExternalAccounts_0() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -669,9 +669,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMySessions**
+# **getMySessions_0**
 ```swift
-    open class func getMySessions(completion: @escaping (_ data: [LoginSession]?, _ error: Error?) -> Void)
+    open class func getMySessions_0(completion: @escaping (_ data: [LoginSession]?, _ error: Error?) -> Void)
 ```
 
 自分のログインセッションリストを取得
@@ -685,7 +685,7 @@ import Traq
 
 
 // 自分のログインセッションリストを取得
-MeAPI.getMySessions() { (response, error) in
+MeAPI.getMySessions_0() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -715,9 +715,9 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMyStampHistory**
+# **getMyStampHistory_0**
 ```swift
-    open class func getMyStampHistory(limit: Int? = nil, completion: @escaping (_ data: [StampHistoryEntry]?, _ error: Error?) -> Void)
+    open class func getMyStampHistory_0(limit: Int? = nil, completion: @escaping (_ data: [StampHistoryEntry]?, _ error: Error?) -> Void)
 ```
 
 スタンプ履歴を取得
@@ -732,7 +732,7 @@ import Traq
 let limit = 987 // Int | 件数 (optional) (default to 100)
 
 // スタンプ履歴を取得
-MeAPI.getMyStampHistory(limit: limit) { (response, error) in
+MeAPI.getMyStampHistory_0(limit: limit) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -811,9 +811,9 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMyTokens**
+# **getMyTokens_0**
 ```swift
-    open class func getMyTokens(completion: @escaping (_ data: [ActiveOAuth2Token]?, _ error: Error?) -> Void)
+    open class func getMyTokens_0(completion: @escaping (_ data: [ActiveOAuth2Token]?, _ error: Error?) -> Void)
 ```
 
 有効トークンのリストを取得
@@ -827,7 +827,7 @@ import Traq
 
 
 // 有効トークンのリストを取得
-MeAPI.getMyTokens() { (response, error) in
+MeAPI.getMyTokens_0() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1087,9 +1087,9 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **linkExternalAccount**
+# **linkExternalAccount_0**
 ```swift
-    open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func linkExternalAccount_0(postLinkExternalAccount: PostLinkExternalAccount? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 外部ログインアカウントを紐付ける
@@ -1104,7 +1104,7 @@ import Traq
 let postLinkExternalAccount = PostLinkExternalAccount(providerName: "providerName_example") // PostLinkExternalAccount |  (optional)
 
 // 外部ログインアカウントを紐付ける
-MeAPI.linkExternalAccount(postLinkExternalAccount: postLinkExternalAccount) { (response, error) in
+MeAPI.linkExternalAccount_0(postLinkExternalAccount: postLinkExternalAccount) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1287,9 +1287,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **removeMyUserTag**
+# **removeMyUserTag_0**
 ```swift
-    open class func removeMyUserTag(tagId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func removeMyUserTag_0(tagId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 自分からタグを削除します
@@ -1304,7 +1304,7 @@ import Traq
 let tagId = 987 // UUID | タグUUID
 
 // 自分からタグを削除します
-MeAPI.removeMyUserTag(tagId: tagId) { (response, error) in
+MeAPI.removeMyUserTag_0(tagId: tagId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1337,9 +1337,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **revokeMySession**
+# **revokeMySession_0**
 ```swift
-    open class func revokeMySession(sessionId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func revokeMySession_0(sessionId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 セッションを無効化
@@ -1354,7 +1354,7 @@ import Traq
 let sessionId = 987 // UUID | セッションUUID
 
 // セッションを無効化
-MeAPI.revokeMySession(sessionId: sessionId) { (response, error) in
+MeAPI.revokeMySession_0(sessionId: sessionId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1387,9 +1387,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **revokeMyToken**
+# **revokeMyToken_0**
 ```swift
-    open class func revokeMyToken(tokenId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func revokeMyToken_0(tokenId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 トークンの認可を取り消す
@@ -1404,7 +1404,7 @@ import Traq
 let tokenId = 987 // UUID | OAuth2トークンUUID
 
 // トークンの認可を取り消す
-MeAPI.revokeMyToken(tokenId: tokenId) { (response, error) in
+MeAPI.revokeMyToken_0(tokenId: tokenId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -1489,9 +1489,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **unlinkExternalAccount**
+# **unlinkExternalAccount_0**
 ```swift
-    open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func unlinkExternalAccount_0(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 外部ログインアカウントの紐付けを解除
@@ -1506,7 +1506,7 @@ import Traq
 let postUnlinkExternalAccount = PostUnlinkExternalAccount(providerName: "providerName_example") // PostUnlinkExternalAccount |  (optional)
 
 // 外部ログインアカウントの紐付けを解除
-MeAPI.unlinkExternalAccount(postUnlinkExternalAccount: postUnlinkExternalAccount) { (response, error) in
+MeAPI.unlinkExternalAccount_0(postUnlinkExternalAccount: postUnlinkExternalAccount) { (response, error) in
     guard error == nil else {
         print(error)
         return

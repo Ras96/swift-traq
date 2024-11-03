@@ -18,6 +18,7 @@ public extension TraqAPI {
     struct PatchStampPaletteRequest: Codable, JSONEncodable, Hashable {
         static let nameRule = StringRule(minLength: 1, maxLength: 30, pattern: nil)
         static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
+        static let stampsRule = ArrayRule(minItems: nil, maxItems: 200, uniqueItems: true)
         /** パレット名 */
         public var name: String?
         /** 説明 */

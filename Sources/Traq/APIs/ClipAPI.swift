@@ -341,8 +341,8 @@ extension TraqAPI {
          - returns: [MessageClip]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMessageClips(messageId: UUID) async throws -> [MessageClip] {
-            try await getMessageClipsWithRequestBuilder(messageId: messageId).execute().body
+        open class func getMessageClips_0(messageId: UUID) async throws -> [MessageClip] {
+            try await getMessageClips_0WithRequestBuilder(messageId: messageId).execute().body
         }
 
         /**
@@ -358,7 +358,7 @@ extension TraqAPI {
          - parameter messageId: (path) メッセージUUID
          - returns: RequestBuilder<[MessageClip]>
          */
-        open class func getMessageClipsWithRequestBuilder(messageId: UUID) -> RequestBuilder<[MessageClip]> {
+        open class func getMessageClips_0WithRequestBuilder(messageId: UUID) -> RequestBuilder<[MessageClip]> {
             var localVariablePath = "/messages/{messageId}/clips"
             let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
             let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

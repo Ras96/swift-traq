@@ -10,14 +10,14 @@ Method | HTTP request | Description
 [**createUser**](UserAPI.md#createuser) | **POST** /users | ユーザーを登録
 [**editUser**](UserAPI.md#edituser) | **PATCH** /users/{userId} | ユーザー情報を変更
 [**editUserTag**](UserAPI.md#editusertag) | **PATCH** /users/{userId}/tags/{tagId} | ユーザーのタグを編集
-[**getDirectMessages**](UserAPI.md#getdirectmessages) | **GET** /users/{userId}/messages | ダイレクトメッセージのリストを取得
+[**getDirectMessages_0**](UserAPI.md#getdirectmessages_0) | **GET** /users/{userId}/messages | ダイレクトメッセージのリストを取得
 [**getUser**](UserAPI.md#getuser) | **GET** /users/{userId} | ユーザー詳細情報を取得
 [**getUserDMChannel**](UserAPI.md#getuserdmchannel) | **GET** /users/{userId}/dm-channel | DMチャンネル情報を取得
 [**getUserIcon**](UserAPI.md#getusericon) | **GET** /users/{userId}/icon | ユーザーのアイコン画像を取得
 [**getUserStats**](UserAPI.md#getuserstats) | **GET** /users/{userId}/stats | ユーザー統計情報を取得
 [**getUserTags**](UserAPI.md#getusertags) | **GET** /users/{userId}/tags | ユーザーのタグリストを取得
 [**getUsers**](UserAPI.md#getusers) | **GET** /users | ユーザーのリストを取得
-[**postDirectMessage**](UserAPI.md#postdirectmessage) | **POST** /users/{userId}/messages | ダイレクトメッセージを送信
+[**postDirectMessage_0**](UserAPI.md#postdirectmessage_0) | **POST** /users/{userId}/messages | ダイレクトメッセージを送信
 [**removeUserTag**](UserAPI.md#removeusertag) | **DELETE** /users/{userId}/tags/{tagId} | ユーザーからタグを削除します
 
 
@@ -333,9 +333,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getDirectMessages**
+# **getDirectMessages_0**
 ```swift
-    open class func getDirectMessages(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages? = nil, completion: @escaping (_ data: [Message]?, _ error: Error?) -> Void)
+    open class func getDirectMessages_0(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages_0? = nil, completion: @escaping (_ data: [Message]?, _ error: Error?) -> Void)
 ```
 
 ダイレクトメッセージのリストを取得
@@ -356,7 +356,7 @@ let inclusive = true // Bool | 範囲の端を含めるかどうか (optional) (
 let order = "order_example" // String | 昇順か降順か (optional) (default to .desc)
 
 // ダイレクトメッセージのリストを取得
-UserAPI.getDirectMessages(userId: userId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order) { (response, error) in
+UserAPI.getDirectMessages_0(userId: userId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -697,9 +697,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **postDirectMessage**
+# **postDirectMessage_0**
 ```swift
-    open class func postDirectMessage(userId: UUID, postMessageRequest: PostMessageRequest? = nil, completion: @escaping (_ data: Message?, _ error: Error?) -> Void)
+    open class func postDirectMessage_0(userId: UUID, postMessageRequest: PostMessageRequest? = nil, completion: @escaping (_ data: Message?, _ error: Error?) -> Void)
 ```
 
 ダイレクトメッセージを送信
@@ -715,7 +715,7 @@ let userId = 987 // UUID | ユーザーUUID
 let postMessageRequest = PostMessageRequest(content: "content_example", embed: false) // PostMessageRequest |  (optional)
 
 // ダイレクトメッセージを送信
-UserAPI.postDirectMessage(userId: userId, postMessageRequest: postMessageRequest) { (response, error) in
+UserAPI.postDirectMessage_0(userId: userId, postMessageRequest: postMessageRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return

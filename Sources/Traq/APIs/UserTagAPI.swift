@@ -19,8 +19,8 @@ extension TraqAPI {
          - returns: UserTag
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func addMyUserTag(postUserTagRequest: PostUserTagRequest? = nil) async throws -> UserTag {
-            try await addMyUserTagWithRequestBuilder(postUserTagRequest: postUserTagRequest).execute().body
+        open class func addMyUserTag_0(postUserTagRequest: PostUserTagRequest? = nil) async throws -> UserTag {
+            try await addMyUserTag_0WithRequestBuilder(postUserTagRequest: postUserTagRequest).execute().body
         }
 
         /**
@@ -36,7 +36,7 @@ extension TraqAPI {
          - parameter postUserTagRequest: (body)  (optional)
          - returns: RequestBuilder<UserTag>
          */
-        open class func addMyUserTagWithRequestBuilder(postUserTagRequest: PostUserTagRequest? = nil) -> RequestBuilder<UserTag> {
+        open class func addMyUserTag_0WithRequestBuilder(postUserTagRequest: PostUserTagRequest? = nil) -> RequestBuilder<UserTag> {
             let localVariablePath = "/users/me/tags"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postUserTagRequest)
@@ -62,8 +62,8 @@ extension TraqAPI {
          - returns: UserTag
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func addUserTag(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil) async throws -> UserTag {
-            try await addUserTagWithRequestBuilder(userId: userId, postUserTagRequest: postUserTagRequest).execute().body
+        open class func addUserTag_0(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil) async throws -> UserTag {
+            try await addUserTag_0WithRequestBuilder(userId: userId, postUserTagRequest: postUserTagRequest).execute().body
         }
 
         /**
@@ -80,7 +80,7 @@ extension TraqAPI {
          - parameter postUserTagRequest: (body)  (optional)
          - returns: RequestBuilder<UserTag>
          */
-        open class func addUserTagWithRequestBuilder(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil) -> RequestBuilder<UserTag> {
+        open class func addUserTag_0WithRequestBuilder(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil) -> RequestBuilder<UserTag> {
             var localVariablePath = "/users/{userId}/tags"
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -157,8 +157,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func editUserTag(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) async throws {
-            try await editUserTagWithRequestBuilder(userId: userId, tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute().body
+        open class func editUserTag_0(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) async throws {
+            try await editUserTag_0WithRequestBuilder(userId: userId, tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute().body
         }
 
         /**
@@ -176,7 +176,7 @@ extension TraqAPI {
          - parameter patchUserTagRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func editUserTagWithRequestBuilder(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) -> RequestBuilder<Void> {
+        open class func editUserTag_0WithRequestBuilder(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) -> RequestBuilder<Void> {
             var localVariablePath = "/users/{userId}/tags/{tagId}"
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -206,8 +206,8 @@ extension TraqAPI {
          - returns: [UserTag]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMyUserTags() async throws -> [UserTag] {
-            try await getMyUserTagsWithRequestBuilder().execute().body
+        open class func getMyUserTags_0() async throws -> [UserTag] {
+            try await getMyUserTags_0WithRequestBuilder().execute().body
         }
 
         /**
@@ -222,7 +222,7 @@ extension TraqAPI {
            - name: bearerAuth
          - returns: RequestBuilder<[UserTag]>
          */
-        open class func getMyUserTagsWithRequestBuilder() -> RequestBuilder<[UserTag]> {
+        open class func getMyUserTags_0WithRequestBuilder() -> RequestBuilder<[UserTag]> {
             let localVariablePath = "/users/me/tags"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -288,8 +288,8 @@ extension TraqAPI {
          - returns: [UserTag]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getUserTags(userId: UUID) async throws -> [UserTag] {
-            try await getUserTagsWithRequestBuilder(userId: userId).execute().body
+        open class func getUserTags_0(userId: UUID) async throws -> [UserTag] {
+            try await getUserTags_0WithRequestBuilder(userId: userId).execute().body
         }
 
         /**
@@ -305,7 +305,7 @@ extension TraqAPI {
          - parameter userId: (path) ユーザーUUID
          - returns: RequestBuilder<[UserTag]>
          */
-        open class func getUserTagsWithRequestBuilder(userId: UUID) -> RequestBuilder<[UserTag]> {
+        open class func getUserTags_0WithRequestBuilder(userId: UUID) -> RequestBuilder<[UserTag]> {
             var localVariablePath = "/users/{userId}/tags"
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -375,8 +375,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func removeUserTag(userId: UUID, tagId: UUID) async throws {
-            try await removeUserTagWithRequestBuilder(userId: userId, tagId: tagId).execute().body
+        open class func removeUserTag_0(userId: UUID, tagId: UUID) async throws {
+            try await removeUserTag_0WithRequestBuilder(userId: userId, tagId: tagId).execute().body
         }
 
         /**
@@ -393,7 +393,7 @@ extension TraqAPI {
          - parameter tagId: (path) タグUUID
          - returns: RequestBuilder<Void>
          */
-        open class func removeUserTagWithRequestBuilder(userId: UUID, tagId: UUID) -> RequestBuilder<Void> {
+        open class func removeUserTag_0WithRequestBuilder(userId: UUID, tagId: UUID) -> RequestBuilder<Void> {
             var localVariablePath = "/users/{userId}/tags/{tagId}"
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

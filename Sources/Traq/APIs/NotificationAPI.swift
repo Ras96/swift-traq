@@ -20,8 +20,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func editChannelSubscribers(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil) async throws {
-            try await editChannelSubscribersWithRequestBuilder(channelId: channelId, patchChannelSubscribersRequest: patchChannelSubscribersRequest).execute().body
+        open class func editChannelSubscribers_0(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil) async throws {
+            try await editChannelSubscribers_0WithRequestBuilder(channelId: channelId, patchChannelSubscribersRequest: patchChannelSubscribersRequest).execute().body
         }
 
         /**
@@ -38,7 +38,7 @@ extension TraqAPI {
          - parameter patchChannelSubscribersRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func editChannelSubscribersWithRequestBuilder(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil) -> RequestBuilder<Void> {
+        open class func editChannelSubscribers_0WithRequestBuilder(channelId: UUID, patchChannelSubscribersRequest: PatchChannelSubscribersRequest? = nil) -> RequestBuilder<Void> {
             var localVariablePath = "/channels/{channelId}/subscribers"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -66,8 +66,8 @@ extension TraqAPI {
          - returns: [UUID]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getChannelSubscribers(channelId: UUID) async throws -> [UUID] {
-            try await getChannelSubscribersWithRequestBuilder(channelId: channelId).execute().body
+        open class func getChannelSubscribers_0(channelId: UUID) async throws -> [UUID] {
+            try await getChannelSubscribers_0WithRequestBuilder(channelId: channelId).execute().body
         }
 
         /**
@@ -83,7 +83,7 @@ extension TraqAPI {
          - parameter channelId: (path) チャンネルUUID
          - returns: RequestBuilder<[UUID]>
          */
-        open class func getChannelSubscribersWithRequestBuilder(channelId: UUID) -> RequestBuilder<[UUID]> {
+        open class func getChannelSubscribers_0WithRequestBuilder(channelId: UUID) -> RequestBuilder<[UUID]> {
             var localVariablePath = "/channels/{channelId}/subscribers"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -108,8 +108,8 @@ extension TraqAPI {
          - returns: [UserSubscribeState]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMyChannelSubscriptions() async throws -> [UserSubscribeState] {
-            try await getMyChannelSubscriptionsWithRequestBuilder().execute().body
+        open class func getMyChannelSubscriptions_0() async throws -> [UserSubscribeState] {
+            try await getMyChannelSubscriptions_0WithRequestBuilder().execute().body
         }
 
         /**
@@ -124,7 +124,7 @@ extension TraqAPI {
            - name: bearerAuth
          - returns: RequestBuilder<[UserSubscribeState]>
          */
-        open class func getMyChannelSubscriptionsWithRequestBuilder() -> RequestBuilder<[UserSubscribeState]> {
+        open class func getMyChannelSubscriptions_0WithRequestBuilder() -> RequestBuilder<[UserSubscribeState]> {
             let localVariablePath = "/users/me/subscriptions"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -146,8 +146,8 @@ extension TraqAPI {
          - returns: [UnreadChannel]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMyUnreadChannels() async throws -> [UnreadChannel] {
-            try await getMyUnreadChannelsWithRequestBuilder().execute().body
+        open class func getMyUnreadChannels_0() async throws -> [UnreadChannel] {
+            try await getMyUnreadChannels_0WithRequestBuilder().execute().body
         }
 
         /**
@@ -162,7 +162,7 @@ extension TraqAPI {
            - name: bearerAuth
          - returns: RequestBuilder<[UnreadChannel]>
          */
-        open class func getMyUnreadChannelsWithRequestBuilder() -> RequestBuilder<[UnreadChannel]> {
+        open class func getMyUnreadChannels_0WithRequestBuilder() -> RequestBuilder<[UnreadChannel]> {
             let localVariablePath = "/users/me/unread"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -184,8 +184,8 @@ extension TraqAPI {
          - returns: [MyChannelViewState]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMyViewStates() async throws -> [MyChannelViewState] {
-            try await getMyViewStatesWithRequestBuilder().execute().body
+        open class func getMyViewStates_0() async throws -> [MyChannelViewState] {
+            try await getMyViewStates_0WithRequestBuilder().execute().body
         }
 
         /**
@@ -200,7 +200,7 @@ extension TraqAPI {
            - name: bearerAuth
          - returns: RequestBuilder<[MyChannelViewState]>
          */
-        open class func getMyViewStatesWithRequestBuilder() -> RequestBuilder<[MyChannelViewState]> {
+        open class func getMyViewStates_0WithRequestBuilder() -> RequestBuilder<[MyChannelViewState]> {
             let localVariablePath = "/users/me/view-states"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -223,8 +223,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func readChannel(channelId: UUID) async throws {
-            try await readChannelWithRequestBuilder(channelId: channelId).execute().body
+        open class func readChannel_0(channelId: UUID) async throws {
+            try await readChannel_0WithRequestBuilder(channelId: channelId).execute().body
         }
 
         /**
@@ -240,7 +240,7 @@ extension TraqAPI {
          - parameter channelId: (path) チャンネルUUID
          - returns: RequestBuilder<Void>
          */
-        open class func readChannelWithRequestBuilder(channelId: UUID) -> RequestBuilder<Void> {
+        open class func readChannel_0WithRequestBuilder(channelId: UUID) -> RequestBuilder<Void> {
             var localVariablePath = "/users/me/unread/{channelId}"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -266,8 +266,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func registerFCMDevice(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil) async throws {
-            try await registerFCMDeviceWithRequestBuilder(postMyFCMDeviceRequest: postMyFCMDeviceRequest).execute().body
+        open class func registerFCMDevice_0(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil) async throws {
+            try await registerFCMDevice_0WithRequestBuilder(postMyFCMDeviceRequest: postMyFCMDeviceRequest).execute().body
         }
 
         /**
@@ -283,7 +283,7 @@ extension TraqAPI {
          - parameter postMyFCMDeviceRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func registerFCMDeviceWithRequestBuilder(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil) -> RequestBuilder<Void> {
+        open class func registerFCMDevice_0WithRequestBuilder(postMyFCMDeviceRequest: PostMyFCMDeviceRequest? = nil) -> RequestBuilder<Void> {
             let localVariablePath = "/users/me/fcm-device"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postMyFCMDeviceRequest)
@@ -309,8 +309,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func setChannelSubscribeLevel(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil) async throws {
-            try await setChannelSubscribeLevelWithRequestBuilder(channelId: channelId, putChannelSubscribeLevelRequest: putChannelSubscribeLevelRequest).execute().body
+        open class func setChannelSubscribeLevel_0(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil) async throws {
+            try await setChannelSubscribeLevel_0WithRequestBuilder(channelId: channelId, putChannelSubscribeLevelRequest: putChannelSubscribeLevelRequest).execute().body
         }
 
         /**
@@ -327,7 +327,7 @@ extension TraqAPI {
          - parameter putChannelSubscribeLevelRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func setChannelSubscribeLevelWithRequestBuilder(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil) -> RequestBuilder<Void> {
+        open class func setChannelSubscribeLevel_0WithRequestBuilder(channelId: UUID, putChannelSubscribeLevelRequest: PutChannelSubscribeLevelRequest? = nil) -> RequestBuilder<Void> {
             var localVariablePath = "/users/me/subscriptions/{channelId}"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -356,8 +356,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func setChannelSubscribers(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil) async throws {
-            try await setChannelSubscribersWithRequestBuilder(channelId: channelId, putChannelSubscribersRequest: putChannelSubscribersRequest).execute().body
+        open class func setChannelSubscribers_0(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil) async throws {
+            try await setChannelSubscribers_0WithRequestBuilder(channelId: channelId, putChannelSubscribersRequest: putChannelSubscribersRequest).execute().body
         }
 
         /**
@@ -374,7 +374,7 @@ extension TraqAPI {
          - parameter putChannelSubscribersRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func setChannelSubscribersWithRequestBuilder(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil) -> RequestBuilder<Void> {
+        open class func setChannelSubscribers_0WithRequestBuilder(channelId: UUID, putChannelSubscribersRequest: PutChannelSubscribersRequest? = nil) -> RequestBuilder<Void> {
             var localVariablePath = "/channels/{channelId}/subscribers"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

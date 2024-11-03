@@ -21,8 +21,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func addMessageStamp(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil) async throws {
-            try await addMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId, postMessageStampRequest: postMessageStampRequest).execute().body
+        open class func addMessageStamp_0(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil) async throws {
+            try await addMessageStamp_0WithRequestBuilder(messageId: messageId, stampId: stampId, postMessageStampRequest: postMessageStampRequest).execute().body
         }
 
         /**
@@ -40,7 +40,7 @@ extension TraqAPI {
          - parameter postMessageStampRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func addMessageStampWithRequestBuilder(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil) -> RequestBuilder<Void> {
+        open class func addMessageStamp_0WithRequestBuilder(messageId: UUID, stampId: UUID, postMessageStampRequest: PostMessageStampRequest? = nil) -> RequestBuilder<Void> {
             var localVariablePath = "/messages/{messageId}/stamps/{stampId}"
             let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
             let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -395,8 +395,8 @@ extension TraqAPI {
          - returns: [MessageStamp]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMessageStamps(messageId: UUID) async throws -> [MessageStamp] {
-            try await getMessageStampsWithRequestBuilder(messageId: messageId).execute().body
+        open class func getMessageStamps_0(messageId: UUID) async throws -> [MessageStamp] {
+            try await getMessageStamps_0WithRequestBuilder(messageId: messageId).execute().body
         }
 
         /**
@@ -412,7 +412,7 @@ extension TraqAPI {
          - parameter messageId: (path) メッセージUUID
          - returns: RequestBuilder<[MessageStamp]>
          */
-        open class func getMessageStampsWithRequestBuilder(messageId: UUID) -> RequestBuilder<[MessageStamp]> {
+        open class func getMessageStamps_0WithRequestBuilder(messageId: UUID) -> RequestBuilder<[MessageStamp]> {
             var localVariablePath = "/messages/{messageId}/stamps"
             let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
             let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -746,8 +746,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func removeMessageStamp(messageId: UUID, stampId: UUID) async throws {
-            try await removeMessageStampWithRequestBuilder(messageId: messageId, stampId: stampId).execute().body
+        open class func removeMessageStamp_0(messageId: UUID, stampId: UUID) async throws {
+            try await removeMessageStamp_0WithRequestBuilder(messageId: messageId, stampId: stampId).execute().body
         }
 
         /**
@@ -764,7 +764,7 @@ extension TraqAPI {
          - parameter stampId: (path) スタンプUUID
          - returns: RequestBuilder<Void>
          */
-        open class func removeMessageStampWithRequestBuilder(messageId: UUID, stampId: UUID) -> RequestBuilder<Void> {
+        open class func removeMessageStamp_0WithRequestBuilder(messageId: UUID, stampId: UUID) -> RequestBuilder<Void> {
             var localVariablePath = "/messages/{messageId}/stamps/{stampId}"
             let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
             let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

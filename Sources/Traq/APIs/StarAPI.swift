@@ -19,8 +19,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func addMyStar(postStarRequest: PostStarRequest? = nil) async throws {
-            try await addMyStarWithRequestBuilder(postStarRequest: postStarRequest).execute().body
+        open class func addMyStar_0(postStarRequest: PostStarRequest? = nil) async throws {
+            try await addMyStar_0WithRequestBuilder(postStarRequest: postStarRequest).execute().body
         }
 
         /**
@@ -36,7 +36,7 @@ extension TraqAPI {
          - parameter postStarRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func addMyStarWithRequestBuilder(postStarRequest: PostStarRequest? = nil) -> RequestBuilder<Void> {
+        open class func addMyStar_0WithRequestBuilder(postStarRequest: PostStarRequest? = nil) -> RequestBuilder<Void> {
             let localVariablePath = "/users/me/stars"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postStarRequest)
@@ -60,8 +60,8 @@ extension TraqAPI {
          - returns: [UUID]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMyStars() async throws -> [UUID] {
-            try await getMyStarsWithRequestBuilder().execute().body
+        open class func getMyStars_0() async throws -> [UUID] {
+            try await getMyStars_0WithRequestBuilder().execute().body
         }
 
         /**
@@ -76,7 +76,7 @@ extension TraqAPI {
            - name: bearerAuth
          - returns: RequestBuilder<[UUID]>
          */
-        open class func getMyStarsWithRequestBuilder() -> RequestBuilder<[UUID]> {
+        open class func getMyStars_0WithRequestBuilder() -> RequestBuilder<[UUID]> {
             let localVariablePath = "/users/me/stars"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -99,8 +99,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func removeMyStar(channelId: UUID) async throws {
-            try await removeMyStarWithRequestBuilder(channelId: channelId).execute().body
+        open class func removeMyStar_0(channelId: UUID) async throws {
+            try await removeMyStar_0WithRequestBuilder(channelId: channelId).execute().body
         }
 
         /**
@@ -116,7 +116,7 @@ extension TraqAPI {
          - parameter channelId: (path) チャンネルUUID
          - returns: RequestBuilder<Void>
          */
-        open class func removeMyStarWithRequestBuilder(channelId: UUID) -> RequestBuilder<Void> {
+        open class func removeMyStar_0WithRequestBuilder(channelId: UUID) -> RequestBuilder<Void> {
             var localVariablePath = "/users/me/stars/{channelId}"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

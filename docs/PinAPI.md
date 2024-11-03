@@ -4,15 +4,15 @@ All URIs are relative to *https://q.trap.jp/api/v3*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createPin**](PinAPI.md#createpin) | **POST** /messages/{messageId}/pin | ピン留めする
-[**getChannelPins**](PinAPI.md#getchannelpins) | **GET** /channels/{channelId}/pins | チャンネルピンのリストを取得
-[**getPin**](PinAPI.md#getpin) | **GET** /messages/{messageId}/pin | ピン留めを取得
-[**removePin**](PinAPI.md#removepin) | **DELETE** /messages/{messageId}/pin | ピン留めを外す
+[**createPin_0**](PinAPI.md#createpin_0) | **POST** /messages/{messageId}/pin | ピン留めする
+[**getChannelPins_0**](PinAPI.md#getchannelpins_0) | **GET** /channels/{channelId}/pins | チャンネルピンのリストを取得
+[**getPin_0**](PinAPI.md#getpin_0) | **GET** /messages/{messageId}/pin | ピン留めを取得
+[**removePin_0**](PinAPI.md#removepin_0) | **DELETE** /messages/{messageId}/pin | ピン留めを外す
 
 
-# **createPin**
+# **createPin_0**
 ```swift
-    open class func createPin(messageId: UUID, completion: @escaping (_ data: MessagePin?, _ error: Error?) -> Void)
+    open class func createPin_0(messageId: UUID, completion: @escaping (_ data: MessagePin?, _ error: Error?) -> Void)
 ```
 
 ピン留めする
@@ -27,7 +27,7 @@ import Traq
 let messageId = 987 // UUID | メッセージUUID
 
 // ピン留めする
-PinAPI.createPin(messageId: messageId) { (response, error) in
+PinAPI.createPin_0(messageId: messageId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -60,9 +60,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getChannelPins**
+# **getChannelPins_0**
 ```swift
-    open class func getChannelPins(channelId: UUID, completion: @escaping (_ data: [Pin]?, _ error: Error?) -> Void)
+    open class func getChannelPins_0(channelId: UUID, completion: @escaping (_ data: [Pin]?, _ error: Error?) -> Void)
 ```
 
 チャンネルピンのリストを取得
@@ -77,7 +77,7 @@ import Traq
 let channelId = 987 // UUID | チャンネルUUID
 
 // チャンネルピンのリストを取得
-PinAPI.getChannelPins(channelId: channelId) { (response, error) in
+PinAPI.getChannelPins_0(channelId: channelId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -110,9 +110,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getPin**
+# **getPin_0**
 ```swift
-    open class func getPin(messageId: UUID, completion: @escaping (_ data: MessagePin?, _ error: Error?) -> Void)
+    open class func getPin_0(messageId: UUID, completion: @escaping (_ data: MessagePin?, _ error: Error?) -> Void)
 ```
 
 ピン留めを取得
@@ -127,7 +127,7 @@ import Traq
 let messageId = 987 // UUID | メッセージUUID
 
 // ピン留めを取得
-PinAPI.getPin(messageId: messageId) { (response, error) in
+PinAPI.getPin_0(messageId: messageId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -160,9 +160,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **removePin**
+# **removePin_0**
 ```swift
-    open class func removePin(messageId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func removePin_0(messageId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 ピン留めを外す
@@ -177,7 +177,7 @@ import Traq
 let messageId = 987 // UUID | メッセージUUID
 
 // ピン留めを外す
-PinAPI.removePin(messageId: messageId) { (response, error) in
+PinAPI.removePin_0(messageId: messageId) { (response, error) in
     guard error == nil else {
         print(error)
         return

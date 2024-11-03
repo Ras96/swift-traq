@@ -302,7 +302,7 @@ extension TraqAPI {
         /**
          * enum for parameter order
          */
-        public enum Order_getDirectMessages: String, CaseIterable {
+        public enum Order_getDirectMessages_0: String, CaseIterable {
             case asc
             case desc
         }
@@ -320,8 +320,8 @@ extension TraqAPI {
          - returns: [Message]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getDirectMessages(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages? = nil) async throws -> [Message] {
-            try await getDirectMessagesWithRequestBuilder(userId: userId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute().body
+        open class func getDirectMessages_0(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages_0? = nil) async throws -> [Message] {
+            try await getDirectMessages_0WithRequestBuilder(userId: userId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute().body
         }
 
         /**
@@ -344,7 +344,7 @@ extension TraqAPI {
          - parameter order: (query) 昇順か降順か (optional, default to .desc)
          - returns: RequestBuilder<[Message]>
          */
-        open class func getDirectMessagesWithRequestBuilder(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages? = nil) -> RequestBuilder<[Message]> {
+        open class func getDirectMessages_0WithRequestBuilder(userId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getDirectMessages_0? = nil) -> RequestBuilder<[Message]> {
             var localVariablePath = "/users/{userId}/messages"
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -640,8 +640,8 @@ extension TraqAPI {
          - returns: Message
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func postDirectMessage(userId: UUID, postMessageRequest: PostMessageRequest? = nil) async throws -> Message {
-            try await postDirectMessageWithRequestBuilder(userId: userId, postMessageRequest: postMessageRequest).execute().body
+        open class func postDirectMessage_0(userId: UUID, postMessageRequest: PostMessageRequest? = nil) async throws -> Message {
+            try await postDirectMessage_0WithRequestBuilder(userId: userId, postMessageRequest: postMessageRequest).execute().body
         }
 
         /**
@@ -658,7 +658,7 @@ extension TraqAPI {
          - parameter postMessageRequest: (body)  (optional)
          - returns: RequestBuilder<Message>
          */
-        open class func postDirectMessageWithRequestBuilder(userId: UUID, postMessageRequest: PostMessageRequest? = nil) -> RequestBuilder<Message> {
+        open class func postDirectMessage_0WithRequestBuilder(userId: UUID, postMessageRequest: PostMessageRequest? = nil) -> RequestBuilder<Message> {
             var localVariablePath = "/users/{userId}/messages"
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

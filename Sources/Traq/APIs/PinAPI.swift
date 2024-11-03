@@ -19,8 +19,8 @@ extension TraqAPI {
          - returns: MessagePin
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func createPin(messageId: UUID) async throws -> MessagePin {
-            try await createPinWithRequestBuilder(messageId: messageId).execute().body
+        open class func createPin_0(messageId: UUID) async throws -> MessagePin {
+            try await createPin_0WithRequestBuilder(messageId: messageId).execute().body
         }
 
         /**
@@ -36,7 +36,7 @@ extension TraqAPI {
          - parameter messageId: (path) メッセージUUID
          - returns: RequestBuilder<MessagePin>
          */
-        open class func createPinWithRequestBuilder(messageId: UUID) -> RequestBuilder<MessagePin> {
+        open class func createPin_0WithRequestBuilder(messageId: UUID) -> RequestBuilder<MessagePin> {
             var localVariablePath = "/messages/{messageId}/pin"
             let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
             let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -62,8 +62,8 @@ extension TraqAPI {
          - returns: [Pin]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getChannelPins(channelId: UUID) async throws -> [Pin] {
-            try await getChannelPinsWithRequestBuilder(channelId: channelId).execute().body
+        open class func getChannelPins_0(channelId: UUID) async throws -> [Pin] {
+            try await getChannelPins_0WithRequestBuilder(channelId: channelId).execute().body
         }
 
         /**
@@ -79,7 +79,7 @@ extension TraqAPI {
          - parameter channelId: (path) チャンネルUUID
          - returns: RequestBuilder<[Pin]>
          */
-        open class func getChannelPinsWithRequestBuilder(channelId: UUID) -> RequestBuilder<[Pin]> {
+        open class func getChannelPins_0WithRequestBuilder(channelId: UUID) -> RequestBuilder<[Pin]> {
             var localVariablePath = "/channels/{channelId}/pins"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -105,8 +105,8 @@ extension TraqAPI {
          - returns: MessagePin
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getPin(messageId: UUID) async throws -> MessagePin {
-            try await getPinWithRequestBuilder(messageId: messageId).execute().body
+        open class func getPin_0(messageId: UUID) async throws -> MessagePin {
+            try await getPin_0WithRequestBuilder(messageId: messageId).execute().body
         }
 
         /**
@@ -122,7 +122,7 @@ extension TraqAPI {
          - parameter messageId: (path) メッセージUUID
          - returns: RequestBuilder<MessagePin>
          */
-        open class func getPinWithRequestBuilder(messageId: UUID) -> RequestBuilder<MessagePin> {
+        open class func getPin_0WithRequestBuilder(messageId: UUID) -> RequestBuilder<MessagePin> {
             var localVariablePath = "/messages/{messageId}/pin"
             let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
             let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -148,8 +148,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func removePin(messageId: UUID) async throws {
-            try await removePinWithRequestBuilder(messageId: messageId).execute().body
+        open class func removePin_0(messageId: UUID) async throws {
+            try await removePin_0WithRequestBuilder(messageId: messageId).execute().body
         }
 
         /**
@@ -165,7 +165,7 @@ extension TraqAPI {
          - parameter messageId: (path) メッセージUUID
          - returns: RequestBuilder<Void>
          */
-        open class func removePinWithRequestBuilder(messageId: UUID) -> RequestBuilder<Void> {
+        open class func removePin_0WithRequestBuilder(messageId: UUID) -> RequestBuilder<Void> {
             var localVariablePath = "/messages/{messageId}/pin"
             let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
             let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

@@ -401,7 +401,7 @@ extension TraqAPI {
         /**
          * enum for parameter order
          */
-        public enum Order_getMessages: String, CaseIterable {
+        public enum Order_getMessages_0: String, CaseIterable {
             case asc
             case desc
         }
@@ -419,8 +419,8 @@ extension TraqAPI {
          - returns: [Message]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMessages(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages? = nil) async throws -> [Message] {
-            try await getMessagesWithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute().body
+        open class func getMessages_0(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages_0? = nil) async throws -> [Message] {
+            try await getMessages_0WithRequestBuilder(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order).execute().body
         }
 
         /**
@@ -443,7 +443,7 @@ extension TraqAPI {
          - parameter order: (query) 昇順か降順か (optional, default to .desc)
          - returns: RequestBuilder<[Message]>
          */
-        open class func getMessagesWithRequestBuilder(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages? = nil) -> RequestBuilder<[Message]> {
+        open class func getMessages_0WithRequestBuilder(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages_0? = nil) -> RequestBuilder<[Message]> {
             var localVariablePath = "/channels/{channelId}/messages"
             let channelIdPreEscape = "\(APIHelper.mapValueToPathItem(channelId))"
             let channelIdPostEscape = channelIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

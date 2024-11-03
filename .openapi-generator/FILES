@@ -44,6 +44,7 @@ Sources/Traq/Models/Channel.swift
 Sources/Traq/Models/ChannelEvent.swift
 Sources/Traq/Models/ChannelEventDetail.swift
 Sources/Traq/Models/ChannelList.swift
+Sources/Traq/Models/ChannelPath.swift
 Sources/Traq/Models/ChannelStats.swift
 Sources/Traq/Models/ChannelStatsStamp.swift
 Sources/Traq/Models/ChannelStatsUser.swift
@@ -176,6 +177,7 @@ docs/ChannelAPI.md
 docs/ChannelEvent.md
 docs/ChannelEventDetail.md
 docs/ChannelList.md
+docs/ChannelPath.md
 docs/ChannelStats.md
 docs/ChannelStatsStamp.md
 docs/ChannelStatsUser.md

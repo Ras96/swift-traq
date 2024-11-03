@@ -4,20 +4,20 @@ All URIs are relative to *https://q.trap.jp/api/v3*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addMyUserTag**](UserTagAPI.md#addmyusertag) | **POST** /users/me/tags | 自分にタグを追加
-[**addUserTag**](UserTagAPI.md#addusertag) | **POST** /users/{userId}/tags | ユーザーにタグを追加
+[**addMyUserTag_0**](UserTagAPI.md#addmyusertag_0) | **POST** /users/me/tags | 自分にタグを追加
+[**addUserTag_0**](UserTagAPI.md#addusertag_0) | **POST** /users/{userId}/tags | ユーザーにタグを追加
 [**editMyUserTag**](UserTagAPI.md#editmyusertag) | **PATCH** /users/me/tags/{tagId} | 自分のタグを編集
-[**editUserTag**](UserTagAPI.md#editusertag) | **PATCH** /users/{userId}/tags/{tagId} | ユーザーのタグを編集
-[**getMyUserTags**](UserTagAPI.md#getmyusertags) | **GET** /users/me/tags | 自分のタグリストを取得
+[**editUserTag_0**](UserTagAPI.md#editusertag_0) | **PATCH** /users/{userId}/tags/{tagId} | ユーザーのタグを編集
+[**getMyUserTags_0**](UserTagAPI.md#getmyusertags_0) | **GET** /users/me/tags | 自分のタグリストを取得
 [**getTag**](UserTagAPI.md#gettag) | **GET** /tags/{tagId} | タグ情報を取得
-[**getUserTags**](UserTagAPI.md#getusertags) | **GET** /users/{userId}/tags | ユーザーのタグリストを取得
+[**getUserTags_0**](UserTagAPI.md#getusertags_0) | **GET** /users/{userId}/tags | ユーザーのタグリストを取得
 [**removeMyUserTag**](UserTagAPI.md#removemyusertag) | **DELETE** /users/me/tags/{tagId} | 自分からタグを削除します
-[**removeUserTag**](UserTagAPI.md#removeusertag) | **DELETE** /users/{userId}/tags/{tagId} | ユーザーからタグを削除します
+[**removeUserTag_0**](UserTagAPI.md#removeusertag_0) | **DELETE** /users/{userId}/tags/{tagId} | ユーザーからタグを削除します
 
 
-# **addMyUserTag**
+# **addMyUserTag_0**
 ```swift
-    open class func addMyUserTag(postUserTagRequest: PostUserTagRequest? = nil, completion: @escaping (_ data: UserTag?, _ error: Error?) -> Void)
+    open class func addMyUserTag_0(postUserTagRequest: PostUserTagRequest? = nil, completion: @escaping (_ data: UserTag?, _ error: Error?) -> Void)
 ```
 
 自分にタグを追加
@@ -32,7 +32,7 @@ import Traq
 let postUserTagRequest = PostUserTagRequest(tag: "tag_example") // PostUserTagRequest |  (optional)
 
 // 自分にタグを追加
-UserTagAPI.addMyUserTag(postUserTagRequest: postUserTagRequest) { (response, error) in
+UserTagAPI.addMyUserTag_0(postUserTagRequest: postUserTagRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -65,9 +65,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **addUserTag**
+# **addUserTag_0**
 ```swift
-    open class func addUserTag(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil, completion: @escaping (_ data: UserTag?, _ error: Error?) -> Void)
+    open class func addUserTag_0(userId: UUID, postUserTagRequest: PostUserTagRequest? = nil, completion: @escaping (_ data: UserTag?, _ error: Error?) -> Void)
 ```
 
 ユーザーにタグを追加
@@ -83,7 +83,7 @@ let userId = 987 // UUID | ユーザーUUID
 let postUserTagRequest = PostUserTagRequest(tag: "tag_example") // PostUserTagRequest |  (optional)
 
 // ユーザーにタグを追加
-UserTagAPI.addUserTag(userId: userId, postUserTagRequest: postUserTagRequest) { (response, error) in
+UserTagAPI.addUserTag_0(userId: userId, postUserTagRequest: postUserTagRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -169,9 +169,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **editUserTag**
+# **editUserTag_0**
 ```swift
-    open class func editUserTag(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func editUserTag_0(userId: UUID, tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 ユーザーのタグを編集
@@ -188,7 +188,7 @@ let tagId = 987 // UUID | タグUUID
 let patchUserTagRequest = PatchUserTagRequest(isLocked: false) // PatchUserTagRequest |  (optional)
 
 // ユーザーのタグを編集
-UserTagAPI.editUserTag(userId: userId, tagId: tagId, patchUserTagRequest: patchUserTagRequest) { (response, error) in
+UserTagAPI.editUserTag_0(userId: userId, tagId: tagId, patchUserTagRequest: patchUserTagRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -223,9 +223,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMyUserTags**
+# **getMyUserTags_0**
 ```swift
-    open class func getMyUserTags(completion: @escaping (_ data: [UserTag]?, _ error: Error?) -> Void)
+    open class func getMyUserTags_0(completion: @escaping (_ data: [UserTag]?, _ error: Error?) -> Void)
 ```
 
 自分のタグリストを取得
@@ -239,7 +239,7 @@ import Traq
 
 
 // 自分のタグリストを取得
-UserTagAPI.getMyUserTags() { (response, error) in
+UserTagAPI.getMyUserTags_0() { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -319,9 +319,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getUserTags**
+# **getUserTags_0**
 ```swift
-    open class func getUserTags(userId: UUID, completion: @escaping (_ data: [UserTag]?, _ error: Error?) -> Void)
+    open class func getUserTags_0(userId: UUID, completion: @escaping (_ data: [UserTag]?, _ error: Error?) -> Void)
 ```
 
 ユーザーのタグリストを取得
@@ -336,7 +336,7 @@ import Traq
 let userId = 987 // UUID | ユーザーUUID
 
 // ユーザーのタグリストを取得
-UserTagAPI.getUserTags(userId: userId) { (response, error) in
+UserTagAPI.getUserTags_0(userId: userId) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -419,9 +419,9 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **removeUserTag**
+# **removeUserTag_0**
 ```swift
-    open class func removeUserTag(userId: UUID, tagId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func removeUserTag_0(userId: UUID, tagId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 ユーザーからタグを削除します
@@ -437,7 +437,7 @@ let userId = 987 // UUID | ユーザーUUID
 let tagId = 987 // UUID | タグUUID
 
 // ユーザーからタグを削除します
-UserTagAPI.removeUserTag(userId: userId, tagId: tagId) { (response, error) in
+UserTagAPI.removeUserTag_0(userId: userId, tagId: tagId) { (response, error) in
     guard error == nil else {
         print(error)
         return

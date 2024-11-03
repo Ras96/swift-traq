@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**getMessage**](MessageAPI.md#getmessage) | **GET** /messages/{messageId} | メッセージを取得
 [**getMessageClips**](MessageAPI.md#getmessageclips) | **GET** /messages/{messageId}/clips | 自分のクリップを取得
 [**getMessageStamps**](MessageAPI.md#getmessagestamps) | **GET** /messages/{messageId}/stamps | メッセージのスタンプリストを取得
-[**getMessages**](MessageAPI.md#getmessages) | **GET** /channels/{channelId}/messages | チャンネルメッセージのリストを取得
+[**getMessages_0**](MessageAPI.md#getmessages_0) | **GET** /channels/{channelId}/messages | チャンネルメッセージのリストを取得
 [**getPin**](MessageAPI.md#getpin) | **GET** /messages/{messageId}/pin | ピン留めを取得
 [**postDirectMessage**](MessageAPI.md#postdirectmessage) | **POST** /users/{userId}/messages | ダイレクトメッセージを送信
 [**postMessage**](MessageAPI.md#postmessage) | **POST** /channels/{channelId}/messages | チャンネルにメッセージを投稿
@@ -439,9 +439,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getMessages**
+# **getMessages_0**
 ```swift
-    open class func getMessages(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages? = nil, completion: @escaping (_ data: [Message]?, _ error: Error?) -> Void)
+    open class func getMessages_0(channelId: UUID, limit: Int? = nil, offset: Int? = nil, since: Date? = nil, until: Date? = nil, inclusive: Bool? = nil, order: Order_getMessages_0? = nil, completion: @escaping (_ data: [Message]?, _ error: Error?) -> Void)
 ```
 
 チャンネルメッセージのリストを取得
@@ -462,7 +462,7 @@ let inclusive = true // Bool | 範囲の端を含めるかどうか (optional) (
 let order = "order_example" // String | 昇順か降順か (optional) (default to .desc)
 
 // チャンネルメッセージのリストを取得
-MessageAPI.getMessages(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order) { (response, error) in
+MessageAPI.getMessages_0(channelId: channelId, limit: limit, offset: offset, since: since, until: until, inclusive: inclusive, order: order) { (response, error) in
     guard error == nil else {
         print(error)
         return

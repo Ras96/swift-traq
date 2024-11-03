@@ -277,8 +277,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func editMyUserTag(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) async throws {
-            try await editMyUserTagWithRequestBuilder(tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute().body
+        open class func editMyUserTag_0(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) async throws {
+            try await editMyUserTag_0WithRequestBuilder(tagId: tagId, patchUserTagRequest: patchUserTagRequest).execute().body
         }
 
         /**
@@ -295,7 +295,7 @@ extension TraqAPI {
          - parameter patchUserTagRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func editMyUserTagWithRequestBuilder(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) -> RequestBuilder<Void> {
+        open class func editMyUserTag_0WithRequestBuilder(tagId: UUID, patchUserTagRequest: PatchUserTagRequest? = nil) -> RequestBuilder<Void> {
             var localVariablePath = "/users/me/tags/{tagId}"
             let tagIdPreEscape = "\(APIHelper.mapValueToPathItem(tagId))"
             let tagIdPostEscape = tagIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -398,8 +398,8 @@ extension TraqAPI {
          - returns: [ExternalProviderUser]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMyExternalAccounts() async throws -> [ExternalProviderUser] {
-            try await getMyExternalAccountsWithRequestBuilder().execute().body
+        open class func getMyExternalAccounts_0() async throws -> [ExternalProviderUser] {
+            try await getMyExternalAccounts_0WithRequestBuilder().execute().body
         }
 
         /**
@@ -414,7 +414,7 @@ extension TraqAPI {
            - name: bearerAuth
          - returns: RequestBuilder<[ExternalProviderUser]>
          */
-        open class func getMyExternalAccountsWithRequestBuilder() -> RequestBuilder<[ExternalProviderUser]> {
+        open class func getMyExternalAccounts_0WithRequestBuilder() -> RequestBuilder<[ExternalProviderUser]> {
             let localVariablePath = "/users/me/ex-accounts"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -555,8 +555,8 @@ extension TraqAPI {
          - returns: [LoginSession]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMySessions() async throws -> [LoginSession] {
-            try await getMySessionsWithRequestBuilder().execute().body
+        open class func getMySessions_0() async throws -> [LoginSession] {
+            try await getMySessions_0WithRequestBuilder().execute().body
         }
 
         /**
@@ -571,7 +571,7 @@ extension TraqAPI {
            - name: bearerAuth
          - returns: RequestBuilder<[LoginSession]>
          */
-        open class func getMySessionsWithRequestBuilder() -> RequestBuilder<[LoginSession]> {
+        open class func getMySessions_0WithRequestBuilder() -> RequestBuilder<[LoginSession]> {
             let localVariablePath = "/users/me/sessions"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -594,8 +594,8 @@ extension TraqAPI {
          - returns: [StampHistoryEntry]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMyStampHistory(limit: Int? = nil) async throws -> [StampHistoryEntry] {
-            try await getMyStampHistoryWithRequestBuilder(limit: limit).execute().body
+        open class func getMyStampHistory_0(limit: Int? = nil) async throws -> [StampHistoryEntry] {
+            try await getMyStampHistory_0WithRequestBuilder(limit: limit).execute().body
         }
 
         /**
@@ -611,7 +611,7 @@ extension TraqAPI {
          - parameter limit: (query) 件数 (optional, default to 100)
          - returns: RequestBuilder<[StampHistoryEntry]>
          */
-        open class func getMyStampHistoryWithRequestBuilder(limit: Int? = nil) -> RequestBuilder<[StampHistoryEntry]> {
+        open class func getMyStampHistory_0WithRequestBuilder(limit: Int? = nil) -> RequestBuilder<[StampHistoryEntry]> {
             let localVariablePath = "/users/me/stamp-history"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -674,8 +674,8 @@ extension TraqAPI {
          - returns: [ActiveOAuth2Token]
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func getMyTokens() async throws -> [ActiveOAuth2Token] {
-            try await getMyTokensWithRequestBuilder().execute().body
+        open class func getMyTokens_0() async throws -> [ActiveOAuth2Token] {
+            try await getMyTokens_0WithRequestBuilder().execute().body
         }
 
         /**
@@ -690,7 +690,7 @@ extension TraqAPI {
            - name: bearerAuth
          - returns: RequestBuilder<[ActiveOAuth2Token]>
          */
-        open class func getMyTokensWithRequestBuilder() -> RequestBuilder<[ActiveOAuth2Token]> {
+        open class func getMyTokens_0WithRequestBuilder() -> RequestBuilder<[ActiveOAuth2Token]> {
             let localVariablePath = "/users/me/tokens"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
@@ -903,8 +903,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func linkExternalAccount(postLinkExternalAccount: PostLinkExternalAccount? = nil) async throws {
-            try await linkExternalAccountWithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute().body
+        open class func linkExternalAccount_0(postLinkExternalAccount: PostLinkExternalAccount? = nil) async throws {
+            try await linkExternalAccount_0WithRequestBuilder(postLinkExternalAccount: postLinkExternalAccount).execute().body
         }
 
         /**
@@ -920,7 +920,7 @@ extension TraqAPI {
          - parameter postLinkExternalAccount: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func linkExternalAccountWithRequestBuilder(postLinkExternalAccount: PostLinkExternalAccount? = nil) -> RequestBuilder<Void> {
+        open class func linkExternalAccount_0WithRequestBuilder(postLinkExternalAccount: PostLinkExternalAccount? = nil) -> RequestBuilder<Void> {
             let localVariablePath = "/users/me/ex-accounts/link"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postLinkExternalAccount)
@@ -1073,8 +1073,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func removeMyUserTag(tagId: UUID) async throws {
-            try await removeMyUserTagWithRequestBuilder(tagId: tagId).execute().body
+        open class func removeMyUserTag_0(tagId: UUID) async throws {
+            try await removeMyUserTag_0WithRequestBuilder(tagId: tagId).execute().body
         }
 
         /**
@@ -1090,7 +1090,7 @@ extension TraqAPI {
          - parameter tagId: (path) タグUUID
          - returns: RequestBuilder<Void>
          */
-        open class func removeMyUserTagWithRequestBuilder(tagId: UUID) -> RequestBuilder<Void> {
+        open class func removeMyUserTag_0WithRequestBuilder(tagId: UUID) -> RequestBuilder<Void> {
             var localVariablePath = "/users/me/tags/{tagId}"
             let tagIdPreEscape = "\(APIHelper.mapValueToPathItem(tagId))"
             let tagIdPostEscape = tagIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1116,8 +1116,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func revokeMySession(sessionId: UUID) async throws {
-            try await revokeMySessionWithRequestBuilder(sessionId: sessionId).execute().body
+        open class func revokeMySession_0(sessionId: UUID) async throws {
+            try await revokeMySession_0WithRequestBuilder(sessionId: sessionId).execute().body
         }
 
         /**
@@ -1133,7 +1133,7 @@ extension TraqAPI {
          - parameter sessionId: (path) セッションUUID
          - returns: RequestBuilder<Void>
          */
-        open class func revokeMySessionWithRequestBuilder(sessionId: UUID) -> RequestBuilder<Void> {
+        open class func revokeMySession_0WithRequestBuilder(sessionId: UUID) -> RequestBuilder<Void> {
             var localVariablePath = "/users/me/sessions/{sessionId}"
             let sessionIdPreEscape = "\(APIHelper.mapValueToPathItem(sessionId))"
             let sessionIdPostEscape = sessionIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1159,8 +1159,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func revokeMyToken(tokenId: UUID) async throws {
-            try await revokeMyTokenWithRequestBuilder(tokenId: tokenId).execute().body
+        open class func revokeMyToken_0(tokenId: UUID) async throws {
+            try await revokeMyToken_0WithRequestBuilder(tokenId: tokenId).execute().body
         }
 
         /**
@@ -1176,7 +1176,7 @@ extension TraqAPI {
          - parameter tokenId: (path) OAuth2トークンUUID
          - returns: RequestBuilder<Void>
          */
-        open class func revokeMyTokenWithRequestBuilder(tokenId: UUID) -> RequestBuilder<Void> {
+        open class func revokeMyToken_0WithRequestBuilder(tokenId: UUID) -> RequestBuilder<Void> {
             var localVariablePath = "/users/me/tokens/{tokenId}"
             let tokenIdPreEscape = "\(APIHelper.mapValueToPathItem(tokenId))"
             let tokenIdPostEscape = tokenIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1249,8 +1249,8 @@ extension TraqAPI {
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func unlinkExternalAccount(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil) async throws {
-            try await unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute().body
+        open class func unlinkExternalAccount_0(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil) async throws {
+            try await unlinkExternalAccount_0WithRequestBuilder(postUnlinkExternalAccount: postUnlinkExternalAccount).execute().body
         }
 
         /**
@@ -1266,7 +1266,7 @@ extension TraqAPI {
          - parameter postUnlinkExternalAccount: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func unlinkExternalAccountWithRequestBuilder(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil) -> RequestBuilder<Void> {
+        open class func unlinkExternalAccount_0WithRequestBuilder(postUnlinkExternalAccount: PostUnlinkExternalAccount? = nil) -> RequestBuilder<Void> {
             let localVariablePath = "/users/me/ex-accounts/unlink"
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postUnlinkExternalAccount)

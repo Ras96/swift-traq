@@ -16,6 +16,7 @@ public typealias PostStampPaletteRequest = TraqAPI.PostStampPaletteRequest
 public extension TraqAPI {
     /** スタンプパレット作成リクエスト */
     struct PostStampPaletteRequest: Codable, JSONEncodable, Hashable {
+        static let stampsRule = ArrayRule(minItems: nil, maxItems: 200, uniqueItems: true)
         static let nameRule = StringRule(minLength: nil, maxLength: 30, pattern: nil)
         static let descriptionRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
         /** パレット内のスタンプのUUID配列 */
