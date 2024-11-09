@@ -63,12 +63,12 @@ extension TraqAPI {
          グループメンバーを追加
 
          - parameter groupId: (path) ユーザーグループUUID
-         - parameter userGroupMember: (body)  (optional)
+         - parameter addUserGroupMemberRequest: (body)  (optional)
          - returns: Void
          */
         @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-        open class func addUserGroupMember(groupId: UUID, userGroupMember: UserGroupMember? = nil) async throws {
-            try await addUserGroupMemberWithRequestBuilder(groupId: groupId, userGroupMember: userGroupMember).execute().body
+        open class func addUserGroupMember(groupId: UUID, addUserGroupMemberRequest: AddUserGroupMemberRequest? = nil) async throws {
+            try await addUserGroupMemberWithRequestBuilder(groupId: groupId, addUserGroupMemberRequest: addUserGroupMemberRequest).execute().body
         }
 
         /**
@@ -82,16 +82,16 @@ extension TraqAPI {
            - type: http
            - name: bearerAuth
          - parameter groupId: (path) ユーザーグループUUID
-         - parameter userGroupMember: (body)  (optional)
+         - parameter addUserGroupMemberRequest: (body)  (optional)
          - returns: RequestBuilder<Void>
          */
-        open class func addUserGroupMemberWithRequestBuilder(groupId: UUID, userGroupMember: UserGroupMember? = nil) -> RequestBuilder<Void> {
+        open class func addUserGroupMemberWithRequestBuilder(groupId: UUID, addUserGroupMemberRequest: AddUserGroupMemberRequest? = nil) -> RequestBuilder<Void> {
             var localVariablePath = "/groups/{groupId}/members"
             let groupIdPreEscape = "\(APIHelper.mapValueToPathItem(groupId))"
             let groupIdPostEscape = groupIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
             localVariablePath = localVariablePath.replacingOccurrences(of: "{groupId}", with: groupIdPostEscape, options: .literal, range: nil)
             let localVariableURLString = TraqAPI.basePath + localVariablePath
-            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: userGroupMember)
+            let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: addUserGroupMemberRequest)
 
             let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -591,6 +591,49 @@ extension TraqAPI {
             let userIdPreEscape = "\(APIHelper.mapValueToPathItem(userId))"
             let userIdPostEscape = userIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
             localVariablePath = localVariablePath.replacingOccurrences(of: "{userId}", with: userIdPostEscape, options: .literal, range: nil)
+            let localVariableURLString = TraqAPI.basePath + localVariablePath
+            let localVariableParameters: [String: Any]? = nil
+
+            let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+            let localVariableNillableHeaders: [String: Any?] = [:]
+
+            let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+            let localVariableRequestBuilder: RequestBuilder<Void>.Type = TraqAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+            return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        }
+
+        /**
+         グループメンバーを一括削除
+
+         - parameter groupId: (path) ユーザーグループUUID
+         - returns: Void
+         */
+        @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+        open class func removeUserGroupMembers(groupId: UUID) async throws {
+            try await removeUserGroupMembersWithRequestBuilder(groupId: groupId).execute().body
+        }
+
+        /**
+         グループメンバーを一括削除
+         - DELETE /groups/{groupId}/members
+         - 指定したグループから全てのメンバーを削除します。 対象のユーザーグループの管理者権限が必要です。
+         - OAuth:
+           - type: oauth2
+           - name: OAuth2
+         - Bearer Token:
+           - type: http
+           - name: bearerAuth
+         - parameter groupId: (path) ユーザーグループUUID
+         - returns: RequestBuilder<Void>
+         */
+        open class func removeUserGroupMembersWithRequestBuilder(groupId: UUID) -> RequestBuilder<Void> {
+            var localVariablePath = "/groups/{groupId}/members"
+            let groupIdPreEscape = "\(APIHelper.mapValueToPathItem(groupId))"
+            let groupIdPostEscape = groupIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+            localVariablePath = localVariablePath.replacingOccurrences(of: "{groupId}", with: groupIdPostEscape, options: .literal, range: nil)
             let localVariableURLString = TraqAPI.basePath + localVariablePath
             let localVariableParameters: [String: Any]? = nil
 

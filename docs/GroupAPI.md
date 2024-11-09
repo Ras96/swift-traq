@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**getUserGroups**](GroupAPI.md#getusergroups) | **GET** /groups | ユーザーグループのリストを取得
 [**removeUserGroupAdmin**](GroupAPI.md#removeusergroupadmin) | **DELETE** /groups/{groupId}/admins/{userId} | グループ管理者を削除
 [**removeUserGroupMember**](GroupAPI.md#removeusergroupmember) | **DELETE** /groups/{groupId}/members/{userId} | グループメンバーを削除
+[**removeUserGroupMembers**](GroupAPI.md#removeusergroupmembers) | **DELETE** /groups/{groupId}/members | グループメンバーを一括削除
 
 
 # **addUserGroupAdmin**
@@ -73,7 +74,7 @@ Void (empty response body)
 
 # **addUserGroupMember**
 ```swift
-    open class func addUserGroupMember(groupId: UUID, userGroupMember: UserGroupMember? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func addUserGroupMember(groupId: UUID, addUserGroupMemberRequest: AddUserGroupMemberRequest? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 グループメンバーを追加
@@ -86,10 +87,10 @@ Void (empty response body)
 import Traq
 
 let groupId = 987 // UUID | ユーザーグループUUID
-let userGroupMember = UserGroupMember(id: 123, role: "role_example") // UserGroupMember |  (optional)
+let addUserGroupMemberRequest = addUserGroupMember_request(id: 123, role: "role_example") // AddUserGroupMemberRequest |  (optional)
 
 // グループメンバーを追加
-GroupAPI.addUserGroupMember(groupId: groupId, userGroupMember: userGroupMember) { (response, error) in
+GroupAPI.addUserGroupMember(groupId: groupId, addUserGroupMemberRequest: addUserGroupMemberRequest) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -106,7 +107,7 @@ GroupAPI.addUserGroupMember(groupId: groupId, userGroupMember: userGroupMember) 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **groupId** | **UUID** | ユーザーグループUUID | 
- **userGroupMember** | [**UserGroupMember**](UserGroupMember.md) |  | [optional] 
+ **addUserGroupMemberRequest** | [**AddUserGroupMemberRequest**](AddUserGroupMemberRequest.md) |  | [optional] 
 
 ### Return type
 
@@ -665,6 +666,56 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **groupId** | **UUID** | ユーザーグループUUID | 
  **userId** | **UUID** | ユーザーUUID | 
+
+### Return type
+
+Void (empty response body)
+
+### Authorization
+
+[OAuth2](../README.md#OAuth2), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **removeUserGroupMembers**
+```swift
+    open class func removeUserGroupMembers(groupId: UUID, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+```
+
+グループメンバーを一括削除
+
+指定したグループから全てのメンバーを削除します。 対象のユーザーグループの管理者権限が必要です。
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import Traq
+
+let groupId = 987 // UUID | ユーザーグループUUID
+
+// グループメンバーを一括削除
+GroupAPI.removeUserGroupMembers(groupId: groupId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **groupId** | **UUID** | ユーザーグループUUID | 
 
 ### Return type
 

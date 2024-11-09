@@ -32,6 +32,7 @@ Sources/Traq/JSONEncodingHelper.swift
 Sources/Traq/Models.swift
 Sources/Traq/Models/ActiveOAuth2Token.swift
 Sources/Traq/Models/ActivityTimelineMessage.swift
+Sources/Traq/Models/AddUserGroupMemberRequest.swift
 Sources/Traq/Models/Bot.swift
 Sources/Traq/Models/BotDetail.swift
 Sources/Traq/Models/BotEventLog.swift
@@ -162,6 +163,7 @@ Sources/Traq/Validation.swift
 docs/ActiveOAuth2Token.md
 docs/ActivityAPI.md
 docs/ActivityTimelineMessage.md
+docs/AddUserGroupMemberRequest.md
 docs/AuthenticationAPI.md
 docs/Bot.md
 docs/BotAPI.md
